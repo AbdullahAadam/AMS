@@ -18,7 +18,7 @@
         <div class="form-box">
             <form action="/authenticate" method="post" th:onsubmit="return validation()">
                 <input type="hidden" name="userType" value="ADMIN">
-                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                  <!--  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
                 <div class="in-box">
                     <input type="text" id="email" name="email" placeholder="Enter the Email">
                     <div class="error" id="eemail">*Email must required</div>

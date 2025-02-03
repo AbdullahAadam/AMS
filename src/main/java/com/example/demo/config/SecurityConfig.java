@@ -67,8 +67,11 @@ public class SecurityConfig {
     	logger.info("Initializing Security Configuration");
     	http
     	
-    	.csrf(csrf->csrf.disable())
-    	
+    	//.csrf(csrf->csrf.disable())
+    	.csrf(csrf -> csrf
+    		    .ignoringRequestMatchers("/admin/login", "/professor/login", "/student/login","/authenticate")
+    		)
+
 //    	 .csrf(csrf -> csrf
 //    	            .ignoringRequestMatchers("/authenticate")  // Disable CSRF for authenticate endpoint
 //    	        )
