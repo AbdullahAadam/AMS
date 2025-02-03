@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Student Login</h1>
+	  <div class="error" id="auth" th:if="${param.error}">
+        	<span  > Invalid Email and Password</span>
+        </div>
+	<form action="/authenticate" method="post">
+    	<input type="hidden" name="userType" value="ADMIN">
+    	<input type="email" name="email" required placeholder="Email">
+    	<input type="password" name="password" required placeholder="Password">
+    	<button type="submit">Login</button>
+	</form>
+	
+</body>
+</html>
