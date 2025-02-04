@@ -15,6 +15,7 @@ import jakarta.servlet.ServletException;
 //import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -25,8 +26,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) 
             throws IOException, ServletException {
 
-        System.out.println("@@@@ Authentication Successful for: " + authentication.getName());
+        HttpSession session=request.getSession();
+        session.setAttribute("SPRING_SECURITY_CONTEXT",SecurityContextHolder.getContext());
+        System.out.println("Session ID after Login: "+session.getId());
+        System.out.println("Session Authentication in Session: "+SecurityContextHolder.getContext().getAuthentication());
+    	System.out.println("@@@@ Authentication Successful for: " + authentication.getName());
         System.out.println("Authorities after successful login: " + authentication.getAuthorities());
+       
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority authority : authorities) {
             System.out.println("@@@ Assigned Role: " + authority.getAuthority());  // Check assigned roles
@@ -34,6 +40,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         
         Authentication authInContext = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("ContextHolder");
         System.out.println("Authentication in SecurityContext: " + authInContext);
 
         String redirectUrl = "/login"; 
@@ -55,7 +62,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                     redirectUrl = "/login?error=Invalid role";
             }
         }
-
+        
         System.out.println("Redirecting to: " + request.getContextPath() + redirectUrl);
         response.sendRedirect(request.getContextPath() + redirectUrl);
     }

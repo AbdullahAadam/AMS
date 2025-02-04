@@ -9,15 +9,23 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
+//import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.example.demo.handler.CustomAuthenticationFailureHandler;
 import com.example.demo.handler.CustomAuthenticationFilter;
 import com.example.demo.handler.CustomAuthenticationSuccessHandler;
+import com.example.demo.handler.SessionDebugFilter;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,9 +75,11 @@ public class SecurityConfig {
     	logger.info("Initializing Security Configuration");
     	http
     	
+    	
     	//.csrf(csrf->csrf.disable())
     	.csrf(csrf -> csrf
-    		    .ignoringRequestMatchers("/admin/login", "/professor/login", "/student/login","/authenticate")
+    		    .ignoringRequestMatchers("/admin/login", "/professor/login", "/student/login","/authenticate","/logout","/admin/forgot.html")
+    		    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())	
     		)
 
 //    	 .csrf(csrf -> csrf
@@ -77,23 +87,46 @@ public class SecurityConfig {
 //    	        )
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                .requestMatchers( "/admin/login", "/professor/login", "/student/login","/css/**","/js/**","/images/**").permitAll()
-                	.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers( "/admin/login", "/professor/login", "/student/login","/css/**","/js/**","/images/**","/admin/forgot").permitAll()
+                	.requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/professor/**").hasRole("PROFESSOR")
                     .requestMatchers("/student/**").hasRole("STUDENT")
                    
                     .anyRequest().authenticated()
                     
             )
-            .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterAt(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .sessionManagement(session ->session
+            		.sessionFixation().migrateSession()
+            		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+            .addFilterBefore((request,response,chain)->{
+            	System.out.println("SecurityContext before filter chain: "+SecurityContextHolder.getContext().getAuthentication());
+            	System.out.println("JSESSIONID: "+((HttpServletRequest)request).getSession().getId());
+            	chain.doFilter(request, response);
+            },UsernamePasswordAuthenticationFilter.class)
+            //.addFilterBefore(new SecurityContextHolderFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(new SessionDebugFilter(),  SecurityContextHolderFilter.class)
             
             .logout(logout ->
                 logout
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login?logout=true")
+                    .logoutUrl	("/logout")
+                    
+                   .logoutSuccessHandler((request,response,authentication)->{
+                    	System.out.println("autentication role for logout: "+authentication.getAuthorities());
+                    	String role=authentication.getAuthorities().toString();
+                    	if(role.contains("ROLE_ADMIN")) {
+                    		response.sendRedirect("/admin/login?logout=true");
+                    	}else if(role.contains("ROLE_PROFESSOR")) {
+                    		response.sendRedirect("/professor/login?logout=true");
+                    		
+                    	}else if(role.contains("ROLE_STUDENT")) {
+                    		response.sendRedirect("/sudent/login?logout=true");
+                    	}else {
+                    		response.sendRedirect("/login?logout=true");
+                    	}
+                    })
                     .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
+                    .deleteCookies("JSESSIONID","XSRF-TOKEN")
                     .permitAll()
             );
     	
@@ -105,4 +138,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-}   
+}	

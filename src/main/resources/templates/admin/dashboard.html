@@ -5,7 +5,10 @@
 <title>Admin Dashboard</title>
 </head>
 <body>
-	<h1>Welcome Admin <span th:text="${username}"></span></h1>
-	<a href="/logout">Logout</a>
+	<h1>Welcome  <span th:text="${username}"></span>Admin</h1>
+	<h2 th:text="${email}"></h2>
+	  <form action="/logout" method="post">
+		<input	 type="submit" value="logout">
+	</form>
 </body>
 </html>

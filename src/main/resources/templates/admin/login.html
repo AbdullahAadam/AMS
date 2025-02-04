@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-<link rel="stylesheet" href="/css/alogin.css">
+<link rel="stylesheet" href="/css/admin/alogin.css">
 
 </head>
 <body>
 	<div class="container">
         <div class="img-box">
-            <img src="/images/admin.png" width="250px" alt="no admin image">
+            <img src="/images/admin/admin.png" width="250px" alt="no admin image">
         </div>
         <h1>Login Page</h1>
         <div class="error" id="auth" th:if="${param.error}">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="forgot-box">
                     <label > <input type="checkbox"  id="tog"></label>
-                    <a style="text-decoration: none;" href="forgot.html">Forgot Password?</a>
+                    <a style="text-decoration: none;" th:href="@{/admin/forgot}">Forgot Password?</a>
                 </div>
                 <div class="in-box">
                     <input type="submit" value="Log In" style="background-color: rgb(15, 75, 255,55%); color: white; font-weight: bold;">
@@ -40,6 +40,6 @@
         </div>
 
     </div>
-    <script type="text/javascript" src="/js/alogin.js"></script>
+    <script type="text/javascript" src="/js/admin/alogin.js"></script>
 </body>
 </html>

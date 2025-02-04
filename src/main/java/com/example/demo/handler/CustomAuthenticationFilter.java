@@ -1,13 +1,14 @@
 package com.example.demo.handler;
 
-import java.util.List;
+//import java.util.List;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -31,13 +32,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		if(email == null || password == null ||  userType == null) {
 			throw new  BadCredentialsException("Invalid login details");
 		}
-		String role ="ROLE_"+userType.toUpperCase();
-		List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
+		//String role ="ROLE_"+userType.toUpperCase();
+		//List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
 		String finalName=userType+":"+email;
 		//String finalName=email;
-		UsernamePasswordAuthenticationToken authRequest=new UsernamePasswordAuthenticationToken(finalName,password,authorities);
+		UsernamePasswordAuthenticationToken authRequest=new UsernamePasswordAuthenticationToken(finalName,password/*,authorities*/);
+		System.out.println("ContextHolder");
+		SecurityContextHolder.getContext().setAuthentication(authRequest);
 		setDetails(request,authRequest);
+		System.out.println("Authentication Request: " + authRequest);
+		//System.out.println("User " + email + " has roles: " + authorities);
 		return this.getAuthenticationManager().authenticate(authRequest);
+		
+		
 		
 	}
 }
