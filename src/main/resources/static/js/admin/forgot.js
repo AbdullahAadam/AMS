@@ -28,13 +28,6 @@ const eemail=document.getElementById("eemail");
             const emailregex=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             let emailVal=emailregex.test(email.value);
             console.log(email.value)
-            if(name.value==""){
-                ename.style.display='block';
-                ename.style.textAlign='left'
-                name.style.borderColor='red';
-                name.focus();
-                return false;
-            }
             if(!(email.value=='')){
                 if(!emailVal){
                     eemail.innerHTML="*Invalid Email ";
@@ -50,5 +43,12 @@ const eemail=document.getElementById("eemail");
                 email.focus();
                 return false;
             }
+			if(name.value==""){
+			               ename.style.display='block';
+			               ename.style.textAlign='left'
+			               name.style.borderColor='red';
+			               name.focus();
+			               return false;
+			           }
           
         }

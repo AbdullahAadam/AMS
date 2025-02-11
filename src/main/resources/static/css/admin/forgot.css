@@ -63,4 +63,10 @@ body{
             margin-left: 4%;
             display: none;
         }
-       
+        p{
+        	color:red;
+        	margin:0px;
+        }
+       	#error{
+       		color:red
+       	}

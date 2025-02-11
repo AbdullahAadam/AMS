@@ -10,6 +10,5 @@ import com.example.demo.model.Admin;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin,String> {
 	Optional<Admin> findByEmail(String email);
-	//Admin findByEmails(String email);
-	//boolean existByEmail(String email);
+	
 }

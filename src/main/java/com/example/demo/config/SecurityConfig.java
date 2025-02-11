@@ -78,7 +78,7 @@ public class SecurityConfig {
     	
     	//.csrf(csrf->csrf.disable())
     	.csrf(csrf -> csrf
-    		    .ignoringRequestMatchers("/admin/login", "/professor/login", "/student/login","/authenticate","/logout","/admin/forgot.html")
+    		    .ignoringRequestMatchers("/admin/login", "/professor/login", "/student/login","/authenticate","/logout","/forgot","/reset","/admin/reset")
     		    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())	
     		)
 
@@ -87,7 +87,7 @@ public class SecurityConfig {
 //    	        )
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                .requestMatchers( "/admin/login", "/professor/login", "/student/login","/css/**","/js/**","/images/**","/admin/forgot").permitAll()
+                .requestMatchers( "/admin/login", "/professor/login", "/student/login","/css/**","/js/**","/images/**","/admin/forgot","/admin/reset").permitAll()
                 	.requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/professor/**").hasRole("PROFESSOR")
                     .requestMatchers("/student/**").hasRole("STUDENT")
@@ -120,7 +120,7 @@ public class SecurityConfig {
                     		response.sendRedirect("/professor/login?logout=true");
                     		
                     	}else if(role.contains("ROLE_STUDENT")) {
-                    		response.sendRedirect("/sudent/login?logout=true");
+                    		response.sendRedirect("/student/login?logout=true");
                     	}else {
                     		response.sendRedirect("/login?logout=true");
                     	}

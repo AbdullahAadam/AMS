@@ -86,5 +86,7 @@ body{
         #epwd,#eemail{
            display: none;
            
-            
+        }
+        strong{
+        	color:green;
         }
