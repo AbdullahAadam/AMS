@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/dashboardContent.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -32,15 +31,14 @@
             </div>
             <ul class="menu">
                 <!--  <li data-page="dashboardContent"  class="menu-item"><div class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</div></li>-->
-                 <!--  <li ><a href="#dashboardContent" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>-->
-                <li ><a data-href="/admin/dashboard" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                 <li ><a href="#dashboardContent" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
                 <li class="submenu">
-                  <div class="sub-menu"><img src="/images/admin/professor.png" alt="Professor" width="20px"> Professor <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                  <div class="sub-menu"><img src="/images/admin/professor.png" alt="dashboard" width="20px"> Professor <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">
                         <!--  <li data-page="addProfessor"  class="menu-item"><img style="margin-right: 3px;" src="/images/admin/adds.png" alt="AddIcon" width="13px">Add Professor</li>-->
-                        <li><a data-href="/admin/addProfessor" data-page="addProfessor"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Professor</a></li>
-                        <li><a data-href="/admin/editProfessor"  data-page="editProfessor" class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px">  Edit Professor</a></li>
-                        <li><a data-href="/admin/statusProfessor"  data-page="statusProfessor" class="menu-item"><img  src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
+                        <li><a href="#addProfessor" data-page="addProfessor"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Professor</a></li>
+                        <li><a href="#editProfessor"  data-page="editProfessor" class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px">  Edit Professor</a></li>
+                        <li><a href="#statusProfessor"  data-page="statusProfessor" class="menu-item"><img  src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
                         <!--  <li data-page="editProfessor"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px">  Edit Professor</li>
                         <li  data-page="statusProfessor"  class="menu-item"><img  src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</li>-->
                     </ul>
@@ -48,9 +46,9 @@
                 <li class="submenu">
                     <div class="sub-menu"><img src="/images/admin/student.png" alt="dashboard" width="20px"> Students <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">
-                    	<li><a data-href="/admin/addStudent"  data-page="addStudent"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Student</a></li>
-                    	<li><a data-href="/admin/editStudent" data-page="editStudent" class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</a></li>
-                    	<li><a data-href="/admin/statusStudent" data-page="statusStudent" class="menu-item"><img src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
+                    	<li><a href="#addStudent"  data-page="addStudent"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Student</a></li>
+                    	<li><a href="#editStudent" data-page="editStudent" class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</a></li>
+                    	<li><a href="#statusStudent" data-page="statusStudent" class="menu-item"><img src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
                         <!--  <li  data-page="addStudent" class="menu-item"><img  src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Student</li>
                         <li  data-page="editStudent"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</li>
                         <li  data-page="statusStudent"  class="menu-item"><img  src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</li>-->
@@ -59,8 +57,8 @@
                 <li class="submenu">
                     <div class="sub-menu"><img src="/images/admin/dept.png" alt="deptImg" width="20px"> Department <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">
-                        <li><a data-href="/admin/addDepartment" data-page="addDepartment"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Department</a></li>
-                        <li><a data-href="/admin/editDepartment" data-page="editDepartment" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Department</a></li>
+                        <li><a href="#addDepartment" data-page="addDepartment"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Department</a></li>
+                        <li><a href="#editDepartment" data-page="editDepartment" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Department</a></li>
                         <!-- <li data-page="addDepartment"  class="menu-item"><img  src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Department</li>
                         <li data-page="editDepartment"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Department</li> -->
                     </ul>
@@ -68,9 +66,9 @@
                 <li class="submenu">
                     <div class="sub-menu"><img src="/images/admin/course.png" alt="deptImg" width="20px"> Subject<img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">
-                    	<li><a data-href="/admin/addSubject"  data-page="addSubject" class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Subject</a></li>
-                    	<li><a data-href="/admin/editSubject" data-page="editSubject" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Subject</a></li>
-                    	<li><a data-href="/admin/assignProfessor" data-page="assignProfessor" class="menu-item"><img src="/images/admin/assignProfessor.png" alt="AssignIcon" width="15px"> Assign Professor</a></li>
+                    	<li><a href="#addSubject"  data-page="addSubject" class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Subject</a></li>
+                    	<li><a href="#editSubject" data-page="editSubject" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Subject</a></li>
+                    	<li><a href="#assignProfessor" data-page="assignProfessor" class="menu-item"><img src="/images/admin/assignProfessor.png" alt="AssignIcon" width="15px"> Assign Professor</a></li>
                         <!--  <li data-page="addSubject"  class="menu-item"><img  src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Subject</li>
                         <li data-page="editSubject"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Subject</li>
                         <li data-page="assignProfessor"  class="menu-item"><img  src="/images/admin/assignProfessor.png" alt="AssignIcon" width="15px"> Assign Professor</li>-->
@@ -78,8 +76,8 @@
                 </li>
                 <!-- <li onclick="loadContent('addDept')"><div class="sub-menu"><img src="./img/dept.png" alt="dashboard" width="20px"> Add Department</div></li>
                 <li onclick="loadContent('addCourse')"><div class="sub-menu"><img src="./img/course.png" alt="dashboard" width="20px"> Add Subject</div></li> -->
-                <li><a data-href="/admin/semester"  data-page="semester" class="menu-item"><img src="/images/admin/semester.png" alt="semester" width="20px"> Semester</a></li>
-                <li><a data-href="/admin/holiday"  data-page="holiday" class="menu-item"><img  src="/images/admin/holiday.png" alt="holiday" width="20px"> Holiday</a></li>
+                <li><a href="#semester"  data-page="semester" class="menu-item"><img src="/images/admin/semester.png" alt="semester" width="20px"> Semester</a></li>
+                <li><a href="#holiday"  data-page="holiday" class="menu-item"><img  src="/images/admin/holiday.png" alt="holiday" width="20px"> Holiday</a></li>
                 <!--  <li data-page="semester" class="menu-item"><div class="sub-menu"><img src="/images/admin/semester.png" alt="dashboard" width="20px"> Semester</div></li>
                 <li data-page="holiday"  class="menu-item"><div class="sub-menu"><img src="/images/admin/holiday.png" alt="dashboard" width="20px"> Holiday</div></li>-->
             </ul>
@@ -89,14 +87,10 @@
         <div class="main">
             <div class="header">
                 <h1>Welcome, <span class="admin-name">Admin</span></h1>
-                <form action="/logout" method="POST">
-				    <button type="submit" class="logout">
-				        <img src="/images/admin/power.png" alt="power" width="30px">
-				    </button>
-				</form>
+                <button class="logout"><img src="/images/admin/power.png" alt="power " width="30px"></button>
             </div>
             <div id="content" >
-                 <!--  <h2>Main Content START</h2>--> 
+                <!-- <h2>Main Content START</h2> 
                 <div class="cards">
 		        	<div class="card professor">
 		         		<img src="/images/admin/professor.png" alt="professor" >
@@ -266,6 +260,7 @@
 		     </div>
         </div>
     </div>
+    
     <script type="text/javascript" src="/js/admin/dashboard.js"></script>
 </body>
 </html>

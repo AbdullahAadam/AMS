@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/dashboardContent.css">
+    <link rel="stylesheet" href="/css/admin/editDepartment.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -97,175 +97,82 @@
             </div>
             <div id="content" >
                  <!--  <h2>Main Content START</h2>--> 
-                <div class="cards">
-		        	<div class="card professor">
-		         		<img src="/images/admin/professor.png" alt="professor" >
-		         		<p>35</p>
-		         		<p>Professor</p>		       
-		        		</div>
-		        	<div class="card department">
-		         		<img src="/images/admin/dept.png" alt="department" >
-		        		<p>35</p>
-		         		<p>Departments</p>
-		        	</div>
-		        	<div class="card course">		      
-		         		<img src="/images/admin/course.png" alt="course" >
-		         		<p>45</p>
-		         		<p>Course</p>
-		        	</div>
-		        	<div class="card student">		           
-		            	<img src="/images/admin/stu.png" alt="student" >
-		            	<p>115</p>
-		            	<p>Students Aive</p>
-		           </div>
-		        	<div class="card event">		         
-		         		<img src="/images/admin/event.png" alt="professor">
-		         		<p>Upcoming Event</p>
-		         		<p>1/1/25 - New Year</p>
-		        	</div>
-		       	</div>
-		       	<div class="table-container">
-		        <table>
-		         <thead>
-		          <tr>
-		           <th>
-		            Name
-		           </th>
-		           <th>
-		            Role
-		           </th>
-		           <th>
-		            Date
-		           </th>
-		           <th>
-		            Status
-		           </th>
-		           <th style="margin-left: 34px;">
-		            Action
-		           </th>
-		          </tr>
-		         </thead>
-		         <tbody>
-		          <tr>
-		           <td>
-		            Adam
-		           </td>
-		           <td>
-		            Professor
-		           </td>
-		           <td>
-		            12/1/23
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          <tr>
-		           <td>
-		            Mark
-		           </td>
-		           <td>
-		            Professor
-		           </td>
-		           <td>
-		            2/11/22
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          </tbody>
-		        </table>
-		        </div>
-		        <div class="table-container">
-		        <table>
-		         <thead>
-		          <tr>
-		           <th>
-		            Name
-		           </th>
-		           <th>
-		            Role
-		           </th>
-		           <th>
-		            Date
-		           </th>
-		           <th>
-		            Status
-		           </th>
-		           <th style="margin-left: 34px;">
-		            Action
-		           </th>
-		          </tr>
-		         </thead>
-		         <tbody>
-		          <tr>
-		           <td>
-		            Adam
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            12/1/23
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          <tr>
-		           <td>
-		            Mark
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            2/11/22
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          </tbody>
-		          </table>
-		          </div>
+          			<div style="margin: 25px;">
+				        <table id="myTable" class="display">
+				            <thead>
+				                <tr>
+				                    <th>Department ID</th>
+				                    <th> Name</th>
+				                    <th> HOD</th>
+				                    <th> Code</th>
+				                    <th>Period</th>
+				                    <th>Total Year</th>
+				                    <th>Action</th>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <tr>
+				                    <td>TAM23</td>
+				                    <td>Tamil</td>
+				                    <td>Kumar</td>
+				                    <td>TAM</td>
+				                    <td>5</td>
+				                    <th>3</th>
+				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
+				                </tr>
+				                <tr>
+				                    <td>MCA20</td>
+				                    <td>Master of Computer Application</td>
+				                    <td>Raj</td>
+				                    <td>MCA</td>
+				                    <td>5</td>
+				                    <th>2</th>
+				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
+				                </tr>
+				                <tr>
+				                    <td>MCA20</td>
+				                    <td>Master of Computer Application</td>
+				                    <td>Raj</td>
+				                    <td>MCA</td>
+				                    <td>5</td>
+				                    <th>2</th>
+				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
+				                </tr>
+				                <tr>
+				                    <td>MCA20</td>
+				                    <td>Master of Computer Application</td>
+				                    <td>Raj</td>
+				                    <td>MCA</td>
+				                    <td>5</td>
+				                    <th>2</th>
+				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
+				                </tr>
+				                <tr>
+				                    <td>MCA20</td>
+				                    <td>Master of Computer Application</td>
+				                    <td>Raj</td>
+				                    <td>MCA</td>
+				                    <td>5</td>
+				                    <th>2</th>
+				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
+				                </tr>
+				                <tr>
+				                    <td>MCA20</td>
+				                    <td>Master of Computer Application</td>
+				                    <td>Raj</td>
+				                    <td>MCA</td>
+				                    <td>5</td>
+				                    <th>2</th>
+				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
+				                </tr>
+				            </tbody>
+				        </table>
+				    </div>
 		       	 <!-- <h2>Main Content END</h2> -->
 		     </div>
         </div>
     </div>
+    <script type="text/javascript" src="/js/admin/editDepartment.js"></script>
     <script type="text/javascript" src="/js/admin/dashboard.js"></script>
 </body>
 </html>

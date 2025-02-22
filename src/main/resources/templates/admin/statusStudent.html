@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/dashboardContent.css">
+    <link rel="stylesheet" href="/css/admin/statusProfessor.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -97,175 +97,140 @@
             </div>
             <div id="content" >
                  <!--  <h2>Main Content START</h2>--> 
-                <div class="cards">
-		        	<div class="card professor">
-		         		<img src="/images/admin/professor.png" alt="professor" >
-		         		<p>35</p>
-		         		<p>Professor</p>		       
-		        		</div>
-		        	<div class="card department">
-		         		<img src="/images/admin/dept.png" alt="department" >
-		        		<p>35</p>
-		         		<p>Departments</p>
-		        	</div>
-		        	<div class="card course">		      
-		         		<img src="/images/admin/course.png" alt="course" >
-		         		<p>45</p>
-		         		<p>Course</p>
-		        	</div>
-		        	<div class="card student">		           
-		            	<img src="/images/admin/stu.png" alt="student" >
-		            	<p>115</p>
-		            	<p>Students Aive</p>
-		           </div>
-		        	<div class="card event">		         
-		         		<img src="/images/admin/event.png" alt="professor">
-		         		<p>Upcoming Event</p>
-		         		<p>1/1/25 - New Year</p>
-		        	</div>
-		       	</div>
-		       	<div class="table-container">
-		        <table>
-		         <thead>
-		          <tr>
-		           <th>
-		            Name
-		           </th>
-		           <th>
-		            Role
-		           </th>
-		           <th>
-		            Date
-		           </th>
-		           <th>
-		            Status
-		           </th>
-		           <th style="margin-left: 34px;">
-		            Action
-		           </th>
-		          </tr>
-		         </thead>
-		         <tbody>
-		          <tr>
-		           <td>
-		            Adam
-		           </td>
-		           <td>
-		            Professor
-		           </td>
-		           <td>
-		            12/1/23
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          <tr>
-		           <td>
-		            Mark
-		           </td>
-		           <td>
-		            Professor
-		           </td>
-		           <td>
-		            2/11/22
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          </tbody>
-		        </table>
-		        </div>
-		        <div class="table-container">
-		        <table>
-		         <thead>
-		          <tr>
-		           <th>
-		            Name
-		           </th>
-		           <th>
-		            Role
-		           </th>
-		           <th>
-		            Date
-		           </th>
-		           <th>
-		            Status
-		           </th>
-		           <th style="margin-left: 34px;">
-		            Action
-		           </th>
-		          </tr>
-		         </thead>
-		         <tbody>
-		          <tr>
-		           <td>
-		            Adam
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            12/1/23
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          <tr>
-		           <td>
-		            Mark
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            2/11/22
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          </tbody>
-		          </table>
-		          </div>
+    			    <h1>List of Students</h1>
+        			<div class="table-container">
+            		<table>
+            		<thead>
+           			<tr>
+			            <th>
+			                Reg No
+			            </th>
+			            <th>
+			                Name
+			            </th>
+			            <th>
+			                Email
+			            </th>
+			            <th>
+			                Department
+			            </th>
+			            <th>
+			                Date
+			            </th>
+			            <th style="margin-left: 34px;">
+			                Approvels
+			            </th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            	<tr>
+		            <td>
+		                    20MCA94
+		            </td>
+		            <td>
+		                Mark Jackson
+		            </td>
+		            <td>
+		            markjackson@gmail.com
+		            </td>
+		            <td>
+		                MCA
+		            </td>
+		            <td>
+		                12/3/2002
+		            </td>
+		            <td>
+		                <button class="view">
+		                    Accept
+		                </button>
+		                <button class="delete">
+		                    Reject
+		                </button>
+		            </td>
+            	</tr>
+           		<tr>
+	                <td>
+	                    20MCA94
+	                </td>
+	                <td>
+	                Mark Jackson
+	                </td>
+	                <td>
+	                markjackson@gmail.com
+	                </td>
+	                <td>
+	                MCA
+	                </td>
+	                <td>
+	                12/3/2002
+	                </td>
+	                <td>
+	                <button class="view">
+	                    Accept
+	                </button>
+	                <button class="delete">
+	                    Reject
+	                </button>
+	                </td>
+	            </tr>
+            	<tr>
+	                <td>
+	                    20MCA94
+	                </td>
+	                <td>
+	                Mark Jackson
+	                </td>
+	                <td>
+	                markjackson@gmail.com
+	                </td>
+	                <td>
+	                MCA
+	                </td>
+	                <td>
+	                12/3/2002
+	                </td>
+	                <td>
+	                <button class="view">
+	                    Accept
+	                </button>
+	                <button class="delete">
+	                    Reject
+	                </button>
+	                </td>
+            	</tr>
+            	<tr>
+	                <td>
+	                    20MCA94
+	                </td>
+	                <td>
+	                Mark Jackson
+	                </td>
+	                <td>
+	                markjackson@gmail.com
+	                </td>
+	                <td>
+	                MCA
+	                </td>
+	                <td>
+	                12/3/2002
+	                </td>
+	                <td>
+	                <button class="view">
+	                    Accept
+	                </button>
+	                <button class="delete">
+	                    Reject
+	                </button>
+	                </td>
+            	</tr>
+            	</tbody>
+           		</table>
+       		 </div>
 		       	 <!-- <h2>Main Content END</h2> -->
-		     </div>
+		   </div>
         </div>
     </div>
     <script type="text/javascript" src="/js/admin/dashboard.js"></script>
+    <script type="text/javascript" src="/js/admin/statusStudent.js"></script>
 </body>
 </html>

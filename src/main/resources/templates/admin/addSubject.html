@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/dashboardContent.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-	
+	<link rel="stylesheet" href="/css/admin/addSubject.css">
 </head>
 <body>
 	<!-- <h1>Welcome  <span th:text="${username}"></span>Admin</h1>
@@ -32,10 +31,9 @@
             </div>
             <ul class="menu">
                 <!--  <li data-page="dashboardContent"  class="menu-item"><div class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</div></li>-->
-                 <!--  <li ><a href="#dashboardContent" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>-->
-                <li ><a data-href="/admin/dashboard" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                 <li ><a data-href="/admin/dashboard" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
                 <li class="submenu">
-                  <div class="sub-menu"><img src="/images/admin/professor.png" alt="Professor" width="20px"> Professor <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                  <div class="sub-menu"><img src="/images/admin/professor.png" alt="dashboard" width="20px"> Professor <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">
                         <!--  <li data-page="addProfessor"  class="menu-item"><img style="margin-right: 3px;" src="/images/admin/adds.png" alt="AddIcon" width="13px">Add Professor</li>-->
                         <li><a data-href="/admin/addProfessor" data-page="addProfessor"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Professor</a></li>
@@ -68,9 +66,9 @@
                 <li class="submenu">
                     <div class="sub-menu"><img src="/images/admin/course.png" alt="deptImg" width="20px"> Subject<img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">
-                    	<li><a data-href="/admin/addSubject"  data-page="addSubject" class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Subject</a></li>
-                    	<li><a data-href="/admin/editSubject" data-page="editSubject" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Subject</a></li>
-                    	<li><a data-href="/admin/assignProfessor" data-page="assignProfessor" class="menu-item"><img src="/images/admin/assignProfessor.png" alt="AssignIcon" width="15px"> Assign Professor</a></li>
+                    	<li><a href="/admin/addSubject"  data-page="addSubject" class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Subject</a></li>
+                    	<li><a href="/admin/editSubject" data-page="editSubject" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Subject</a></li>
+                    	<li><a href="/admin/assignProfessor" data-page="assignProfessor" class="menu-item"><img src="/images/admin/assignProfessor.png" alt="AssignIcon" width="15px"> Assign Professor</a></li>
                         <!--  <li data-page="addSubject"  class="menu-item"><img  src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Subject</li>
                         <li data-page="editSubject"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Subject</li>
                         <li data-page="assignProfessor"  class="menu-item"><img  src="/images/admin/assignProfessor.png" alt="AssignIcon" width="15px"> Assign Professor</li>-->
@@ -96,176 +94,68 @@
 				</form>
             </div>
             <div id="content" >
-                 <!--  <h2>Main Content START</h2>--> 
-                <div class="cards">
-		        	<div class="card professor">
-		         		<img src="/images/admin/professor.png" alt="professor" >
-		         		<p>35</p>
-		         		<p>Professor</p>		       
-		        		</div>
-		        	<div class="card department">
-		         		<img src="/images/admin/dept.png" alt="department" >
-		        		<p>35</p>
-		         		<p>Departments</p>
-		        	</div>
-		        	<div class="card course">		      
-		         		<img src="/images/admin/course.png" alt="course" >
-		         		<p>45</p>
-		         		<p>Course</p>
-		        	</div>
-		        	<div class="card student">		           
-		            	<img src="/images/admin/stu.png" alt="student" >
-		            	<p>115</p>
-		            	<p>Students Aive</p>
-		           </div>
-		        	<div class="card event">		         
-		         		<img src="/images/admin/event.png" alt="professor">
-		         		<p>Upcoming Event</p>
-		         		<p>1/1/25 - New Year</p>
-		        	</div>
-		       	</div>
-		       	<div class="table-container">
-		        <table>
-		         <thead>
-		          <tr>
-		           <th>
-		            Name
-		           </th>
-		           <th>
-		            Role
-		           </th>
-		           <th>
-		            Date
-		           </th>
-		           <th>
-		            Status
-		           </th>
-		           <th style="margin-left: 34px;">
-		            Action
-		           </th>
-		          </tr>
-		         </thead>
-		         <tbody>
-		          <tr>
-		           <td>
-		            Adam
-		           </td>
-		           <td>
-		            Professor
-		           </td>
-		           <td>
-		            12/1/23
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          <tr>
-		           <td>
-		            Mark
-		           </td>
-		           <td>
-		            Professor
-		           </td>
-		           <td>
-		            2/11/22
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          </tbody>
-		        </table>
-		        </div>
-		        <div class="table-container">
-		        <table>
-		         <thead>
-		          <tr>
-		           <th>
-		            Name
-		           </th>
-		           <th>
-		            Role
-		           </th>
-		           <th>
-		            Date
-		           </th>
-		           <th>
-		            Status
-		           </th>
-		           <th style="margin-left: 34px;">
-		            Action
-		           </th>
-		          </tr>
-		         </thead>
-		         <tbody>
-		          <tr>
-		           <td>
-		            Adam
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            12/1/23
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          <tr>
-		           <td>
-		            Mark
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            2/11/22
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          </tbody>
-		          </table>
-		          </div>
-		       	 <!-- <h2>Main Content END</h2> -->
+                <!-- <h2>Main Content START</h2>--> 
+                	<div class="subject-form-container">
+				        <div class="form-card">
+				            <img src="/images/admin/addcourse.png" alt="subject Icon" class="subject-icon">
+				            <h2>Add Subject</h2>
+				            <form id="addsubjectForm">
+				                <label for="subjectName">Subject Name</label>
+				                <input type="text" id="subjectName" name="subjectName" placeholder="Enter the Subject Name" >
+				                <div id="subjectNameError" class="error-message"></div>
+				                <label for="departmentName">Department Name</label>
+				                <select name="departmentName" id="departmentName">
+				                    <option value="01">MCA</option>
+				                    <option value="02">MBA</option>
+				                    <option value="03">Bsc.Tamil</option>
+				                    <option value="04">Bsc.English</option>
+				                    <option value="05">Bsc.Maths</option>
+				                    <option value="06">Bsc.Physics</option>
+				                    <option value="07">Bsc.Computer Science</option>
+				                    <option value="08">Bsc.Computer Application</option>
+				                    <option value="09">Bsc.Chemistry</option>
+				                    <option value="10">Bsc.Biotony</option>
+				                    <option value="11">Bsc.Zoology</option>
+				                    <option value="12">B.Com</option>
+				                </select>
+				                <div id="departmentNameError" class="error-message"></div>
+				                <label for="subjectType">Subject Type</label>
+				                <select name="subjectType" id="subjectType">
+				                    <option value="C-">Core</option>
+				                    <option value="E-">Elective</option>
+				                    <option value="EX-">Extra Paper</option>
+				                </select>
+				                <div id="subjectTypeError" class="error-message"></div>
+				                <label for="semesterNumber">Semester Number</label>
+				                <select name="semesterNumber" id="semesterNumber">
+				                    <option value="01">1</option>
+				                    <option value="02">2</option>
+				                    <option value="03">3</option>
+				                    <option value="04">4</option>
+				                    <option value="05">5</option>
+				                    <option value="06">6</option>
+				                    <option value="07">7</option>
+				                    <option value="08">8</option>
+				                </select>
+				                <div id="semesterNumberError" class="error-message"></div>
+				                <label for="subjectId">Subject ID</label>
+				                <input type="text" id="subjectId" name="subjectId" placeholder="Enter the Subject ID" >
+				                <div id="subjectIdError" class="error-message"></div>
+				                <button type="submit" class="submit-btn">ADD</button>
+				            </form>
+				        </div>
+    				</div>
 		     </div>
         </div>
     </div>
-    <script type="text/javascript" src="/js/admin/dashboard.js"></script>
+	   <script th:inline="javascript">
+	   
+	    var toastrMessage = '[[${toastrMessage}]]';
+	    if (toastrMessage) {
+	        toastr.info(toastrMessage);
+	    }
+    </script>
+    <script th:src="@{/js/admin/addSubject.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/dashboard.js}"></script>
 </body>
 </html>

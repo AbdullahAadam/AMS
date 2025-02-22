@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/dashboardContent.css">
+    <link rel="stylesheet" href="/css/admin/addStudent.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -97,175 +97,33 @@
             </div>
             <div id="content" >
                  <!--  <h2>Main Content START</h2>--> 
-                <div class="cards">
-		        	<div class="card professor">
-		         		<img src="/images/admin/professor.png" alt="professor" >
-		         		<p>35</p>
-		         		<p>Professor</p>		       
-		        		</div>
-		        	<div class="card department">
-		         		<img src="/images/admin/dept.png" alt="department" >
-		        		<p>35</p>
-		         		<p>Departments</p>
-		        	</div>
-		        	<div class="card course">		      
-		         		<img src="/images/admin/course.png" alt="course" >
-		         		<p>45</p>
-		         		<p>Course</p>
-		        	</div>
-		        	<div class="card student">		           
-		            	<img src="/images/admin/stu.png" alt="student" >
-		            	<p>115</p>
-		            	<p>Students Aive</p>
-		           </div>
-		        	<div class="card event">		         
-		         		<img src="/images/admin/event.png" alt="professor">
-		         		<p>Upcoming Event</p>
-		         		<p>1/1/25 - New Year</p>
-		        	</div>
-		       	</div>
-		       	<div class="table-container">
-		        <table>
-		         <thead>
-		          <tr>
-		           <th>
-		            Name
-		           </th>
-		           <th>
-		            Role
-		           </th>
-		           <th>
-		            Date
-		           </th>
-		           <th>
-		            Status
-		           </th>
-		           <th style="margin-left: 34px;">
-		            Action
-		           </th>
-		          </tr>
-		         </thead>
-		         <tbody>
-		          <tr>
-		           <td>
-		            Adam
-		           </td>
-		           <td>
-		            Professor
-		           </td>
-		           <td>
-		            12/1/23
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          <tr>
-		           <td>
-		            Mark
-		           </td>
-		           <td>
-		            Professor
-		           </td>
-		           <td>
-		            2/11/22
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          </tbody>
-		        </table>
-		        </div>
-		        <div class="table-container">
-		        <table>
-		         <thead>
-		          <tr>
-		           <th>
-		            Name
-		           </th>
-		           <th>
-		            Role
-		           </th>
-		           <th>
-		            Date
-		           </th>
-		           <th>
-		            Status
-		           </th>
-		           <th style="margin-left: 34px;">
-		            Action
-		           </th>
-		          </tr>
-		         </thead>
-		         <tbody>
-		          <tr>
-		           <td>
-		            Adam
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            12/1/23
-		           </td>
-		           <td>
-		            Pending
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          <tr>
-		           <td>
-		            Mark
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            2/11/22
-		           </td>
-		           <td>
-		            Student
-		           </td>
-		           <td>
-		            <button class="view">
-		             View
-		            </button>
-		            <button class="delete">
-		                Delete
-		            </button>
-		           </td>
-		          </tr>
-		          </tbody>
-		          </table>
-		          </div>
-		       	 <!-- <h2>Main Content END</h2> -->
+              		<div class="student-form-container">
+        				<div class="form-card">
+            			<img src="/images/admin/stu.png" alt="student Icon" class="student-icon">
+			            <form id="addStudentForm">
+			                <label for="studentRegNo">Student RegNo</label>
+			                <input type="text" id="studentRegNo" name="studentRegNo" placeholder="Enter the Student RegNo" >
+			                <div id="studentRegNoError" class="error-message"></div>
+			                <label for="studentName">Student Name</label>
+			                <input type="text" id="studentName" name="studentName" placeholder="Enter the Student Name" >
+			                <div id="studentNameError" class="error-message"></div>
+			                <label for="department">Department</label>
+			                <select name="department" id="department">
+			                    <option value="MCA">Master Computer Application</option>
+			                    <option value="MBA">Master of Business Administration</option>
+			                </select>
+			                <div id="departmentError" class="error-message"></div>
+			                <label for="email">Email</label>
+			                <input type="email" id="email" name="email" placeholder="Enter the Email" >
+			                <div id="emailError" class="error-message"></div>
+			                <button type="submit" class="submit-btn">ADD</button>
+			            </form>
+        			</div>
+    			</div>
 		     </div>
         </div>
     </div>
+    <script type="text/javascript" src="/js/admin/addStudent.js"></script>
     <script type="text/javascript" src="/js/admin/dashboard.js"></script>
 </body>
 </html>
