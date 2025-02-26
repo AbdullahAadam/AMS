@@ -2,6 +2,12 @@
  * 
  */
 $(document).ready(function(){
+			$.get("/csrf", function(data) {
+				    // data might look like: { parameterName: "_csrf", token: "abc123", headerName: "X-CSRF-TOKEN" }
+				    window.csrfToken = data.token;
+				    window.csrfHeader = data.headerName;
+				    console.log("CSRF Token retrieved:", window.csrfToken);
+			});
            function validateForm(){
                let isValid=true;
                let InvalidField=null;
@@ -78,6 +84,37 @@ $(document).ready(function(){
                if(!validateForm()){
                    return;
                }
+			   var semesterData={
+				semNo:parseInt($("#semesterNo").val().trim()),
+				startMonth:parseInt($("#startMonth").val()),
+				endMonth:parseInt($("#endMonth").val())
+			   }
+			   var csrfToken = $("meta[name='_csrf']").attr("content");
+			   var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+			   console.log(csrfToken);
+			   console.log(csrfHeader);
+			   $.ajax({
+				url:"/admin/addSemester",
+				method:"POST",
+				contentType:"application/json",
+				xhrFields:{
+					withCredentials: true
+				},
+				headers: { [window.csrfHeader]: window.csrfToken },
+				data:JSON.stringify(semesterData),
+				success:function(response){
+					console.log("Success: ",response);
+					toastr.success(response);
+					$("#addSemesterForm").trigger("reset");
+				},
+				error:function(xhr,status,error){
+					if(xhr.responseText.indexOf("already exists")!==-1){
+						toastr.warning("Semester Number already created");
+					}else{
+						toastr.error(xhr.responseText||"An unexpected error occur");
+					}
+				}
+			   });
            });
 
        });

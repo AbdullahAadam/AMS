@@ -2,6 +2,31 @@
  * 
  */
 $(document).ready(function(){
+	$.get("/csrf", function(data) {
+		// data might look like: { parameterName: "_csrf", token: "abc123", headerName: "X-CSRF-TOKEN" }
+		window.csrfToken = data.token;
+		window.csrfHeader = data.headerName;
+		console.log("CSRF Token retrieved:", window.csrfToken);
+	});
+	$.ajax({
+	    url:'/admin/listDepartments',
+	    type: 'GET',
+	    dataType: 'json',
+	    success: function(data) {
+			console.log(data);
+		    $.each(data, function(index, department) {
+		       $('#department').append(
+		       	$('<option>', {
+					value: department.deptId,
+					text: department.deptName
+		         })
+		       );
+		    });
+	    },
+	    error: function(xhr, status, error) {
+	        console.log("Error fetching departments:", error);
+	    }
+	 });
 	//alter('professor');
 	//console.log("professor.js");
 	//console.log(showToastr);
@@ -34,6 +59,7 @@ $(document).ready(function(){
             function validateForm(){
                 let isValid=true;
                 let InvalidField=null;
+				var regex = /^[A-Za-z\s]+$/;
                 $(".error-message").hide();
                 $("input,select").removeClass("error-border");
                 const professorName=$("#professorName").val().trim();
@@ -48,6 +74,12 @@ $(document).ready(function(){
                     if(!InvalidField)InvalidField=$("#professorName");
                     isValid=false;
                 }
+				if(!regex.test(professorName)){
+					$("#professorNameError").text("Invalid Name format.").show();
+					$("#professorName").addClass("error-border");
+					if(!InvalidField)InvalidField=$("#professorName");
+					isValid=false;
+				}
                 const email=$("#email").val().trim();
                 const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if(!email){
@@ -61,6 +93,13 @@ $(document).ready(function(){
                     if(!InvalidField)InvalidField=$("#email");
                     isValid=false;
                 }
+				const department=$("#department").val();
+				if(!department){
+				   $("#departmentError").text("Department must required").show();
+				   $("#department").addClass("error-border");
+				   if(!InvalidField)InvalidField=$("#department");
+				   isValid=false;
+				}
                 const professorRole=$("#professorRole").val();
                 if(!professorRole){
                     $("#professorRoleError").text("Role must required").show();
@@ -68,13 +107,18 @@ $(document).ready(function(){
                     if(!InvalidField)InvalidField=$("#professorRole");
                     isValid=false;
                 }
-                if(InvalidField){
-                    InvalidField.focus();
-                }
+               
                 $("#professorName,#email").keydown(function(){
                     $(".error-message").hide();
-                    $("input,select").removeClass("error-border");
+                    $("input").removeClass("error-border");
                 });
+				$("#department").click(function(){
+				    $(".error-message").hide();
+				    $("select").removeClass("error-border");
+				});
+				if(InvalidField){
+					InvalidField.focus();
+				}
                 return isValid;
             }
             function creatingId(){
@@ -91,7 +135,7 @@ $(document).ready(function(){
                 for(var i=0;i<nameParts.length;i++){
                     initial=initial+nameParts[i].charAt(0).toUpperCase();
                 }
-                var professorId=role+initial+totalLetters+"-"+num;
+                var professorId=role+"-"+initial+totalLetters+"-"+num;
                 $("#professorId").val(professorId);
             }
             $("#professorName,#professorRole").on('input change',function(){
@@ -102,6 +146,48 @@ $(document).ready(function(){
                 if(!validateForm()){
                     return;
                 }
+				professorData={
+					name:$("#professorName").val(),
+					email:$("#email").val().trim(),
+					department:{deptId:$("#department").val()},
+					role:$("#professorRole").val(),
+					profId:$("#professorId").val(),
+					approvalStatus:"PENDING",
+					pwd:"",
+					img:"",
+					phone:"",
+					age:"",
+				};
+				console.log(professorData);
+				$.ajax({
+					url:"/admin/addProfessor",
+					method:"POST",
+					contentType:"application/json",
+					xhrFields:{
+						withCredentials: true
+					},
+					headers: { [window.csrfHeader]: window.csrfToken },
+					data:JSON.stringify(professorData),
+					success:function(response){
+						console.log("Success: ",response);
+						toastr.success(response);
+						$("#addProfessorForm").trigger("reset");
+					},
+					error:function(xhr,status,error){
+						if(xhr.responseText.indexOf("already exists")!==-1){
+							//toastr.warning("Professor already exists");
+							var errorMessage=xhr.responseText;
+							if(errorMessage.startsWith("Error:")){
+								errorMessage=errorMessage.substring("Error:".length).trim();
+							}
+							toastr.warning(errorMessage);
+						}else{
+							toastr.error(xhr.responseText||"An unexpected error occur");
+							console.log('Error: ' + status + ' - ' + error);
+							console.log('Response: ' + xhr.responseText);
+						}
+					}
+				});		
             });
         });
         

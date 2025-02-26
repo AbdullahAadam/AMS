@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -76,8 +78,8 @@
                 </li>
                 <!-- <li onclick="loadContent('addDept')"><div class="sub-menu"><img src="./img/dept.png" alt="dashboard" width="20px"> Add Department</div></li>
                 <li onclick="loadContent('addCourse')"><div class="sub-menu"><img src="./img/course.png" alt="dashboard" width="20px"> Add Subject</div></li> -->
-                <li><a data-href="/admin/semester"  data-page="semester" class="menu-item"><img src="/images/admin/semester.png" alt="semester" width="20px"> Semester</a></li>
-                <li><a data-href="/admin/holiday"  data-page="holiday" class="menu-item"><img  src="/images/admin/holiday.png" alt="holiday" width="20px"> Holiday</a></li>
+                 <li><a data-href="/admin/semester"  data-page="semester" class="menu-item"><span class="sub-menu"><img src="/images/admin/semester.png" alt="semester" width="20px" height="20px"> Semester</span></a></li>
+                <li><a data-href="/admin/holiday"  data-page="holiday" class="menu-item"><span class="sub-menu"><img  src="/images/admin/holiday.png" alt="holiday" width="20px" > Holiday</span></a></li>
                 <!--  <li data-page="semester" class="menu-item"><div class="sub-menu"><img src="/images/admin/semester.png" alt="dashboard" width="20px"> Semester</div></li>
                 <li data-page="holiday"  class="menu-item"><div class="sub-menu"><img src="/images/admin/holiday.png" alt="dashboard" width="20px"> Holiday</div></li>-->
             </ul>
@@ -105,10 +107,15 @@
                					<label for="email">Email</label>
                					<input type="text" id="email" name="email" placeholder="Enter the Email" >
                 				<div id="professorEmailError" class="error-message"></div>
+                				<label for="department">Department</label>
+                				<select name="department" id="department">
+                    				<option value="">Select a Department</option>                    			
+                				</select>
+                				<div id="departmentError" class="error-message"></div>
                 				<label for="professorRole">Role</label>
                 				<select name="professorRole" id="professorRole">
-                    				<option value="PROF-">Professor</option>
-                    				<option value="HOD-">HOD</option>
+                    				<option value="PROF">Professor</option>
+                    				<option value="HOD">HOD</option>
                 				</select>
                 				<div id="professorRoleError" class="error-message"></div>
                					<label for="professorId">Professor ID</label>

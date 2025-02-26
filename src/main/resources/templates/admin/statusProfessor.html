@@ -3,12 +3,12 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <link rel="stylesheet" href="/css/admin/statusProfessor.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	
@@ -78,8 +78,8 @@
                 </li>
                 <!-- <li onclick="loadContent('addDept')"><div class="sub-menu"><img src="./img/dept.png" alt="dashboard" width="20px"> Add Department</div></li>
                 <li onclick="loadContent('addCourse')"><div class="sub-menu"><img src="./img/course.png" alt="dashboard" width="20px"> Add Subject</div></li> -->
-                <li><a data-href="/admin/semester"  data-page="semester" class="menu-item"><img src="/images/admin/semester.png" alt="semester" width="20px"> Semester</a></li>
-                <li><a data-href="/admin/holiday"  data-page="holiday" class="menu-item"><img  src="/images/admin/holiday.png" alt="holiday" width="20px"> Holiday</a></li>
+                 <li><a data-href="/admin/semester"  data-page="semester" class="menu-item"><span class="sub-menu"><img src="/images/admin/semester.png" alt="semester" width="20px" height="20px"> Semester</span></a></li>
+                <li><a data-href="/admin/holiday"  data-page="holiday" class="menu-item"><span class="sub-menu"><img  src="/images/admin/holiday.png" alt="holiday" width="20px" > Holiday</span></a></li>
                 <!--  <li data-page="semester" class="menu-item"><div class="sub-menu"><img src="/images/admin/semester.png" alt="dashboard" width="20px"> Semester</div></li>
                 <li data-page="holiday"  class="menu-item"><div class="sub-menu"><img src="/images/admin/holiday.png" alt="dashboard" width="20px"> Holiday</div></li>-->
             </ul>
@@ -97,9 +97,9 @@
             </div>
             <div id="content" >
                  <!--  <h2>Main Content START</h2>--> 
-            	 <h1>List of Professors</h1>
+            	 <h1>Pending list of Professors</h1>
     			<div class="table-container">
-        		<table>
+        		<table th:if="${ not #lists.isEmpty(pendingProfessors)}">
          		<thead>
           			<tr>
            				<th>
@@ -112,150 +112,69 @@
 				         Email
 				        </th>
 				        <th>
+				       	 Department
+				        </th>
+				        <th>
 				       	 Role
 				        </th>
 				        <th>
-				           Date
+				           Date and Time
 				        </th>
 				        <th style="margin-left: 34px;">
-				           Approvels
+				           Pending
 				        </th>
           			</tr>
          		</thead>
          		<tbody>
-          		<tr>
-		           <td>
-		            MJ123
-		           </td>
-		           <td>
-		            Mark Jackson
-		           </td>
-		           <td>
-		           markjackson@gmail.com
-		           </td>
-		           <td>
-		            Stuff
-		           </td>
-		           <td>
-		            12/3/2002
-		           </td>
-		           <td>
-		            <button class="view">
-		                Accept
-		            </button>
-		            <button class="delete">
-		                Reject
-		            </button>
-		           </td>
-          		</tr>
-          		<tr>
-		            <td>
-		                MK0123
-		            </td>
-		            <td>
-		             Mark Jackson
-		            </td>
-		            <td>
-		            markjackson@gmail.com
-		            </td>
-		            <td>
-		             HOD
-		            </td>
-		            <td>
-		             12/3/2002
-		            </td>
-		            <td>
-		             <button class="view">
-		                Accept
-		             </button>
-		             <button class="delete">
-		                Reject
-		             </button>
-		            </td>
-           		</tr>
-           		<tr>
-		            <td>
-		                MJ123
-		            </td>
-		            <td>
-		             Mark Jackson
-		            </td>
-		            <td>
-		            markjackson@gmail.com
-		            </td>
-		            <td>
-		             Stuff
-		            </td>
-		            <td>
-		             12/3/2002
-		            </td>
-		            <td>
-		             <button class="view">
-		                Accept
-		             </button>
-		             <button class="delete">
-		                Reject
-		             </button>
-		            </td>
-           		</tr>
-           		<tr>
-		            <td>
-		                MJ123
-		            </td>
-		            <td>
-		             Mark Jackson
-		            </td>
-		            <td>
-		            markjackson@gmail.com
-		            </td>
-		            <td>
-		             Stuff
-		            </td>
-		            <td>
-		             12/3/2002
-		            </td>
-		            <td>
-		             <button class="view">
-		                Accept
-		             </button>
-		             <button class="delete">
-		                Reject
-		             </button>
-		            </td>
-           		</tr>
-           		<tr>
-		            <td>
-		                MJ123
-		            </td>
-		            <td>
-		             Mark Jackson
-		            </td>
-		            <td>
-		            markjackson@gmail.com
-		            </td>
-		            <td>
-		             Stuff
-		            </td>
-		            <td>
-		             12/3/2002
-		            </td>
-		            <td>
-		             <button class="view">
-		                Accept
-		             </button>
-		             <button class="delete">
-		                Reject
-		             </button>
-		            </td>
-           		</tr>
-         	</tbody>
-        	</table>
+         			<tr th:each="professor : ${pendingProfessors}" th:id="'professor-'+${professor.profId}">
+					    <td th:text="${professor.profId}"></td>
+					    <td th:text="${professor.name}"></td>
+					    <td th:text="${professor.email}"></td>
+					    <td th:text="${professor.department.deptName}"></td>
+					    <td th:text="${professor.role}"></td>
+					    <td th:text="${#temporals.format(professor.createAt, 'MMMM dd,yyyy,hh:mma')}"></td>
+					    <td>
+					        <button class="view accept-btn" th:data-profId="${professor.profId}">Accept</button>
+					        <button class="delete reject-btn" th:data-profId="${professor.profId}">Reject</button>
+					    </td>
+					</tr>
+         			
+         		</tbody>
+         		</table>
+        		<div id="noPorfessorMessage" style="text-align: center; display:none;">
+    				No professors are currently pending approval.
+				</div>
+        	 <!--  <div th:if="${#lists.isEmpty(pendingProfessors)}" style="text-align: center;">
+    			No professors are currently pending approval.
+			 </div>-->
        		</div>
 		       	 <!-- <h2>Main Content END</h2> -->
 		   </div>
         </div>
     </div>
-    <script type="text/javascript" src="/js/admin/dashboard.js"></script>
     <script type="text/javascript" src="/js/admin/statusProfessor.js"></script>
+    <script type="text/javascript" src="/js/admin/dashboard.js"></script>
+    
 </body>
 </html>
+
+
+<!--  <tr th:each="professor : ${pendingProfessors}">
+			        	<td th:text="${professor.profId}"></td>
+			        	<td th:text="${professor.name}"></td>
+			        	<td th:text="${professor.email}"></td>
+			        	<td th:text="${professor.role}"></td>
+			        	<td th:text="${professor.createAt}"></td>
+			        	<td >
+			        		<form th:action="@{/admin/acceptProfessor/{profId}(profId=${professor.profId})}" method="post">
+                				<button type="submit" class="view" th:id="${profId}">Accept</button>
+            				</form>
+            				<form th:action="@{/admin/rejectProfessor/{profId}(profId=${professor.profId})}" method="post">
+                				<button type="submit" class="delete"  th:id="${profId}">Reject</button>
+           					</form>
+			        	</td>    
+	           		</tr>-->
+	           		<!--  <tr th:if="${#lists.isEmpty(pendingProfessors)}">
+        				<td colspan="6" style="text-align: center;">No pending professors found.</td>
+    				</tr>-->
+         		

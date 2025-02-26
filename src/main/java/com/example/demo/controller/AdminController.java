@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 //import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,18 +15,32 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.dto.ProfessorDTO;
+import com.example.demo.enums.ApprovalStatus;
 import com.example.demo.model.Admin;
+import com.example.demo.model.Department;
 import com.example.demo.model.Holiday;
+import com.example.demo.model.Professor;
+import com.example.demo.model.Semester;
 import com.example.demo.repo.AdminRepository;
+import com.example.demo.repo.DepartmentRepository;
+import com.example.demo.repo.ProfessorRepository;
+import com.example.demo.service.DepartmentService;
 import com.example.demo.service.HolidayService;
+import com.example.demo.service.ProfessorService;
+import com.example.demo.service.SemesterService;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,11 +51,21 @@ public class AdminController {
 //		return "admin/dashboard";
 //	}
 	@Autowired
-	private AdminRepository adminRepo;
-	@Autowired
 	private PasswordEncoder passwordEncode;
 	@Autowired
+	private AdminRepository adminRepo;
+	@Autowired
+	private DepartmentRepository deptRepo;
+	@Autowired
+	private ProfessorRepository profRepo;
+	@Autowired
 	private HolidayService holidayService;
+	@Autowired
+	private SemesterService semService;
+	@Autowired
+	private DepartmentService deptService;
+	@Autowired
+	private ProfessorService profService;
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/dashboard")
 	/*public String dashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -62,8 +88,12 @@ public class AdminController {
 	    String email=userDetails.getUsername();
 	    Optional<Admin> adminOpt=adminRepo.findByEmail(email);
 	    Admin admin=adminOpt.get();
+	    long deptCount=deptRepo.count();
+	    long profCount=profRepo.count();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("deptCount",deptCount);
+	    model.addAttribute("profCount",profCount);
 	    return "admin/dashboard";
 	}
 	//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -156,8 +186,10 @@ public class AdminController {
 		String email=userDetails.getUsername();
 	    Optional<Admin> adminOpt=adminRepo.findByEmail(email);
 	    Admin admin=adminOpt.get();
+	    List<Professor>pendingProfessors=profService.getApprovalByProfessorStatus(ApprovalStatus.PENDING);
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("pendingProfessors",pendingProfessors);
 		System.out.println(" Status Professor is running");
 		return "admin/statusProfessor";
 	}
@@ -265,14 +297,91 @@ public class AdminController {
 			return ResponseEntity.status(201).body(result);
 		}
 	}
+	@PostMapping("/addSemester")
+	public ResponseEntity<String>addSemester(@RequestBody Semester sem){
+		String result=semService.addSemester(sem);
+		if(result.startsWith("Error")) {
+			return ResponseEntity.status(409).body(result);
+		}else {
+			return ResponseEntity.status(201).body(result);
+		}
+		
+	}
+	@PostMapping("/addDepartment")
+	public ResponseEntity<String>addDepartment(@RequestBody Department dept){
+		String result=deptService.addDepartment(dept);
+		if(result.startsWith("Error")) {
+			return ResponseEntity.status(409).body(result);
+		}else {
+			return ResponseEntity.status(201).body(result);
+		}
+		
+	}
+	@GetMapping("/listDepartments")
+	@ResponseBody
+    public List<Department> getDepartments() {
+		List<Department>departments=deptService.getAllDepartments();
+        System.out.println("Departments are: "+departments);
+		return  departments;
+    }
+	/*public ResponseEntity<List<Department>> listDepartments() {
+	    // Get all departments from the repository
+	    List<Department> departments = deptRepo.findAll();
 
-	public class TestEndpointController {
-
-	    @PostMapping("/test")
-	    public ResponseEntity<String> testEndpoint(@RequestBody String payload) {
-	        return ResponseEntity.ok("Test endpoint reached");
+	    // Return the departments as JSON
+	    return ResponseEntity.ok(departments);
+	}*/
+	@PostMapping("/addProfessor")
+	public ResponseEntity<String>addProfessor(@RequestBody Professor prof){
+		String result=profService.addProfessor(prof);
+		if(result.startsWith("Error")) {
+			return ResponseEntity.status(409).body(result);
+		}else {
+			return ResponseEntity.status(201).body(result);
+		}
+		
+	}
+	/*@GetMapping("/getPendingProfessors")
+	@ResponseBody
+    public List<Professor> getPendingProfessors() {
+        List<Professor>pendingProfessors=profService.getApprovalByProfessorStatus(ApprovalStatus.PENDING); 
+		System.out.println("Pendingzzzzzzzz"+pendingProfessors);
+        return pendingProfessors;
+    }*/
+	@GetMapping("/professors/{deptId}")
+	@ResponseBody
+	public List<Professor>getProfessorsByDepartmentId(@PathVariable String deptId){
+		//List<Professor>getProfessorsByDepartmentId
+		return profService.getProfessorsByDepartmentId(deptId,ApprovalStatus.ACCEPTED);
+	}
+	@PutMapping("/acceptProfessor/{profId}")
+	/*public String acceptProfessor(@PathVariable String profId) {
+		profService.acceptProfessor(profId);
+		return "Accepted";
+	}*/
+	public ResponseEntity<?> acceptProfessor(@PathVariable String profId) {
+	    try {
+	        profService.acceptProfessor(profId);
+	        return ResponseEntity.ok("Professor accepted successfully.");
+	    } catch (Exception ex) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body("Error accepting professor: " + ex.getMessage());
 	    }
 	}
-
+	@DeleteMapping("/rejectProfessor/{profId}")
+	public ResponseEntity<?> rejectProfessor(@PathVariable String profId) {
+	    try {
+	        profService.rejectedProfessor(profId);
+	        return ResponseEntity.ok("Professor rejected successfully.");
+	    } catch (Exception ex) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body("Error rejected professor: " + ex.getMessage());
+	    }
+	}
+	/*public String rejectProfessor(@PathVariable String profId) {
+		profService.rejectedProfessor(profId);
+		String message="Rejected";
+		return message;
+	}*/
 
 }

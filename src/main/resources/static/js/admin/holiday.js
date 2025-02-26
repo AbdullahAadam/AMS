@@ -78,6 +78,7 @@ $(document).ready(function(){
 					success:function(response){
 						console.log("Success: ",response);
 						toastr.success(response);
+						$("#addHolidayForm").trigger('reset');
 
 					},
 					error:function(xhr,status,error){
