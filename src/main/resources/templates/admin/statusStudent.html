@@ -99,138 +99,53 @@
                  <!--  <h2>Main Content START</h2>--> 
     			    <h1>List of Students</h1>
         			<div class="table-container">
-            		<table>
-            		<thead>
-           			<tr>
-			            <th>
-			                Reg No
-			            </th>
-			            <th>
-			                Name
-			            </th>
-			            <th>
-			                Email
-			            </th>
-			            <th>
-			                Department
-			            </th>
-			            <th>
-			                Date
-			            </th>
-			            <th style="margin-left: 34px;">
-			                Approvels
-			            </th>
-            		</tr>
-            	</thead>
-            	<tbody>
-            	<tr>
-		            <td>
-		                    20MCA94
-		            </td>
-		            <td>
-		                Mark Jackson
-		            </td>
-		            <td>
-		            markjackson@gmail.com
-		            </td>
-		            <td>
-		                MCA
-		            </td>
-		            <td>
-		                12/3/2002
-		            </td>
-		            <td>
-		                <button class="view">
-		                    Accept
-		                </button>
-		                <button class="delete">
-		                    Reject
-		                </button>
-		            </td>
-            	</tr>
-           		<tr>
-	                <td>
-	                    20MCA94
-	                </td>
-	                <td>
-	                Mark Jackson
-	                </td>
-	                <td>
-	                markjackson@gmail.com
-	                </td>
-	                <td>
-	                MCA
-	                </td>
-	                <td>
-	                12/3/2002
-	                </td>
-	                <td>
-	                <button class="view">
-	                    Accept
-	                </button>
-	                <button class="delete">
-	                    Reject
-	                </button>
-	                </td>
-	            </tr>
-            	<tr>
-	                <td>
-	                    20MCA94
-	                </td>
-	                <td>
-	                Mark Jackson
-	                </td>
-	                <td>
-	                markjackson@gmail.com
-	                </td>
-	                <td>
-	                MCA
-	                </td>
-	                <td>
-	                12/3/2002
-	                </td>
-	                <td>
-	                <button class="view">
-	                    Accept
-	                </button>
-	                <button class="delete">
-	                    Reject
-	                </button>
-	                </td>
-            	</tr>
-            	<tr>
-	                <td>
-	                    20MCA94
-	                </td>
-	                <td>
-	                Mark Jackson
-	                </td>
-	                <td>
-	                markjackson@gmail.com
-	                </td>
-	                <td>
-	                MCA
-	                </td>
-	                <td>
-	                12/3/2002
-	                </td>
-	                <td>
-	                <button class="view">
-	                    Accept
-	                </button>
-	                <button class="delete">
-	                    Reject
-	                </button>
-	                </td>
-            	</tr>
-            	</tbody>
-           		</table>
+						<table th:if="${ not #lists.isEmpty(pendingStudents)}">
+						      <thead>
+						         <tr>
+						           	<th>
+						           		RegNo
+						           	</th>
+									<th>
+										 Name
+									</th>
+									<th>
+										Email
+									</th>
+									<th>
+										 Department
+									</th>									
+									<th>
+										Date and Time
+									</th>
+									<th style="margin-left: 34px;">
+										 Pending
+									</th>
+						          </tr>
+						     </thead>
+						     <tbody>
+						         <tr th:each="student : ${pendingStudents}" th:id="'student-'+${student.regNo}">
+									<td th:text="${student.regNo}"></td>
+									<td th:text="${student.name}"></td>
+									<td th:text="${student.email}"></td>
+									<td th:text="${student.department.deptName}"></td>
+									<td th:text="${#temporals.format(student.createdAt, 'MMMM dd,yyyy,hh:mma')}"></td>
+									<td>
+										<button class="view accept-btn" th:data-regNo="${student.regNo}">Accept</button>
+										<button class="delete reject-btn" th:data-regNo="${student.regNo}">Reject</button>
+									</td>
+								</tr>
+						         			
+						    </tbody>
+					</table>
+					<div id="noStudentMessage" style="text-align: center; display:none;">
+						    No Student are currently pending approval.
+					</div>         		
        		 </div>
 		       	 <!-- <h2>Main Content END</h2> -->
 		   </div>
         </div>
     </div>
-    <script type="text/javascript" src="/js/admin/dashboard.js"></script>
+    <!--<script type="text/javascript" src="/js/admin/dashboard.js"></script>-->
     <script type="text/javascript" src="/js/admin/statusStudent.js"></script>
 </body>
 </html>

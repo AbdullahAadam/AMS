@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <link rel="stylesheet" href="/css/admin/editDepartment.css">
@@ -106,53 +108,64 @@
 				                    <th> Department</th>
 				                    <th> Subject Type</th>
 				                    <th> Sem NO</th>
+				                    <th>Data Time</th>
 				                    <th>Action</th>
 				                </tr>
 				            </thead>
 				            <tbody>
-				                <tr>
-				                    <td>C-AI23</td>
-				                    <td>Artifical Intellegence</td>
-				                    <td>MCA</td>
-				                    <td>Core</td>
-				                    <td>2</td>
-				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-				                </tr>
-				                <tr>
-				                    <td>C-AI23</td>
-				                    <td>Artifical Intellegence</td>
-				                    <td>MCA</td>
-				                    <td>Core</td>
-				                    <td>2</td>
-				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-				                </tr>
-				                <tr>
-				                    <td>C-AI23</td>
-				                    <td>Artifical Intellegence</td>
-				                    <td>MCA</td>
-				                    <td>Core</td>
-				                    <td>2</td>
-				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-				                </tr>
-				                <tr>
-				                    <td>C-AI23</td>
-				                    <td>Artifical Intellegence</td>
-				                    <td>MCA</td>
-				                    <td>Core</td>
-				                    <td>2</td>
-				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-				                </tr>
-				                <tr>
-				                    <td>C-AI23</td>
-				                    <td>Artifical Intellegence</td>
-				                    <td>MCA</td>
-				                    <td>Core</td>
-				                    <td>2</td>
-				                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-				                </tr>
+				                <tr th:each="subject:${subjects}">
+				                    <td th:text="${subject.subId}"></td>
+				                    <td th:text="${subject.name}"></td>
+				                    <td th:text="${subject.department.deptName}"></td>
+				                    <td th:text="${subject.type}"></td>
+				                    <td th:text="${subject.semester.semNo}"></td>
+				                    <td th:text="${#temporals.format(subject.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+				                    <td>
+									    <a href="javascript:void(0);" th:attr="onclick=|openEditForm('${subject.subId}', '${subject.name}', '${subject.department.deptName}', '${subject.type}', '${subject.semester.semNo}')|">
+									        <img src="/images/admin/editingcon.png" alt="Edit" width="20px">
+									    </a>
+									    <a th:href="@{/subjects/delete/{id}(id=${subject.subId})}" onclick="return confirm('Are you sure?')">
+									        <img src="/images/admin/deletingicon.png" alt="Delete" width="20px">
+									    </a>
+									</td>				                    
+				                </tr>				                
 				            </tbody>
 				        </table>
-    </div>
+    				</div>
+    				<!-- Sliding Edit Form -->
+					<div id="editFormContainer" class="edit-form">
+					    <button class="close-btn" onclick="closeEditForm()">					    	
+					    	<img src="/images/admin/closes.png" alt="close" width="20px">
+					    </button>
+					    <h2>Edit Subject</h2>
+					    <div class="form-scrollable"> <!-- Add this -->
+					        <form id="editSubjectForm">
+					            <label for="editSubId">Subject ID</label>
+					            <input type="text" id="editSubId" readonly>
+					
+					            <label for="editName">Name</label>
+					            <input type="text" id="editName">
+					
+					            <label for="editDepartment">Department</label>
+					            <input type="text" id="editDepartment" readonly>
+					
+					            <label for="editType">Type</label>
+					            <select id="editType">
+					                <option value="Core">Core</option>
+					                <option value="Elective">Elective</option>
+					            </select>
+					
+					            <label for="editSemester">Semester</label>
+					            <input type="text" id="editSemester" readonly>
+					
+					            <label>Assigned Professors (Double-click to remove)</label>
+					            <div id="assignedProfessors" class="professor-container"></div>
+					
+					            <button type="button" id="saveSubjectBtn" class="submit-btn">Save Changes</button>
+					        </form>
+					    </div>
+					</div>
+
 		       	 <!-- <h2>Main Content END</h2> -->
 		     </div>
         </div>

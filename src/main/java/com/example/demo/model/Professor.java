@@ -7,17 +7,23 @@ import java.util.List;
 
 import com.example.demo.enums.ApprovalStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "profId")
 @Entity
 public class Professor {
 	
@@ -30,13 +36,18 @@ public class Professor {
 	@Enumerated(EnumType.STRING)
 	private ApprovalStatus approvalStatus=ApprovalStatus.PENDING;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="dept_id",nullable=false)
-	@JsonBackReference
+	@JsonIgnore
 	private Department department;
 	
 	@OneToMany(mappedBy="mentor")
+	@JsonIgnore
 	private List<Student>students;
+	
+	@ManyToMany(mappedBy = "professors")
+	@JsonBackReference //one way sub->prof
+	private List<Subject>subjects;
 	
 	@Column(nullable=false)
 	private String name;
@@ -58,9 +69,9 @@ public class Professor {
 
 	@PrePersist
 	public void prePersist() {
-		this.createAt=LocalDateTime.now();
+		this.createdAt=LocalDateTime.now();
 	}
-	private LocalDateTime createAt;
+	private LocalDateTime createdAt;
 
 	public String getProfId() {
 		return profId;
@@ -135,12 +146,12 @@ public class Professor {
 	}
 	
 	
-	public LocalDateTime getCreateAt() {
-		return createAt;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreateAt(LocalDateTime createAt) {
-		this.createAt = createAt;
+	public void setCreateAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public Professor() {	    
@@ -162,5 +173,18 @@ public class Professor {
 	public void setStudents(List<Student> students) {
 		this.students = students;
 	}
+
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+	
 	
 }

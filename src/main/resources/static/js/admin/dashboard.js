@@ -61,6 +61,14 @@
 	});
 }*/
 $(document).ready(function(){
+	checkIfTableEmpty();
+	$.get("/csrf", function(data) {
+		// data might look like: { parameterName: "_csrf", token: "abc123", headerName: "X-CSRF-TOKEN" }
+		window.csrfToken = data.token;
+		window.csrfHeader = data.headerName;
+		console.log("CSRF Token retrieved:", window.csrfToken);
+	});
+	
 	/*$(".menu-item a").filter(function() {
 	       return $(this).text().trim() === "Add Professor";  // Matching exact text
 	   }).on("click", function() {
@@ -97,6 +105,92 @@ $(document).ready(function(){
 		window.location.hash=page;	
 		//loadContent();
 	});*/
+	$(document).on('click', '#prof', function() {
+			console.log($(this).data());
+	        const profId = $(this).data('profid');  // using the kebab-case attribute
+	        console.log('Reject button clicked, profId:', profId);
+
+	        if (!profId) {
+	            console.error('Error: Professor ID is undefined');
+	            toastr.error('Invalid Professor ID');
+	            return;
+	        }
+
+	        $.ajax({
+	            url: `/admin/rejectProfessor/${profId}`,
+	            type: 'DELETE', // Using DELETE for a deletion operation
+				xhrFields:{
+					withCredentials: true
+				},
+				headers: { [window.csrfHeader]: window.csrfToken },
+	            success: function(response) {
+					console.log("rejected",profId)
+	                console.log('Professor rejected:', response);
+	                toastr.success('Professor rejected successfully');       
+					$(`#professor-${profId}`).remove();
+					checkIfTableEmpty();
+					//$('.table-container').css('display', 'none').fadeIn(0);
+					/*setTimeout(function() {
+					    $('.table-container').css('opacity', '0.99'); // slight change
+					    setTimeout(function() {
+					        $('.table-container').css('opacity', '1');
+					    }, 10);
+					}, 10);*/
+					//void document.body.offsetHeight; 
+					//document.body.offsetHeight;
+					//const $table=$('table');
+					//$table.hide().show(0);
+					console.log("Row removed");
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('Error rejecting professor:', xhr.responseText || error);
+	                toastr.error(xhr.responseText || 'Error rejecting professor');
+	            }
+	        });
+	   });
+	   $(document).on('click','#stud', function() {
+	   		console.log($(this).data());
+	           const regNo = $(this).data('regno');  
+	           console.log('Reject button clicked, regNo:', regNo);
+
+	           if (!regNo) {
+	               console.error('Error: Student ID is undefined');
+	               toastr.error('Invalid Student ID');
+	               return;
+	           }
+
+	           $.ajax({
+	               url: `/admin/rejectStudent/${regNo}`,
+	               type: 'DELETE', // Using DELETE for a deletion operation
+	   			xhrFields:{
+	   				withCredentials: true
+	   			},
+	   			headers: { [window.csrfHeader]: window.csrfToken },
+	               success: function(response) {
+	   				console.log("rejected",regNo)
+	                   console.log('Student rejected:', response);
+	                   toastr.success('Student rejected successfully');       
+	   				$(`#student-${regNo}`).remove();
+	   				checkIfTableEmpty();
+	   				//$('.table-container').css('display', 'none').fadeIn(0);
+	   				/*setTimeout(function() {
+	   				    $('.table-container').css('opacity', '0.99'); // slight change
+	   				    setTimeout(function() {
+	   				        $('.table-container').css('opacity', '1');
+	   				    }, 10);
+	   				}, 10);*/
+	   				//void document.body.offsetHeight; 
+	   				//document.body.offsetHeight;
+	   				//const $table=$('table');
+	   				//$table.hide().show(0);
+	   				console.log("Row removed");
+	               },
+	               error: function(xhr, status, error) {
+	                   console.error('Error rejecting Student:', xhr.responseText || error);
+	                   toastr.error(xhr.responseText || 'Error rejecting Student');
+	               }
+	           });
+	});
 	$(".menu-item").click(function(){
 		var url=$(this).attr('data-href');
 		window.location.href=url;
@@ -118,6 +212,27 @@ $(document).ready(function(){
 	    $(".menu-item a:contains('Add Subject')").on("click", function() {
 	        toastr.info("Subject ID is created automatically. You can change it if you want.");
 	    });
+		function checkIfTableEmpty(){
+					const rowCount=$('#1 tbody tr').length;
+					const rowCount2=$('#2 tbody tr').length;
+					console.log(rowCount);
+					const data=$('#1 tbody tr').text();
+					console.log(data);
+					if(rowCount===0){
+						$("#noPorfessorMessage").show();
+						$("#1 thead").hide();
+					}else{
+						$("#noPorfessorMessage").hide();
+						$("#1 thead").show();
+					}
+					if(rowCount2===0){
+						$("#noStudentMessage").show();
+						$("#2 thead").hide();
+					}else{
+						$("#noStudentMessage").hide();
+						$("#2 thead").show();
+					}
+				}
 });
 
 

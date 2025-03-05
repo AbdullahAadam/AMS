@@ -88,6 +88,8 @@ $(document).ready(function(){
 					year:parseInt($("#departmentYear").val()),
 					period:$("#departmentPeriod").val(),
 					sem:parseInt($("#departmentYear").val())*2,
+					professors:[],
+					students:[],
 				};
 				console.log(departmentData);
 				//var csrfToken = $("meta[name='_csrf']").attr("content");

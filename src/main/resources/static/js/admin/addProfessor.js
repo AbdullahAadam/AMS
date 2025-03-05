@@ -149,15 +149,11 @@ $(document).ready(function(){
 				professorData={
 					name:$("#professorName").val(),
 					email:$("#email").val().trim(),
-					department:{deptId:$("#department").val()},
+					deptId:$("#department").val(),
 					role:$("#professorRole").val(),
-					profId:$("#professorId").val(),
-					approvalStatus:"PENDING",
-					pwd:"",
-					img:"",
-					phone:"",
-					age:"",
+					profId:$("#professorId").val(),										
 				};
+				console.log("data");
 				console.log(professorData);
 				$.ajax({
 					url:"/admin/addProfessor",
@@ -175,7 +171,7 @@ $(document).ready(function(){
 					},
 					error:function(xhr,status,error){
 						if(xhr.responseText.indexOf("already exists")!==-1){
-							//toastr.warning("Professor already exists");
+							toastr.warning("Professor already exists");
 							var errorMessage=xhr.responseText;
 							if(errorMessage.startsWith("Error:")){
 								errorMessage=errorMessage.substring("Error:".length).trim();

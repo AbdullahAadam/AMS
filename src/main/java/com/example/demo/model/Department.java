@@ -3,11 +3,10 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
@@ -17,12 +16,19 @@ public class Department {
 	@Id
 	private String deptId;
 	
-	@OneToMany(mappedBy="department",cascade=CascadeType.ALL,orphanRemoval=true)
-	@JsonManagedReference
+	@OneToMany(mappedBy="department",fetch=FetchType.EAGER)
+	//@JsonManagedReference
+	@JsonIgnore
 	private List<Professor>professors;
 	
 	@OneToMany(mappedBy="department")
+	//@JsonManagedReference
+	@JsonIgnore
 	private List<Student>students;
+	
+	@OneToMany(mappedBy="department")
+	@JsonIgnore
+	private List<Subject>subjects;
 	
 	@Column(nullable=false)
 	private String deptName;
@@ -98,6 +104,12 @@ public class Department {
 	}
 	public void setStudents(List<Student> students) {
 		this.students = students;
+	}
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
 	}
 	
 	

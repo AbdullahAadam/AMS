@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -105,22 +107,12 @@
 				                <div id="subjectNameError" class="error-message"></div>
 				                <label for="departmentName">Department Name</label>
 				                <select name="departmentName" id="departmentName">
-				                    <option value="01">MCA</option>
-				                    <option value="02">MBA</option>
-				                    <option value="03">Bsc.Tamil</option>
-				                    <option value="04">Bsc.English</option>
-				                    <option value="05">Bsc.Maths</option>
-				                    <option value="06">Bsc.Physics</option>
-				                    <option value="07">Bsc.Computer Science</option>
-				                    <option value="08">Bsc.Computer Application</option>
-				                    <option value="09">Bsc.Chemistry</option>
-				                    <option value="10">Bsc.Biotony</option>
-				                    <option value="11">Bsc.Zoology</option>
-				                    <option value="12">B.Com</option>
+				                    <option value="">Select Department</option>				                    
 				                </select>
 				                <div id="departmentNameError" class="error-message"></div>
 				                <label for="subjectType">Subject Type</label>
 				                <select name="subjectType" id="subjectType">
+									<option value="">Select Subject Type</option>
 				                    <option value="C-">Core</option>
 				                    <option value="E-">Elective</option>
 				                    <option value="EX-">Extra Paper</option>
@@ -128,14 +120,8 @@
 				                <div id="subjectTypeError" class="error-message"></div>
 				                <label for="semesterNumber">Semester Number</label>
 				                <select name="semesterNumber" id="semesterNumber">
-				                    <option value="01">1</option>
-				                    <option value="02">2</option>
-				                    <option value="03">3</option>
-				                    <option value="04">4</option>
-				                    <option value="05">5</option>
-				                    <option value="06">6</option>
-				                    <option value="07">7</option>
-				                    <option value="08">8</option>
+				                    <option value="">Select Semester</option>
+				                    <option th:each="sem:${semNumber}" th:value="${sem}" th:text="'Semester '+${sem}">2</option>				                    
 				                </select>
 				                <div id="semesterNumberError" class="error-message"></div>
 				                <label for="subjectId">Subject ID</label>

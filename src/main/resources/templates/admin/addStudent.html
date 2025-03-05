@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <link rel="stylesheet" href="/css/admin/addStudent.css">
@@ -102,7 +104,7 @@
             			<img src="/images/admin/stu.png" alt="student Icon" class="student-icon">
 			            <form id="addStudentForm">
 			                <label for="studentRegNo">Student RegNo</label>
-			                <input type="text" id="studentRegNo" name="studentRegNo" placeholder="Enter the Student RegNo (2020PHY001)" >
+			                <input type="text" id="studentRegNo" name="studentRegNo"  placeholder="Enter the Student RegNo (2020PHY001)" >
 			                <div id="studentRegNoError" class="error-message"></div>
 			                <label for="studentName">Student Name</label>
 			                <input type="text" id="studentName" name="studentName" placeholder="Enter the Student Name" >

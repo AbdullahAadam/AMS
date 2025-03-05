@@ -132,7 +132,7 @@
 					    <td th:text="${professor.email}"></td>
 					    <td th:text="${professor.department.deptName}"></td>
 					    <td th:text="${professor.role}"></td>
-					    <td th:text="${#temporals.format(professor.createAt, 'MMMM dd,yyyy,hh:mma')}"></td>
+					    <td th:text="${#temporals.format(professor.createdAt, 'MMMM dd,yyyy,hh:mma')}"></td>
 					    <td>
 					        <button class="view accept-btn" th:data-profId="${professor.profId}">Accept</button>
 					        <button class="delete reject-btn" th:data-profId="${professor.profId}">Reject</button>
@@ -153,7 +153,7 @@
         </div>
     </div>
     <script type="text/javascript" src="/js/admin/statusProfessor.js"></script>
-    <script type="text/javascript" src="/js/admin/dashboard.js"></script>
+    <!--<script type="text/javascript" src="/js/admin/dashboard.js"></script>-->
     
 </body>
 </html>

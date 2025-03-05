@@ -7,10 +7,8 @@
 	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/dashboardContent.css">
+    <link rel="stylesheet" href="/css/admin/assignProfessor.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	
@@ -80,10 +78,9 @@
                 </li>
                 <!-- <li onclick="loadContent('addDept')"><div class="sub-menu"><img src="./img/dept.png" alt="dashboard" width="20px"> Add Department</div></li>
                 <li onclick="loadContent('addCourse')"><div class="sub-menu"><img src="./img/course.png" alt="dashboard" width="20px"> Add Subject</div></li> -->
-                <li><a data-href="/admin/semester"  data-page="semester" class="menu-item"><span class="sub-menu"><img src="/images/admin/semester.png" alt="semester" width="20px" height="20px"> Semester</span></a></li>
+                 <li><a data-href="/admin/semester"  data-page="semester" class="menu-item"><span class="sub-menu"><img src="/images/admin/semester.png" alt="semester" width="20px" height="20px"> Semester</span></a></li>
                 <li><a data-href="/admin/holiday"  data-page="holiday" class="menu-item"><span class="sub-menu"><img  src="/images/admin/holiday.png" alt="holiday" width="20px" > Holiday</span></a></li>
-                <!--<li ><a data-href="/admin/dashboard" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
-                 <li data-page="semester" class="menu-item"><div class="sub-menu"><img src="/images/admin/semester.png" alt="dashboard" width="20px"> Semester</div></li>
+                <!--  <li data-page="semester" class="menu-item"><div class="sub-menu"><img src="/images/admin/semester.png" alt="dashboard" width="20px"> Semester</div></li>
                 <li data-page="holiday"  class="menu-item"><div class="sub-menu"><img src="/images/admin/holiday.png" alt="dashboard" width="20px"> Holiday</div></li>-->
             </ul>
         </div>
@@ -100,126 +97,38 @@
             </div>
             <div id="content" >
                  <!--  <h2>Main Content START</h2>--> 
-                <div class="cards">
-		        	<div class="card professor">
-		         		<img src="/images/admin/professor.png" alt="professor" >
-		         		<p th:text="${profCount}"></p>
-		         		<p>Professor</p>		       
-		        		</div>
-		        	<div class="card department">
-		         		<img src="/images/admin/dept.png" alt="department" >
-		        		<p th:text="${deptCount}"></p>
-		         		<p>Departments</p>
-		        	</div>
-		        	<div class="card course">		      
-		         		<img src="/images/admin/course.png" alt="course" >
-		         		<p>45</p>
-		         		<p>Subjects</p>
-		        	</div>
-		        	<div class="card student">		           
-		            	<img src="/images/admin/stu.png" alt="student" >
-		            	<p>115</p>
-		            	<p>Students Aive</p>
-		           </div>
-		        	<div class="card event">		         
-		         		<img src="/images/admin/event.png" alt="professor">
-		         		<p>Upcoming Event</p>
-		         		<p>1/1/25 - New Year</p>
-		        	</div>
-		       	</div>
-		       	<div class="table-container">
-					<table id="1" th:if="${ not #lists.isEmpty(pendingProfessors)}">
-						<thead>
-					       <tr>
-					          	<th>
-					           		ID
-					          	</th>
-							  	<th>
-									Name
-								</th>
-								<th>
-									Email
-								</th>
-								<th>
-									 Department
-								</th>
-								<th>
-									 Role
-								</th>
-								<th>
-									 Date and Time
-								</th>
-								<th style="margin-left: 34px;">
-									 Pending
-								</th>
-					        </tr>
-					    </thead>
-					    <tbody>
-					         <tr th:each="professor : ${pendingProfessors}" th:id="'professor-'+${professor.profId}">
-								<td th:text="${professor.profId}"></td>
-								<td th:text="${professor.name}"></td>
-								<td th:text="${professor.email}"></td>
-								<td th:text="${professor.department.deptName}"></td>
-								<td th:text="${professor.role}"></td>
-								<td th:text="${#temporals.format(professor.createdAt, 'MMMM dd,yyyy,hh:mma')}"></td>
-								<td>
-									<button class="view accept-btn" th:data-profId="${professor.profId}"><a href="/admin/statusProfessor">View</a></button>
-									<button id="prof" class="delete reject-btn" th:data-profId="${professor.profId}">Reject</button>
-								</td>
-								</tr>
-					         			
-					    </tbody>
-					</table>
-					<div id="noPorfessorMessage" style="text-align: center; display:none;">
-					    	No professors are currently pending approval.
-					</div>
-				</div>
-		        <div class="table-container">
-					<table id="2" th:if="${ not #lists.isEmpty(pendingStudents)}">
-						<thead>
-							<tr>
-								<th>
-									RegNo
-								</th>
-								<th>
-									Name
-								</th>
-								<th>
-									Email
-								</th>
-								<th>
-									Department
-								</th>									
-								<th>
-									Date and Time
-								</th>
-								<th style="margin-left: 34px;">
-									Pending
-								</th>
-							 </tr>
-						</thead>
-						<tbody>
-							<tr th:each="student : ${pendingStudents}" th:id="'student-'+${student.regNo}">
-								<td th:text="${student.regNo}"></td>
-								<td th:text="${student.name}"></td>
-								<td th:text="${student.email}"></td>
-								<td th:text="${student.department.deptName}"></td>
-								<td th:text="${#temporals.format(student.createdAt, 'MMMM dd,yyyy,hh:mma')}"></td>
-								<td>
-									<button class="view accept-btn" th:data-regNo="${student.regNo}"><a href="/admin/statusStudent">View</a></button>
-									<button id="stud" class="delete reject-btn" th:data-regNo="${student.regNo}">Reject</button>
-								</td>
-							</tr>				         			
-						</tbody>
-				</table>
-				<div id="noStudentMessage" style="text-align: center; display:none;">
-					No Student are currently pending approval.
-				</div>
-		        </div>
-		       	 <!-- <h2>Main Content END</h2> -->
+              		<div class="assignProfessor-form-container">
+        				<div class="form-card">
+            			<img src="/images/admin/books.png" alt="assign Icon" class="assign-icon">
+			            <form id="assignProfessorForm">               
+			                <label for="department">Department:</label>
+			                <select name="department" id="department">
+			                    <option value="">Select the Department for Professor</option>		                    
+			                </select>
+			                <div id="departmentError" class="error-message"></div>
+			                <label for="professor">Professor:</label>
+			                <select name="professor" id="professor">
+			                    <option value="">Select the Professor</option>			                  
+			                </select>
+			                <div id="professorError" class="error-message"></div>
+			                <label for="departmentSubject">Department:</label>
+			                <select name="departmentSubject" id="departmentSubject">
+			                    <option value="">Select the Department for Subject</option>		                    
+			                </select>
+			                <div id="departmentSubjectError" class="error-message"></div>
+			                 <label for="subject">Subject:</label>
+			                 <select name="subject" id="subject">
+			                    <option value="">Select the Subject</option>			                  
+			                </select>
+			                <div id="subjectError" class="error-message"></div>
+			                <button type="submit" class="submit-btn">ASSIGN</button>
+			            </form>
+        			</div>
+    			</div>
 		     </div>
         </div>
     </div>
+    <script type="text/javascript" src="/js/admin/assignProfessor.js"></script>
     <script type="text/javascript" src="/js/admin/dashboard.js"></script>
 </body>
 </html>

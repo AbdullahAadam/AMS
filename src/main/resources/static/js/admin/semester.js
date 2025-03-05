@@ -79,6 +79,10 @@ $(document).ready(function(){
                $(".error-message").hide();
                $("input").removeClass("error-border");
            });
+		   $("#startMonth,#endMonth").click(function(){
+			$(".error-message").hide();
+			$("select").removeClass("error-border");
+		   });
            $("#addSemesterForm").submit(function(event){
                event.preventDefault();
                if(!validateForm()){

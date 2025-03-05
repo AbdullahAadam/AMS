@@ -1,4 +1,5 @@
 package com.example.demo.model;
+import java.time.LocalDateTime;
 import java.util.Date;
 import com.example.demo.enums.LogStatus;
 import com.example.demo.enums.StudentStatus;
@@ -9,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
@@ -74,6 +76,13 @@ public class Student {
 	
 	@Column(nullable=true)
 	private String approvedBy;
+	
+	@PrePersist
+	public void prePersist() {
+		this.createdAt=LocalDateTime.now();
+	}
+	private LocalDateTime createdAt;
+
 	
 	public String getRegNo() {
 		return regNo;
@@ -184,5 +193,12 @@ public class Student {
 		this.img = img;
 	}
 	
-	
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreateAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
 }

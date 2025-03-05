@@ -2,6 +2,32 @@
  * 
  */
 $(document).ready(function(){
+	$.get("/csrf", function(data) {
+			// data might look like: { parameterName: "_csrf", token: "abc123", headerName: "X-CSRF-TOKEN" }
+			window.csrfToken = data.token;
+			window.csrfHeader = data.headerName;
+			console.log("CSRF Token retrieved:", window.csrfToken);
+		});
+		$.ajax({
+		    url:'/admin/listDepartments',
+		    type: 'GET',
+		    dataType: 'json',
+		    success: function(data) {
+				console.log(data);
+			    $.each(data, function(index, department) {
+			       $('#departmentName').append(
+			       	$('<option>', {
+						value: department.deptId,
+						text: department.deptName
+			         })
+					 
+			       );
+			    });
+		    },
+		    error: function(xhr, status, error) {
+		        console.log("Error fetching departments:", error);
+		    }
+		 });
             function validateForm(){
                 let isValid=true;
                 let InvalidField=null;
@@ -22,28 +48,28 @@ $(document).ready(function(){
                 const departmentName=$("#departmentName").val();
                 if(!departmentName){
                     $("#departmentNameError").text("Department must required").show();
-                    $("#departmentName").addClass(".error-border");
+                    $("#departmentName").addClass("error-border");
                     if(!InvalidField)InvalidField=$("#departmentName");
                     isValid=false;
                 }
                 const subjectType=$("#subjectType").val();
-                if(!departmentName){
+                if(!subjectType){
                     $("#subjectTypeError").text("Subject Type must required").show();
-                    $("#subjectType").addClass(".error-border");
+                    $("#subjectType").addClass("error-border");
                     if(!InvalidField)InvalidField=$("#subjectType");
                     isValid=false;
                 }
                 const semesterNumber=parseInt($("#semesterNumber").val());
                 if(!semesterNumber){
-                    $("#semesterNumberError").text("Semester number must required").show();
-                    $("#semesterNumber").addClass(".error-border");
+                    $("#semesterNumberError").text("Semester  must required").show();
+                    $("#semesterNumber").addClass("error-border");
                     if(!InvalidField)InvalidField=$("#semesterNumber");
                     isValid=false;
                 }
                 const subjectId=$("#subjectId").val();
                 if(!subjectId){
                     $("#subjectIdError").text("Subject ID must required").show();
-                    $("#subjectId").addClass(".error-border");
+                    $("#subjectId").addClass("error-border");
                     if(!InvalidField)InvalidField=$("#subjectId");
                     isValid=false;
                 }
@@ -52,15 +78,56 @@ $(document).ready(function(){
                 }
                 return isValid;
             }
-            $("#subjectName,#departmentName,#subjectType,#semesterNumber").keydown(function(){
+            $("#subjectName,#subjectId").keydown(function(){
                 $(".error-message").hide();
                 $("input,select").removeClass("error-border");
             });
+			$("#departmentName,#semesterNumber,#subjectType").click(function(){
+				$(".error-message").hide();
+				$("select").removeClass("error-border");
+			});
             $("#addsubjectForm").submit(function(event){
                 event.preventDefault();
                 if(!validateForm()){
                     return;
-                }
+                }				
+				subjectData={
+					subId:$("#subjectId").val(),
+					name:$("#subjectName").val().trim(),
+					type:$("#subjectType").val(),
+					deptId:$("#departmentName").val(),
+					semNo:parseInt($("#semesterNumber").val().trim()),					
+				};
+				console.log(subjectData);
+				$.ajax({
+					url:"/admin/addSubject",
+					method:"POST",
+					contentType:"application/json",
+					xhrFields:{
+						withCredentials: true
+					},
+					headers: { [window.csrfHeader]: window.csrfToken },
+					data:JSON.stringify(subjectData),
+					success:function(response){
+						console.log("Success: ",response);
+						toastr.success(response);
+						$("#addsubjectForm").trigger("reset");
+					},
+					error:function(xhr,status,error){
+						if(xhr.responseText.indexOf("already exists")!==-1){
+							//toastr.warning("Subject already exists");
+							var errorMessage=xhr.responseText;
+							if(errorMessage.startsWith("Error:")){
+									errorMessage=errorMessage.substring("Error:".length).trim();
+							}
+							toastr.warning(errorMessage);
+							}else{
+									toastr.error(xhr.responseText||"An unexpected error occur");
+									console.log('Error: ' + status + ' - ' + error);
+									console.log('Response: ' + xhr.responseText);
+							}
+						}
+					});		
             });
             function creatingId(){
                 var subjectName=$("#subjectName").val().trim();

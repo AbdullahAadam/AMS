@@ -96,7 +96,10 @@
     top:0;
     z-index: 1000;
 }
-
+button a{
+	text-decoration: none;
+	color:white;
+}
 .logout {
     background: none;
     color: white;
