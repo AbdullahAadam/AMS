@@ -1,0 +1,275 @@
+@charset "UTF-8";
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width:240px; 
+    height: auto;
+    background: #ffffff;
+    padding: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    overflow:hidden;
+}
+
+.profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.menu {
+    list-style: none;
+}
+
+.menu li {
+    padding: 10px;
+    background: #fff;
+    margin: 23px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
+}
+
+.menu li:hover {
+    background: #d1e7ff;
+}
+
+.submenu ul {
+    display: none;
+    list-style: none;
+    padding-left: 15px;
+}
+
+.submenu.active ul {
+    display: block;
+}
+
+/* Main Content */
+.main {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    -ms-overflow-style: none;/* Hide scrollbar for Internet Expoler */
+    scrollbar-width: none;/* Hide scrollbar for FireFox */
+}
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
+.main::-webkit-scrollbar{
+    display: none;
+}
+.menu-item {
+    cursor: pointer; 
+    display:block;
+    width:100%; 
+    height:100%;
+}
+
+.header {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top:0;
+    z-index: 1000;
+}
+button a{
+	text-decoration: none;
+	color:white;
+}
+.logout {
+    background: none;
+    color: white;
+    border: none;
+    padding: 10px;
+    /* border-radius: 5px; */
+    cursor: pointer;
+}
+
+.logout:hover {
+    color: #c0392b;
+}
+.sub-menu{
+    display: flex;
+    align-items: self-end;
+    white-space: break-spaces;
+}
+.images{
+    margin-left: auto;
+}
+ a.menu-item{
+	display:block;
+	width:100%;
+	height:100%;
+	
+	text-decoration:none;
+	color:black;
+	
+}
+.submenu .sub-menu{
+	cursor:pointer;
+}
+
+/* Event Card Specific Styles */
+.card.event {
+    background-color: #ff9999; /* Keep your existing background color */
+    width: 300px; /* Fixed width for consistency */
+    /*height: 160px;  Match the height of other cards */
+    /*padding: 20px;  Consistent padding with other cards */
+    border-radius: 10px; /* Rounded corners */
+    display: flex;
+    flex-direction: row; /* Align text and image horizontally */
+    align-items: center; /* Center content vertically */
+    justify-content: space-between; /* Space between text and image */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    margin: 0; /* Remove margin to avoid uneven spacing */
+    overflow: hidden; /* Hide overflow content */
+}
+
+/* Event Slide Container */
+.event-slide {
+    display: flex;
+    align-items: center; /* Center content vertically */
+    width: 100%; /* Full width of the card */
+    justify-content: space-between; /* Space between text and image */
+    position: relative; /* For positioning child elements */
+}
+
+/* Event Text Container */
+.event-text {
+    display: flex;
+    flex-direction: column; /* Stack text elements vertically */
+    align-items: flex-start; /* Align text to the left */
+    width: 70%; /* Text takes 70% of the card */
+}
+
+/* Event Text Paragraphs */
+.card.event note {
+    font-size: 18px; /* Larger font size for the note */
+    font-weight: bold; /* Bold text for emphasis */
+    color: #333; /* Dark text for readability */
+    margin-bottom: 10px; /* Spacing below the note */
+}
+
+.card.event p {
+    font-size: 16px; /* Consistent font size with other cards */
+    font-weight: bold; /* Bold text for emphasis */
+    margin: 5px 0; /* Spacing between paragraphs */
+    color: #333; /* Dark text for readability */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    max-width: 100%; /* Limit text width to prevent overflow */
+}
+
+/* Event Image */
+.card.event img {
+    width: 60px; /* Slightly larger image */
+    height: 60px; /* Slightly larger image */
+    margin-left: 15px; /* Spacing between text and image */
+}
+
+/* Animation for Event Slide */
+@keyframes slideInOut {
+    0% { transform: translateX(-100%); opacity: 0; } /* Start off-screen */
+    20% { transform: translateX(0); opacity: 1; } /* Slide into view */
+    80% { transform: translateX(0); opacity: 1; } /* Stay visible */
+    100% { transform: translateX(100%); opacity: 0; } /* Slide out of view */
+}
+
+/* Apply Animation to Event Slide */
+.slide-animate {
+    animation: slideInOut 5s ease-in-out; /* Smooth sliding animation */
+}
+
+/*.card.event {
+    background-color: #ff9999;
+    width: 300px; 
+    height: 120px;
+    padding: 15px; 
+    border-radius: 10px; 
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    position: relative; 
+    overflow: hidden; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.event-slide {
+    display: flex;
+    align-items: center; 
+    width: 100%; 
+    justify-content: space-between; 
+}
+
+
+.event-text {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    width: 70%; 
+}
+
+
+.card.event note {
+    font-size: 14px; 
+    font-weight: bold; 
+    color: #333;
+    margin-bottom: 5px; 
+}
+
+.card.event p {
+    font-size: 14px;
+    font-weight: bold; 
+    margin: 2px 0; 
+    color: #333; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    max-width: 100%; 
+}
+
+
+.card.event img {
+    width: 50px; 
+    height: 50px; 
+    margin-left: 10px; 
+}
+
+
+@keyframes slideInOut {
+    0% { transform: translateX(-100%); opacity: 0; } 
+    20% { transform: translateX(0); opacity: 1; } 
+    80% { transform: translateX(0); opacity: 1; } 
+    100% { transform: translateX(100%); opacity: 0; }
+}
+
+
+.slide-animate {
+    animation: slideInOut 5s ease-in-out; 
+}*/

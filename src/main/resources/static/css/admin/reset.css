@@ -1,0 +1,155 @@
+@charset "UTF-8";
+ /* body{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height: 100%;
+            margin: 0px;
+            
+        }
+        .container{
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            overflow:hidden;
+        }  */
+          body{
+            height: 100%;
+            background-color: transparent;
+            background:linear-gradient(to right,rgb(146, 19, 225,13%)50%,rgb(160,255,83,23%)50%); 
+         }
+         .main{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height: 100%;
+            margin: 0px;
+         }
+        .container{
+            display: flex;
+            margin-top: 10%;
+            width: 60%;
+            /* max-width: 1200px; */
+            height: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow:hiden;
+        }
+        .left{
+            background-color: transparent;
+            background-color: rgb(146, 19, 225,13%);
+            width: 100%;
+            border-top-left-radius:5px ;
+        }
+        .left h1{
+            margin: 0px;
+            font-weight: 1000;
+            font-family: sans-serif;
+            color:rgb(34, 30, 30,74%);
+        }
+        .left form{
+            margin:5px;
+        }
+        .left form input[type="password"]{
+            display: block;
+            margin-top: 40px;
+            padding: 5px;
+            width: 85%;
+            border:none;
+            border-bottom: 1px solid #403f3f;
+            font-size: medium;
+            font-weight: 900;
+            font-family: sans-serif;
+            color:rgb(34, 30, 30,74%);
+            background:none;
+            outline: none;
+        }
+        .left form input[type="submit"]{
+            margin-top: 30px;
+            padding: 15px;
+            width: 90%;
+           
+            background-color: rgb(115, 75, 225,50%);
+            border: none;
+            cursor:pointer;
+            color:#fff;
+            font-size: medium;
+            font-weight: 700;
+            font-family: sans-serif;
+            border-radius: 5px;
+        }
+        .right{
+             background-color: rgb(160,255,83,23%); 
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            border-top-right-radius: 5px;
+        }
+        .left,.right{
+            padding:10px;
+            flex: 1;
+        }
+        p{
+            text-align: center;
+            margin-right: 25px;
+            margin-top: 25px;
+        }
+        a{
+            color:#efa3ad;
+            font-weight: 700;
+        }
+        span{
+            color:red;
+            font-weight: lighter;
+             display: none; 
+            
+        }
+        #error{
+        	margin-top:15px;
+        	margin-bottom:10px;
+        	color:red;	
+        }
+
+        /* sfdfsfsd */
+        @media only screen and (max-width: 768px) {
+            .container {
+                flex-direction: column; /* Stack left and right sections vertically */
+                width: 90%; /* Reduce width for mobile view */
+            }
+
+            .left, .right {
+                width: 100%; /* Ensure both sections take full width */
+                border-radius: 0; /* Remove border radius for better alignment */
+            }
+
+            .left {
+                background-color: rgb(146, 19, 225, 13%);
+            }
+
+            .right {
+                background-color: rgb(160, 255, 83, 23%);
+            }
+
+            .right img {
+                width: 200px; /* Adjust image size for mobile */
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+
+    /* Further adjustments for smaller mobile screens */
+            .container {
+                width: 100%; /* Make the container width 100% */
+                margin-top: 5%; /* Add a little space from the top */
+            }
+
+            .left form input[type="password"],
+            .left form input[type="submit"] {
+                width: 100%; /* Make input fields take up full width on small screens */
+            }
+    
+            .left h1 {
+                font-size: 24px; /* Adjust heading font size for smaller screens */
+            }
+        }
+        

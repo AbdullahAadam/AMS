@@ -1,0 +1,187 @@
+@charset "UTF-8";
+
+/* 🖼 Table Action Icons */
+td img {
+    margin-right: 15px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+td img:hover {
+    opacity: 0.7;
+}
+a {
+    text-decoration: none;
+}
+
+/* 📌 Edit Form Container */
+#editFormContainer {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Initially hidden */
+    width: 350px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s ease-in-out;
+    padding: 25px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px 0 0 8px;
+    overflow-y: auto; /* Enables scrolling if content is too large */
+}
+
+#editFormContainer .close-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #ff4d4d;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: color 0.3s;
+}
+#editFormContainer .close-btn:hover {
+    color: #d9534f;
+}
+
+/* 🔤 Form Title */
+#editFormContainer h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 📌 Labels */
+#editFormContainer label {
+    font-weight: bold;
+    margin-top: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* 📝 Input & Select */
+#editFormContainer input,
+#editFormContainer select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Focus Effect */
+#editFormContainer input:focus,
+#editFormContainer select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    outline: none;
+}
+
+/* 📌 Professors Container */
+#assignedProfessors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between buttons */
+    max-height: 150px; /* Prevents overflowing */
+    overflow-y: auto; /* Adds scrollbar if too many professors */
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: white;
+}
+
+.professor-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    white-space: nowrap; /* Prevents wrapping */
+    max-width: 102px; /* Prevents oversized buttons */
+    text-overflow: ellipsis; /* Adds "..." if name is too long */
+    overflow: hidden;
+}
+.professor-button:hover {
+    background-color: #0056b3;
+}
+
+/* ✅ Save Button */
+#saveSubjectBtn {
+    background: #28a745;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: auto; /* Push button to the bottom */
+    /*position: sticky;*/
+    bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Hover Effect */
+#saveSubjectBtn:hover {
+    background: #218838;
+}
+
+/* 📌 Form Layout */
+#editFormContainer form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.professor-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 1000;
+    text-align: center;
+    display: none;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    transform: translateX(-50%);
+}
+.inactive-subject {
+    background-color: #f8d7da; /* Light red */
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
+
+
+/*.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 9999;
+    opacity: 0.9;
+}
+
+.notification.error {
+    background: #dc3545;
+}*/
+
+
+/* 📌 Responsive Design */
+@media (max-width: 400px) {
+    #editFormContainer {
+        width: 100%;
+    }
+}

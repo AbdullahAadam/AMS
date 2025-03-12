@@ -1,0 +1,117 @@
+@charset "UTF-8";
+td img{
+        margin-right: 15px;
+        cursor: pointer;
+        vertical-align: middle;
+        
+    }
+    td img:hover{
+        opacity: 0.7;
+    }
+ a {
+    text-decoration: none;
+}
+#editFormContainer {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Initially hidden */
+    width: 350px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s ease-in-out;
+    padding: 25px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px 0 0 8px;
+    overflow-y: auto; /* Enables scrolling if content is too large */
+}
+
+#editFormContainer .close-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #ff4d4d;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: color 0.3s;
+}
+#editFormContainer .close-btn:hover {
+    color: #d9534f;
+}
+
+/* 🔤 Form Title */
+#editFormContainer h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 📌 Labels */
+#editFormContainer label {
+    font-weight: bold;
+    margin-top: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* 📝 Input & Select */
+#editFormContainer input,
+#editFormContainer select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Focus Effect */
+#editFormContainer input:focus,
+#editFormContainer select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    outline: none;
+}
+#saveSubjectBtn {
+    background: #28a745;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: auto; /* Push button to the bottom */
+    /*position: sticky;*/
+    bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+#saveSubjectBtn:hover {
+    background: #218838;
+}
+
+#editFormContainer form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none; 
+}
+.error-border {
+     border: 1px solid red !important; 
+}
+.error-border:focus {
+     outline: none; 
+     box-shadow: 0 0 5px red; 
+}

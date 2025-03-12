@@ -1,0 +1,11 @@
+@charset "UTF-8";
+td img{
+        margin-right: 15px;
+        cursor: pointer;
+        vertical-align: middle;
+        
+    }
+    td img:hover{
+        opacity: 0.7;
+    }
+   
