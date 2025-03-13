@@ -113,19 +113,27 @@
 		        	</div>
 		        	<div class="card course">		      
 		         		<img src="/images/admin/course.png" alt="course" >
-		         		<p>45</p>
+		         		<p th:text=${subCount}></p>
 		         		<p>Subjects</p>
 		        	</div>
 		        	<div class="card student">		           
 		            	<img src="/images/admin/stu.png" alt="student" >
 		            	<p>115</p>
-		            	<p>Students Aive</p>
+		            	<p>Students Alive</p>
 		           </div>
-		        	<div class="card event">		         
-		         		<img src="/images/admin/event.png" alt="professor">
-		         		<p>Upcoming Event</p>
-		         		<p>1/1/25 - New Year</p>
-		        	</div>
+		        	<div class="card event">
+					    <div id="eventContainer" class="event-slide">
+					        <div class="event-text">
+					            <note>Upcoming Event</note>
+					            <p id="eventName">Loading...</p>
+					            <p id="eventDate">Loading...</p>
+					        </div>
+					        <img id="eventImage" src="/images/admin/event.png" alt="Event"> <!-- Image added here -->
+					    </div>
+					</div>
+
+		        	
+
 		       	</div>
 		       	<div class="table-container">
 					<table id="1" th:if="${ not #lists.isEmpty(pendingProfessors)}">
@@ -221,5 +229,56 @@
         </div>
     </div>
     <script type="text/javascript" src="/js/admin/dashboard.js"></script>
+    	<script>
+    	$(document).ready(function() {
+    	    let holidays = [];
+    	    let currentIndex = 0;
+
+    	    function fetchEvents() {
+    	        $.ajax({
+    	            url: "/admin/today-onward", // Your API endpoint
+    	            method: "GET",
+    	            success: function(response) {
+    	                if (response.length > 0) {
+    	                    holidays = response;
+    	                    currentIndex = 0;
+    	                    updateEvent();
+    	                } else {
+    	                    $("#eventName").text("No Upcoming Events");
+    	                    $("#eventDate").text("-");
+    	                }
+    	            },
+    	            error: function() {
+    	                console.error("Failed to fetch holidays.");
+    	            }
+    	        });
+    	    }
+
+    	    function updateEvent() {
+    	        if (holidays.length > 0) {
+    	            let event = holidays[currentIndex];
+    	            let eventDate = new Date(event.holidayDate).toLocaleDateString('en-US', { 
+    	                month: 'short', 
+    	                day: 'numeric', 
+    	                year: 'numeric' 
+    	            });
+
+    	            // Remove animation class, wait a bit, then apply it again
+    	            $("#eventContainer").removeClass("slide-animate");
+    	            setTimeout(() => {
+    	                $("#eventName").text(event.holidayName); // Update event name
+    	                $("#eventDate").text(eventDate); // Update event date
+    	                $("#eventContainer").addClass("slide-animate");
+    	            }, 100);
+
+    	            currentIndex = (currentIndex + 1) % holidays.length;
+    	        }
+    	    }
+
+    	    fetchEvents();
+    	    setInterval(updateEvent, 5000); // Update every 5 seconds
+    	});
+		</script>
+    	
 </body>
 </html>

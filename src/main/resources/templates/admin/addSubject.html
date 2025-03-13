@@ -120,9 +120,8 @@
 				                <div id="subjectTypeError" class="error-message"></div>
 				                <label for="semesterNumber">Semester Number</label>
 				                <select name="semesterNumber" id="semesterNumber">
-				                    <option value="">Select Semester</option>
-				                    <option th:each="sem:${semNumber}" th:value="${sem}" th:text="'Semester '+${sem}">2</option>				                    
-				                </select>
+    								<option value="">Select Semester</option>
+								</select>
 				                <div id="semesterNumberError" class="error-message"></div>
 				                <label for="subjectId">Subject ID</label>
 				                <input type="text" id="subjectId" name="subjectId" placeholder="Enter the Subject ID" >

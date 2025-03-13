@@ -1,6 +1,12 @@
 $(document).ready(function () {
     // Convert Student Registration Number to Uppercase
-    $("#studentRegNo").on("input", function () {
+	$.get("/csrf", function(data) {
+			// data might look like: { parameterName: "_csrf", token: "abc123", headerName: "X-CSRF-TOKEN" }
+			window.csrfToken = data.token;
+			window.csrfHeader = data.headerName;
+			console.log("CSRF Token retrieved:", window.csrfToken);
+		});
+	$("#studentRegNo").on("input", function () {
         this.value = this.value.toUpperCase();
     });
 
@@ -97,9 +103,10 @@ $(document).ready(function () {
 
 	    const extractedDept = studentRegNo.match(regNoPattern)?.[2]?.toUpperCase();
 	    let matchedDepartmentId = null;
-
+		console.log("Extracted Dept Code:", extractedDept);
 	    $("#department option").each(function () {
 	        const deptCode = $(this).attr('id');
+			console.log("Checking against Dept Code:", $(this).attr('id'));
 	        if (deptCode && deptCode.toUpperCase() === extractedDept) {
 	            matchedDepartmentId = $(this).val();
 	            return false;
@@ -184,11 +191,11 @@ $(document).ready(function () {
         let studentData = {
             regNo: $("#studentRegNo").val().trim(),
             name: $("#studentName").val(),
-            department: { deptId: $("#department").val() },
+            department: {deptId:$("#department").val()},
             mentor: {profId:$("#professor").val()},
             email: $("#email").val().trim(),
-            LogStatus: "PENDING",
-            StudentStatus: "ACTIVE",
+            logStatus: "PENDING",
+            studentStatus: "ACTIVE",
 			pwd:"",
 			img:"",
 			age:"",

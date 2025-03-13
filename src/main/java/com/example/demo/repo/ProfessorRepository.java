@@ -18,4 +18,5 @@ public interface ProfessorRepository extends JpaRepository<Professor,String>{
 	Optional<Professor>findByProfId(String profId);
 	List<Professor>findByApprovalStatus(ApprovalStatus stauts);
 	List<Professor>findByDepartment_DeptIdAndApprovalStatus(String deptId,ApprovalStatus approvalStatus);
+	List<Professor>findByRole(String role);
 }

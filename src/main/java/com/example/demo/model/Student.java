@@ -22,7 +22,7 @@ public class Student {
 	private String regNo;
 	
 	@ManyToOne
-	@JoinColumn(name="deptId",nullable=false)
+	@JoinColumn(name="deptId",referencedColumnName="deptId",nullable=false)
 	private Department department;
 	
 	@Column(nullable=false)
@@ -77,11 +77,14 @@ public class Student {
 	@Column(nullable=true)
 	private String approvedBy;
 	
+	@Column(updatable=false)
+	private LocalDateTime createdAt;
+	
 	@PrePersist
 	public void prePersist() {
 		this.createdAt=LocalDateTime.now();
 	}
-	private LocalDateTime createdAt;
+
 
 	
 	public String getRegNo() {
@@ -197,7 +200,7 @@ public class Student {
 		return createdAt;
 	}
 
-	public void setCreateAt(LocalDateTime createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 

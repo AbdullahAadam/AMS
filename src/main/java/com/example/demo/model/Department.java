@@ -45,6 +45,9 @@ public class Department {
 	@Column(nullable=false)
 	private Long sem;
 	
+	@Column(nullable = false)
+	private boolean isActive=true;
+	
 	private LocalDateTime createdAt;
 	
 	public String getDeptId() {
@@ -111,6 +114,24 @@ public class Department {
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+	
+	public Professor getHod() {
+	    if (professors != null) {
+	        for (Professor professor : professors) {
+	            if ("HOD".equalsIgnoreCase(professor.getRole())) {
+	                return professor;
+	            }
+	        }
+	    }
+	    return null;
+	}
+
 	
 	
 }

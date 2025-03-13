@@ -18,7 +18,9 @@ $(document).ready(function(){
 			       $('#departmentName').append(
 			       	$('<option>', {
 						value: department.deptId,
-						text: department.deptName
+						text: department.deptName,
+						"data-sem":department.sem
+						
 			         })
 					 
 			       );
@@ -27,6 +29,17 @@ $(document).ready(function(){
 		    error: function(xhr, status, error) {
 		        console.log("Error fetching departments:", error);
 		    }
+		 });
+		 $("#departmentName").change(function(){
+			let selectedDep=$(this).find(":selected");
+			let maxSem=selectedDep.data("sem");
+			let semDropDown=$("#semesterNumber");
+			semDropDown.empty().append('<option value="">Select Semester</option>');
+			if(maxSem){
+				for(let i=1;i<=maxSem;i++){
+					semDropDown.append(`<option value="${i}">Semester ${i}</option>`);
+				}
+			}
 		 });
             function validateForm(){
                 let isValid=true;

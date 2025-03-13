@@ -3,13 +3,7 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-//import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-//import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,8 +12,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
-
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "subId")
 @Entity
 public class Subject {
 	@Id
@@ -33,12 +25,11 @@ public class Subject {
 	
 	@ManyToOne
 	@JoinColumn(nullable=false)
-	@JsonIgnore
+	//@JsonIgnore
 	private Department department;
 	
 	@ManyToOne
 	@JoinColumn(nullable=false)
-	//@JsonIgnore
 	@JsonManagedReference
 	private Semester semester;
 	
@@ -51,14 +42,15 @@ public class Subject {
 	@JsonManagedReference //one way only sub->prof
 	private List<Professor> professors;
 	
+	private LocalDateTime createdAt;
+	
+	@Column(nullable = false)
+	private boolean isActive=true;
 	
 	@PrePersist
 	public void prePersist() {
 		this.createdAt=LocalDateTime.now();
 	}
-	private LocalDateTime createdAt;
-
-
 	public String getSubId() {
 		return subId;
 	}
@@ -101,6 +93,12 @@ public class Subject {
 	}
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 	

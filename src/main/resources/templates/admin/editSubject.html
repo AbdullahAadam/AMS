@@ -7,13 +7,14 @@
 	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/editDepartment.css">
+    <link rel="stylesheet" href="/css/admin/editSubject.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-	
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css">
 </head>
 <body>
 	<!-- <h1>Welcome  <span th:text="${username}"></span>Admin</h1>
@@ -113,20 +114,20 @@
 				                </tr>
 				            </thead>
 				            <tbody>
-				                <tr th:each="subject:${subjects}">
-				                    <td th:text="${subject.subId}"></td>
-				                    <td th:text="${subject.name}"></td>
-				                    <td th:text="${subject.department.deptName}"></td>
-				                    <td th:text="${subject.type}"></td>
-				                    <td th:text="${subject.semester.semNo}"></td>
-				                    <td th:text="${#temporals.format(subject.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+				                <tr th:each="subject:${subjects}" th:id="'row-'+${subject.subId}">
+				                    <td class="subject-subId" th:text="${subject.subId}"></td>
+				                    <td class="subject-name" th:text="${subject.name}"></td>
+				                    <td class="subject-deptName" th:text="${subject.department.deptName}"></td>
+				                    <td class="subject-type" th:text="${subject.type}"></td>
+				                    <td class="subject-semNo" th:text="${subject.semester.semNo}"></td>
+				                    <td class="subject-date" th:text="${#temporals.format(subject.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
 				                    <td>
-									    <a href="javascript:void(0);" th:attr="onclick=|openEditForm('${subject.subId}', '${subject.name}', '${subject.department.deptName}', '${subject.type}', '${subject.semester.semNo}')|">
+									    <a href="javascript:void(0);" th:attr="onclick=|openEditForm('${subject.subId}')|">
 									        <img src="/images/admin/editingcon.png" alt="Edit" width="20px">
 									    </a>
-									    <a th:href="@{/subjects/delete/{id}(id=${subject.subId})}" onclick="return confirm('Are you sure?')">
-									        <img src="/images/admin/deletingicon.png" alt="Delete" width="20px">
-									    </a>
+									     <a th:if="${subject.isActive}" href="javascript:void(0);" th:attr="onclick=|deleteSubject('${subject.subId}')|">
+							                <img src="/images/admin/deletingicon.png" alt="Delete" width="20px">
+							            </a>
 									</td>				                    
 				                </tr>				                
 				            </tbody>
@@ -153,6 +154,7 @@
 					            <select id="editType">
 					                <option value="Core">Core</option>
 					                <option value="Elective">Elective</option>
+					                <option value="Extra Paper">Extra Paper</option>
 					            </select>
 					
 					            <label for="editSemester">Semester</label>

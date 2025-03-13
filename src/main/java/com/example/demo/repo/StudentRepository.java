@@ -17,5 +17,5 @@ public interface StudentRepository extends JpaRepository<Student,String>{
 	
 	Optional<Student>findByRegNo(String regNo);
 	List<Student>findByLogStatus(LogStatus status);
-	
+	//List<Student>findByApprovalStatus()
 }

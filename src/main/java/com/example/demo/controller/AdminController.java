@@ -1,9 +1,18 @@
 package com.example.demo.controller;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 //import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+
 
 //import java.util.Optional;
 
@@ -31,10 +40,17 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dto.AssignProfessorDTO;
+import com.example.demo.dto.DepartmentResponseDTO;
+import com.example.demo.dto.DepartmentUpdateDTO;
 //import com.example.demo.dto.AssignProfessorDTO;
 import com.example.demo.dto.ProfessorAddDTO;
 import com.example.demo.dto.ProfessorDTO;
+import com.example.demo.dto.ProfessorResponseDTO;
+import com.example.demo.dto.ProfessorUpdateDTO;
+import com.example.demo.dto.StudentResponseDTO;
+import com.example.demo.dto.StudentUpdateDTO;
 import com.example.demo.dto.SubjectAddDTO;
+import com.example.demo.dto.SubjectUpdateDTO;
 import com.example.demo.enums.ApprovalStatus;
 import com.example.demo.enums.LogStatus;
 import com.example.demo.model.Admin;
@@ -46,6 +62,7 @@ import com.example.demo.model.Student;
 import com.example.demo.model.Subject;
 import com.example.demo.repo.AdminRepository;
 import com.example.demo.repo.DepartmentRepository;
+import com.example.demo.repo.HolidayRepository;
 import com.example.demo.repo.ProfessorRepository;
 import com.example.demo.repo.SemesterRepository;
 import com.example.demo.repo.StudentRepository;
@@ -79,6 +96,8 @@ public class AdminController {
 	private SubjectRepository subRepo;
 	@Autowired
 	private SemesterRepository semRepo;
+	@Autowired
+	private HolidayRepository holRepo;
 	@Autowired
 	private HolidayService holidayService;
 	@Autowired
@@ -116,14 +135,16 @@ public class AdminController {
 	    List<Professor>pendingProfessors=profService.getApprovalByProfessorStatus(ApprovalStatus.PENDING);
 	    List<Student>pendingStudents=studService.getStudentByLogStatus(LogStatus.PENDING);
 	    Admin admin=adminOpt.get();
-	    long deptCount=deptRepo.count();
+	    long deptCount=deptRepo.countByIsActiveTrue();
 	    long profCount=profRepo.count();
 	    long studCount=studRepo.count();
+	    long subCount=subRepo.countByIsActiveTrue();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
 	    model.addAttribute("deptCount",deptCount);
 	    model.addAttribute("profCount",profCount);
 	    model.addAttribute("studCount",studCount);
+	    model.addAttribute("subCount",subCount);
 	    model.addAttribute("pendingProfessors",pendingProfessors);
 	    model.addAttribute("pendingStudents",pendingStudents);
 	    return "admin/dashboard";
@@ -207,9 +228,11 @@ public class AdminController {
 	public String editProfessor(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		String email=userDetails.getUsername();
 	    Optional<Admin> adminOpt=adminRepo.findByEmail(email);
+	    List<Professor>professors=profRepo.findByApprovalStatus(ApprovalStatus.ACCEPTED);
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("professors",professors);
 		System.out.println(" Edit Professor is running");
 		return "admin/editProfessor";
 	}
@@ -240,8 +263,10 @@ public class AdminController {
 		String email=userDetails.getUsername();
 	    Optional<Admin> adminOpt=adminRepo.findByEmail(email);
 	    Admin admin=adminOpt.get();
+	    List<Student>students=studRepo.findByLogStatus(LogStatus.APPROVED);
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("students",students);
 		System.out.println(" Edit Student is running");
 		return "admin/editStudent";
 	}
@@ -274,8 +299,10 @@ public class AdminController {
 		String email=userDetails.getUsername();
 	    Optional<Admin> adminOpt=adminRepo.findByEmail(email);
 	    Admin admin=adminOpt.get();
+	    List<Department>departments=deptRepo.findActiveDepartments();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("departments",departments);
 		System.out.println(" Edit Department is running");
 		return "admin/editDepartment";
 	}
@@ -296,7 +323,8 @@ public class AdminController {
 	public String editSubject(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		String email=userDetails.getUsername();
 	    Optional<Admin> adminOpt=adminRepo.findByEmail(email);
-	    List<Subject> subjects=subRepo.findAll();
+	    //List<Subject> subjects=subRepo.findAll();
+	    List<Subject> subjects=subRepo.findActiveSubjects();
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
@@ -346,6 +374,31 @@ public class AdminController {
 			return ResponseEntity.status(201).body(result);
 		}
 	}
+	 @GetMapping("/today-onward")
+	    public ResponseEntity<List<Holiday>> getTodayOnwardHolidays() {
+	        LocalDate today = LocalDate.now();
+
+	        // Fetch upcoming holidays from the database
+	        List<Holiday> upcomingHolidays = holRepo.findUpcomingHolidays(today);
+
+	        // Add upcoming Sundays dynamically
+	        LocalDate nextSunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+	        for (int i = 0; i < 4; i++) {  // Fetch next 4 Sundays
+	            if (!nextSunday.isBefore(today)) {  // Only add if it's today or later
+	                Holiday sunday = new Holiday();
+	                sunday.setHolidayName("Sunday");
+	                sunday.setHolidayDate(nextSunday);
+	                sunday.setHolidayType("Weekly Off");
+	                upcomingHolidays.add(sunday);
+	            }
+	            nextSunday = nextSunday.plusWeeks(1); // Move to the next Sunday
+	        }
+
+	        // Sort holidays by date
+	        upcomingHolidays.sort(Comparator.comparing(Holiday::getHolidayDate));
+
+	        return ResponseEntity.ok(upcomingHolidays);
+	    }
 	@PostMapping("/addSemester")
 	public ResponseEntity<String>addSemester(@RequestBody Semester sem){
 		String result=semService.addSemester(sem);
@@ -366,9 +419,36 @@ public class AdminController {
 		}
 		
 	}
+	@GetMapping("/department/{deptId}")
+	public ResponseEntity<DepartmentResponseDTO> getDepartmentById(@PathVariable String deptId) {
+		DepartmentResponseDTO dept=deptService.getDepartmentById(deptId);
+		if(dept!=null) {
+			return ResponseEntity.ok(dept);
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+	}
 	@GetMapping("/listDepartments")
 	@ResponseBody
-    public List<Department> getDepartments() {
+	public ResponseEntity<List<Map<String, Object>>> getDepartments() {
+	    List<Department> departments = deptService.getAllDepartments();
+	    
+	    // Create a response with only required fields
+	    List<Map<String, Object>> response = new ArrayList<>();
+	    for (Department dept : departments) {
+	        Map<String, Object> deptData = new HashMap<>();
+	        deptData.put("deptId", dept.getDeptId());
+	        deptData.put("deptName", dept.getDeptName());
+	        deptData.put("sem", dept.getSem());
+	        deptData.put("code", dept.getCode());// Include only relevant semester info
+	        response.add(deptData);
+	    }
+	    
+	    return ResponseEntity.ok(response);
+	}
+	
+    /*public List<Department> getDepartments() {
 		List<Department>departments=deptService.getAllDepartments();
         System.out.println("Departments are: "+departments);
 		return  departments;
@@ -390,6 +470,36 @@ public class AdminController {
 		}
 		
 	}
+	@GetMapping("/professor/edit/{profId}")
+	public ResponseEntity<ProfessorResponseDTO>getProfessorById(@PathVariable String profId){
+		ProfessorResponseDTO prof=profService.getProfessorById(profId);
+		if(prof!=null) {
+			return ResponseEntity.ok(prof);
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+	}
+	@PutMapping("/professor/update/{profId}")
+	public ResponseEntity<String> updateProfessor(@PathVariable String profId, @RequestBody ProfessorUpdateDTO updateProfessor) {
+	    String responseMessage = profService.updateProfessor(profId, updateProfessor);
+	    
+	    if (responseMessage.startsWith("Error:")) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMessage);
+	    } else {
+	        return ResponseEntity.ok(responseMessage);
+	    }
+	}
+
+	@DeleteMapping("/professor/delete/{profId}")
+	public ResponseEntity<String>deleteProfessor(@PathVariable String profId){
+		try {
+			profService.deleteProfessor(profId);
+			return ResponseEntity.ok("Professor Deleted successfully");
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error Deleting in professor"+e.getMessage());
+			
+		}
+	}
 	@PostMapping("/addStudent")
 	public ResponseEntity<String>addStudent(@RequestBody Student stud){
 		String result=studService.addStudent(stud);
@@ -397,6 +507,43 @@ public class AdminController {
 			return ResponseEntity.status(409).body(result);
 		}else {
 			return ResponseEntity.status(201).body(result);
+		}
+	}
+	/*@PutMapping("/student/edit/{regNo}")
+	public ResponseEntity<String>getStudentByReNo(@PathVariable String regNo,@RequestBody StudentUpdateDTO updateStudent){
+		boolean result =studService.updateStudent(regNo, updateStudent);
+		if(result) {
+			return ResponseEntity.ok("Student updated successfully");
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update Student.");
+		}
+	}*/
+	@GetMapping("/student/edit/{regNo}")
+	public ResponseEntity<StudentResponseDTO>getStudentByRegNo(@PathVariable String regNo){
+		StudentResponseDTO stud=studService.getStudentById(regNo);
+		if(stud!=null) {
+			return ResponseEntity.ok(stud);
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+	}
+	@PutMapping("/student/update/{regNo}")
+	public ResponseEntity<String>updateStudent(@PathVariable String regNo,@RequestBody StudentUpdateDTO updateStudent){
+		boolean success=studService.updateStudent(regNo, updateStudent);
+		if(success) {
+			return ResponseEntity.ok("Student updated Successfully");
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update Student.");
+		}
+	}
+	@DeleteMapping("/student/delete/{regNo}")
+	public ResponseEntity<String>deleteStudent(@PathVariable String regNo){
+		try {
+			studService.deleteStudent(regNo);
+			return ResponseEntity.ok("Student Deleted successfully");
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error Deleting in student"+e.getMessage());
+			
 		}
 	}
 	@PostMapping("/addSubject")
@@ -408,6 +555,27 @@ public class AdminController {
 			return ResponseEntity.status(201).body(result);
 		}
 		
+	}
+	@DeleteMapping("/department/delete/{deptId}")
+	public ResponseEntity<String>softDeleteDepartment(@PathVariable String deptId){
+		Optional<Department>deptOptional=deptRepo.findById(deptId);
+		if(deptOptional.isPresent()) {
+			Department dept=deptOptional.get();
+			dept.setActive(false);
+			deptRepo.save(dept);
+			return ResponseEntity.ok("Department Deleted Successfully.");
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Department not found");
+		}
+	}
+	@PutMapping("/department/update/{deptId}")
+	public ResponseEntity<String>updateDepartment(@PathVariable String deptId, @RequestBody DepartmentUpdateDTO dto){
+		try {
+			String response=deptService.updateDepartment(deptId, dto);
+			return ResponseEntity.ok(response);
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 	@PostMapping("/assignProfessor")
 	public ResponseEntity<String>assignProfessor(@RequestBody AssignProfessorDTO profDTO){
@@ -430,8 +598,9 @@ public class AdminController {
 	public List<Professor>getProfessorsByDepartmentId(@PathVariable String deptId){
 		//List<Professor>getProfessorsByDepartmentId
 		List<Professor> allProfessors= profService.getProfessorsByDepartmentId(deptId,ApprovalStatus.ACCEPTED);
-		return allProfessors.stream().filter(prof->prof.getProfId().startsWith("PROF-")).collect(Collectors.toList());
-	}
+		//return allProfessors.stream().filter(prof->prof.getProfId().startsWith("PROF-")).collect(Collectors.toList());
+		return allProfessors.stream().filter(prof->"prof".equalsIgnoreCase(prof.getRole())).collect(Collectors.toList());
+	}	
 	@GetMapping("/subjects/{deptId}")
 	@ResponseBody
 	public List<Subject>getSubjectByDepartmentId(@PathVariable String deptId){
@@ -534,6 +703,61 @@ public class AdminController {
 			return ResponseEntity.ok("Professor removed successfully");
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Professor not assigned this to subjects");
+	}
+	@GetMapping("/{subId}")
+	public ResponseEntity<?> getSubjectById(@PathVariable String subId) {
+		 Subject subject = subService.getSubject(subId);
+		    if (subject == null) {
+		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Subject not found");
+		    }
+		    return ResponseEntity.ok(subject);
+    }
+	/*@GetMapping("/admin/subjects/{id}")
+	public ResponseEntity<?> getSubject(@PathVariable String id) {
+	    return subRepo.findById(id)
+	        .map(subject -> ResponseEntity.ok(subject))  
+	        .orElseThrow(); 
+	}*/
+
+
+	@PutMapping("/update/subjects/{subId}")
+	public ResponseEntity<String>updateSubject(@PathVariable String subId,@RequestBody SubjectUpdateDTO request){
+		Subject sub=subRepo.findById(subId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found"));
+		sub.setName(request.getName());
+		sub.setType(request.getType());
+		//sub.setSemester(request.getSemester());
+		//sub.setSemester().get
+		//Department dept=deptRepo
+		Semester sem=semRepo.findById(request.getSemNo()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester not found"));
+		sub.setSemester(sem);
+		List<String>professorIds=request.getProfessorIds();
+		if(professorIds ==null) {
+			professorIds=new ArrayList<>();
+		}
+		if(!professorIds.isEmpty()) {
+			List<Professor>newProfessors=profRepo.findAllById(professorIds);
+			if(newProfessors.size()!=professorIds.size()) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Some professors were not found");
+			}
+			sub.setProfessors(new ArrayList<>(newProfessors));
+		}else {
+			sub.getProfessors().clear();
+		}
+		subRepo.save(sub);
+		return ResponseEntity.ok("Subject updated successfully");
+		
+	}
+	@PostMapping("/subjects/delete/{subId}")
+	public ResponseEntity<String>softDeleteSubject(@PathVariable String subId){
+		Optional<Subject>subOptional=subRepo.findById(subId);
+		if(subOptional.isPresent()) {
+			Subject sub=subOptional.get();
+			sub.setActive(false);
+			subRepo.save(sub);
+			return ResponseEntity.ok("Subject Deleted Successfully.");
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Subject not found");
+		}
 	}
 	
 

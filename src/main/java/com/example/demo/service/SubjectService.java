@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.dto.AssignProfessorDTO;
 import com.example.demo.dto.SubjectAddDTO;
@@ -30,7 +31,9 @@ public class SubjectService {
 	@Autowired
 	private ProfessorRepository profRepo;
 	
-	
+	public Subject getSubject(@PathVariable String subId) {
+		return subRepo.findById(subId).orElse(null);
+	}
 	public String addSubject(SubjectAddDTO subDTO) {
 		if(subDTO.getSubId()==null) {
 			return "Error: Subject Id must required";

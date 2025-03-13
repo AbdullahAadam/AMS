@@ -9,19 +9,66 @@ $(document).ready(function(){
 		console.log("CSRF Token retrieved:", window.csrfToken);
 	});
 	$("#myTable").DataTable();
-	window.openEditForm=function(subId, name, department, type, semester) {
-		$("#editSubId").val(subId);
-		$("#editName").val(name);
-		$("#editDepartment").val(department);
-		$("#editType").val(type);
-		$("#editSemester").val(semester);
-		$("#editFormContainer").css("right","0");
-		//let professorContainer=$("#assignedProfessors");
-		//professorContainer.empty();
-		loadAssignedProfessors(subId)
+	window.openEditForm=function(subId) {
+		$.ajax({
+			url:"/admin/"+subId,
+			method:"GET",
+			success:function(response){
+				console.log("Full API Response:", response);
+				console.log("JSON Stringified Response:", JSON.stringify(response, null, 2));
+				if (!response) {
+				   console.error("No data received!");
+				   return;
+				}
+				if (response.subId) {
+					$("#editName").val(response.name);
+					$("#editType").val(response.type);
+					$("#editSemester").val(response.semester.semNo);
+					$("#editSubId").val(response.subId);
+					$("#editDepartment").val(response.department.deptName);
+				}else{
+					console.error("Invalid subject data structure:", response);
+				}
+				loadAssignedProfessors(subId);
+				$("#editFormContainer").css("right", "0");
+			},
+			error:function(){
+				toastr.error("Failed to feach updated subject details");
+			}
+		});		
 	};
 	window.closeEditForm = function () {
 	   $("#editFormContainer").css("right", "-100%"); // Slide out
+	};
+	window.deleteSubject=function(subId){
+		Swal.fire({
+		            title: "Are you sure?",
+		            text: "Deleting this subject will also remove related data. This action cannot be undone.",
+		            icon: "warning",
+		            showCancelButton: true,
+		            confirmButtonColor: "#d33",
+		            cancelButtonColor: "#3085d6",
+		            confirmButtonText: "Yes, delete it!"
+		 }).then((result) => {
+		            if (result.isConfirmed) {
+						$.ajax({
+							url:"/admin/subjects/delete/"+subId,
+							xhrFields:{
+								withCredentials: true
+							},
+							headers: { [window.csrfHeader]: window.csrfToken },
+							method:"POST",
+							success:function(response){
+								$("#row-" + subId).remove();
+								Swal.fire("Deleted!", "The subject has been deleted.", "success");
+							
+							},
+							error:function(xhr){
+								 Swal.fire("Failed to remove Subject");
+							}
+						});
+					}
+		});
 	};
 	function loadAssignedProfessors(subId){
 		$.ajax({
@@ -69,6 +116,7 @@ $(document).ready(function(){
 					     .dblclick(function() {
 							let profId=$(this).attr("data-prof-id");
 					         removeProfessor(subId, professor.profId, $(this));
+							 tooltip.remove();
 					     });
 					container.append(button);
 				});
@@ -89,6 +137,10 @@ $(document).ready(function(){
 			success:function(response){
 				toastr.success("Professor removed successfully")
 				buttonElement.remove();
+				let container=$("#assignedProfessors");
+				if(container.children().length==0){
+					container.append("<p>No professor assigned</p>");
+				}
 			},
 			error:function(){
 				
@@ -97,22 +149,50 @@ $(document).ready(function(){
 		});
 	}
 	$("#saveSubjectBtn").click(function(){
-		
-	});
-	/*function showNotification(message, type) {
-	       let notification = $("<div>")
-	           .addClass("notification " + type)
-	           .text(message);
-	       $("body").append(notification);
-	       setTimeout(function() {
-	           notification.fadeOut(500, function() { $(this).remove(); });
-	       }, 3000); // Auto-hide after 3 seconds
-	   }*/		        
-	
+		let updatedSubject={
+			subId:$("#editSubId").val(),
+			name:$("#editName").val(),
+			department:$("#editDepartment").val(),
+			type:$("#editType").val(),
+			semNo:parseInt($("#editSemester").val().trim()),
+			professorIds:[],
+		};
+		$(".professor-button").each(function(){
+			updatedSubject.professorIds.push($(this).attr("data-prof-id"));
+		});
+		console.log("Saving subjects: "+updatedSubject);
+		$.ajax({
+			url:"/admin/update/subjects/"+updatedSubject.subId,
+			method:"PUT",
+			contentType:"application/json",
+			data:JSON.stringify(updatedSubject),
+			xhrFields:{
+				withCredentials: true
+			},
+			headers: { [window.csrfHeader]: window.csrfToken },
+			success:function(response){
+				console.log("✅ Updated Subject:", updatedSubject);
+				toastr.success("Subject updated successfully");
+				let subjectRow = $("#row-" + updatedSubject.subId);
+				if (subjectRow.length) {
+				      subjectRow.find(".subject-name").text(updatedSubject.name);
+				      subjectRow.find(".subject-type").text(updatedSubject.type);
+				}
+				//let subjectRow=$("#"+updatedSubject.subId);
+				//subjectRow.find(".subject-name").text(updatedSubject.name);
+				//subjectRow.find(".subject-type").text(updatedSubject.type);
+				loadAssignedProfessors(updatedSubject.subId);
+				$("#editFormContainer").css("right", "0");  // Ensure it stays open
 
-	
-	
-	
+				   console.log("Edit form updated successfully!");
+			},
+			error:function(xhr){
+				toastr.error("Failed to updated subjects");
+				console.log("Error:",xhr.responseText);
+				
+			}
+		});
+	});
 		
 });
 

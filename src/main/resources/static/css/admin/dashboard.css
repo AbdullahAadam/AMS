@@ -133,132 +133,143 @@ button a{
 	cursor:pointer;
 }
 
-/*  DASHBOARDS  
+/* Event Card Specific Styles */
+.card.event {
+    background-color: #ff9999; /* Keep your existing background color */
+    width: 300px; /* Fixed width for consistency */
+    /*height: 160px;  Match the height of other cards */
+    /*padding: 20px;  Consistent padding with other cards */
+    border-radius: 10px; /* Rounded corners */
+    display: flex;
+    flex-direction: row; /* Align text and image horizontally */
+    align-items: center; /* Center content vertically */
+    justify-content: space-between; /* Space between text and image */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    margin: 0; /* Remove margin to avoid uneven spacing */
+    overflow: hidden; /* Hide overflow content */
+}
 
-p{
-        font-weight: normal;
-     }
- 
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 15px; 
-            margin: 2%;
-        }
-       
-        .card {
-            flex: 1;
-           
-            padding: 15px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column; 
-            align-items: center;
-            justify-content: center;
-            text-align: center; 
-        }
-        .card img {
-            width: 50px;
-            margin-bottom: 10px; 
-        }
-        .card p {
-            margin: 5px 0 0;
-            text-align: center; 
-        }
-        .card:last-child {
-            margin-right: 0;
-        }
-        .card i {
-            font-size: 36px;
-        }
-        .card p {
-           
-            margin: 0;
-            text-align: right;
-        }
-        .card p:first-child {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .card p:last-child {
-            font-size: 14px;
-        }
-        .card.professor {
-            background-color: #ffcccc;
-        }
-        .card.department {
-            background-color: #e6ccff;
-        }
-        .card.course {
-            background-color: #cce6ff;
-        }
-        .card.student{
-            background-color: rgb(99, 249, 199);
-        }
-        .card.event {
-            background-color: #ff9999;
-        }
-        span{
-            text-align: center;
-        }
-        button img{
-            width: 30px;
-        }
-        .table-container {
-            margin:2%;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table th, table td {
-            padding: 10px;
-            text-align: left;
-        }
-        table th {
-            background-color: #f0f0f0;
-        }
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        table tr:nth-child(odd) {
-            background-color: #e6f7ff;
-        }
-        table tr td:last-child {
-            display: flex;
-            align-items: center;
-        }
-        table tr td:last-child button {
-            margin-right: 10px;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        table tr td:last-child button.view {
-            background-color: #007bff;
-            color: white;
-        }
-        table tr td:last-child button.delete {
-            background-color:#ff0000 ;
-            color:  white;
-             font-size: 18px; 
-        }
-        @media (max-width: 640px) {
-            .cards {
-                flex-direction: column;
-            }
-            .card {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            .card:last-child {
-                margin-bottom: 0;
-            }
-        }*/
+/* Event Slide Container */
+.event-slide {
+    display: flex;
+    align-items: center; /* Center content vertically */
+    width: 100%; /* Full width of the card */
+    justify-content: space-between; /* Space between text and image */
+    position: relative; /* For positioning child elements */
+}
+
+/* Event Text Container */
+.event-text {
+    display: flex;
+    flex-direction: column; /* Stack text elements vertically */
+    align-items: flex-start; /* Align text to the left */
+    width: 70%; /* Text takes 70% of the card */
+}
+
+/* Event Text Paragraphs */
+.card.event note {
+    font-size: 18px; /* Larger font size for the note */
+    font-weight: bold; /* Bold text for emphasis */
+    color: #333; /* Dark text for readability */
+    margin-bottom: 10px; /* Spacing below the note */
+}
+
+.card.event p {
+    font-size: 16px; /* Consistent font size with other cards */
+    font-weight: bold; /* Bold text for emphasis */
+    margin: 5px 0; /* Spacing between paragraphs */
+    color: #333; /* Dark text for readability */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    max-width: 100%; /* Limit text width to prevent overflow */
+}
+
+/* Event Image */
+.card.event img {
+    width: 60px; /* Slightly larger image */
+    height: 60px; /* Slightly larger image */
+    margin-left: 15px; /* Spacing between text and image */
+}
+
+/* Animation for Event Slide */
+@keyframes slideInOut {
+    0% { transform: translateX(-100%); opacity: 0; } /* Start off-screen */
+    20% { transform: translateX(0); opacity: 1; } /* Slide into view */
+    80% { transform: translateX(0); opacity: 1; } /* Stay visible */
+    100% { transform: translateX(100%); opacity: 0; } /* Slide out of view */
+}
+
+/* Apply Animation to Event Slide */
+.slide-animate {
+    animation: slideInOut 5s ease-in-out; /* Smooth sliding animation */
+}
+
+/*.card.event {
+    background-color: #ff9999;
+    width: 300px; 
+    height: 120px;
+    padding: 15px; 
+    border-radius: 10px; 
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    position: relative; 
+    overflow: hidden; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.event-slide {
+    display: flex;
+    align-items: center; 
+    width: 100%; 
+    justify-content: space-between; 
+}
+
+
+.event-text {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    width: 70%; 
+}
+
+
+.card.event note {
+    font-size: 14px; 
+    font-weight: bold; 
+    color: #333;
+    margin-bottom: 5px; 
+}
+
+.card.event p {
+    font-size: 14px;
+    font-weight: bold; 
+    margin: 2px 0; 
+    color: #333; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    max-width: 100%; 
+}
+
+
+.card.event img {
+    width: 50px; 
+    height: 50px; 
+    margin-left: 10px; 
+}
+
+
+@keyframes slideInOut {
+    0% { transform: translateX(-100%); opacity: 0; } 
+    20% { transform: translateX(0); opacity: 1; } 
+    80% { transform: translateX(0); opacity: 1; } 
+    100% { transform: translateX(100%); opacity: 0; }
+}
+
+
+.slide-animate {
+    animation: slideInOut 5s ease-in-out; 
+}*/

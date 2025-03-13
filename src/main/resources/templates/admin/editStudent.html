@@ -11,7 +11,8 @@
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-	
+	 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css">
 </head>
 <body>
 	<!-- <h1>Welcome  <span th:text="${username}"></span>Admin</h1>
@@ -105,110 +106,57 @@
 	                    		<th>Name</th>
 			                    <th>Email</th>
 			                    <th>Dept</th>
+			                    <th>Mentor</th>
 			                    <th>Date</th>
 			                    <th>Action</th>
                 			</tr>
             			</thead>
 			            <tbody>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO8</td>
-			                    <td>Abdullah</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
-			                <tr>
-			                    <td>23ITOO0</td>
-			                    <td>tester</td>
-			                    <td>abdullah@gmail.com</td>
-			                    <td>MCA</td>
-			                    <td>12-12-1212</td>
-			                    <td><img src="/images/admin/editingcon.png" alt="Editing Icon" width="20px">   <img src="/images/admin/deletingicon.png" alt="Delete Icon" width="20px"></td>
-			                </tr>
+			                <tr th:each="student:${students}" th:id="'row-'+${student.regNo}">
+			                    <td class="student-regNo" th:text="${student.regNo}"></td>
+			                    <td class="student-name" th:text="${student.name}"></td>
+			                    <td class="student-email" th:text="${student.email}"></td>
+			                    <td class="student-department" th:text="${student.department.deptName}"></td>
+			                    <td class="student-mentor" th:text="${student.mentor.name}"></td>
+			                    <td class="student-date" th:text="${#temporals.format(student.createdAt, 'yyyy-MM-dd HH:mm')}"></td>			           
+			                    <td>
+									<a href="javascript:void(0);" th:attr="onclick=|openEditForm('${student.regNo}')|">
+									     <img src="/images/admin/editingcon.png" alt="Edit" width="20px">
+									</a>
+									<a  href="javascript:void(0);" th:attr="onclick=|deleteStudent('${student.regNo}')|">
+							             <img src="/images/admin/deletingicon.png" alt="Delete" width="20px">
+							        </a>
+								</td>
+			                </tr>			                
 			            </tbody>
         			</table>
     			</div>	
+    			<div id="editFormContainer" class="edit-form">
+					    <button class="close-btn" onclick="closeEditForm()">					    	
+					    	<img src="/images/admin/closes.png" alt="close" width="20px">
+					    </button>
+					    <h2>Edit Student</h2>
+					    <div class="form-scrollable"> <!-- Add this -->
+					        <form id="editSubjectForm">
+					            <label for="editRegNo">Stud RegNo</label>
+					            <input type="text" id="editRegNo" readonly>
+					
+					            <label for="editName">Name</label>
+					            <input type="text" id="editName">
+								
+								<label for="editEmail">Email</label>
+					            <input type="text" id="editEmail" >
+								
+					           <label for="editDepartment">Department</label>
+					            <input type="text" id="editDepartment" readonly>
+								
+					           <label for="editProfessor">Mentor</label>
+					            <select id="editProfessor"></select>
+					            <div id="professorError" class="error-message"></div>
+					            <button type="button" id="saveSubjectBtn" class="submit-btn">Save Changes</button>
+					        </form>
+					    </div>
+					</div> 
 		    </div>
         </div>
     </div>

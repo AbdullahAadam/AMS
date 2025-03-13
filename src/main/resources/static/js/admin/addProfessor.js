@@ -123,7 +123,7 @@ $(document).ready(function(){
             }
             function creatingId(){
                 var name=$("#professorName").val().trim();
-                var role=$("#professorRole").val();
+                //var role=$("#professorRole").val();
                 var totalLetters=name.replace(/\s+/g,'').length;
                 const num=Math.floor(Math.random()*100);
                 var nameParts=name.split(" ");
@@ -135,10 +135,10 @@ $(document).ready(function(){
                 for(var i=0;i<nameParts.length;i++){
                     initial=initial+nameParts[i].charAt(0).toUpperCase();
                 }
-                var professorId=role+"-"+initial+totalLetters+"-"+num;
+                var professorId="P-"+initial+totalLetters+"-"+num;
                 $("#professorId").val(professorId);
             }
-            $("#professorName,#professorRole").on('input change',function(){
+            $("#professorName	").on('input change',function(){
                 creatingId();
             });
             $("#addProfessorForm").submit(function(event){
@@ -146,9 +146,11 @@ $(document).ready(function(){
                 if(!validateForm()){
                     return;
                 }
+				
 				professorData={
 					name:$("#professorName").val(),
 					email:$("#email").val().trim(),
+					password:$("#email").val().trim().split("@")[0],
 					deptId:$("#department").val(),
 					role:$("#professorRole").val(),
 					profId:$("#professorId").val(),										
@@ -170,18 +172,35 @@ $(document).ready(function(){
 						$("#addProfessorForm").trigger("reset");
 					},
 					error:function(xhr,status,error){
-						if(xhr.responseText.indexOf("already exists")!==-1){
-							toastr.warning("Professor already exists");
-							var errorMessage=xhr.responseText;
-							if(errorMessage.startsWith("Error:")){
-								errorMessage=errorMessage.substring("Error:".length).trim();
-							}
-							toastr.warning(errorMessage);
-						}else{
-							toastr.error(xhr.responseText||"An unexpected error occur");
-							console.log('Error: ' + status + ' - ' + error);
-							console.log('Response: ' + xhr.responseText);
-						}
+						var errorMessage = xhr.responseText;
+
+						        // Check for specific error messages and handle them
+						        if (errorMessage.startsWith("Error:")) {
+						            errorMessage = errorMessage.substring("Error:".length).trim(); // Remove "Error:" prefix
+
+						            // Handle specific error cases
+						            if (errorMessage.includes("Department ID must required")) {
+						                toastr.warning("Department ID is required.");
+						            } else if (errorMessage.includes("Department not found")) {
+						                toastr.warning("The specified department does not exist.");
+						            } else if (errorMessage.includes("already has an HOD assigned")) {
+						                toastr.warning(errorMessage); // Display the HOD assignment error
+						            } else if (errorMessage.includes("Professor already exists")) {
+						                toastr.warning("A professor with the same ID already exists.");
+						            } else if (errorMessage.includes("Email already exists")) {
+						                toastr.warning("A professor with the same email already exists.");
+						            } else {
+						                // Handle other generic errors
+						                toastr.error(errorMessage || "An unexpected error occurred.");
+						            }
+						        } else {
+						            // Handle non-prefixed errors or unexpected errors
+						            toastr.error(errorMessage || "An unexpected error occurred.");
+						        }
+
+						        // Log the error for debugging
+						        console.log('Error: ' + status + ' - ' + error);
+						        console.log('Response: ' + xhr.responseText);
 					}
 				});		
             });

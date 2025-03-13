@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-/* 🖼 Table Action Icons */
 td img {
     margin-right: 15px;
     cursor: pointer;
@@ -12,8 +11,6 @@ td img:hover {
 a {
     text-decoration: none;
 }
-
-/* 📌 Edit Form Container */
 #editFormContainer {
     position: fixed;
     top: 0;
@@ -31,7 +28,6 @@ a {
     overflow-y: auto; /* Enables scrolling if content is too large */
 }
 
-/* ✖ Close Button */
 #editFormContainer .close-btn {
     background: none;
     border: none;
@@ -45,7 +41,7 @@ a {
     color: #d9534f;
 }
 
-/* 🔤 Form Title */
+
 #editFormContainer h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -54,7 +50,7 @@ a {
     color: #333;
 }
 
-/* 📌 Labels */
+
 #editFormContainer label {
     font-weight: bold;
     margin-top: 12px;
@@ -62,7 +58,7 @@ a {
     color: #555;
 }
 
-/* 📝 Input & Select */
+
 #editFormContainer input,
 #editFormContainer select {
     width: 100%;
@@ -74,45 +70,14 @@ a {
     transition: all 0.3s ease-in-out;
 }
 
-/* Focus Effect */
+
 #editFormContainer input:focus,
 #editFormContainer select:focus {
     border-color: #28a745;
     box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
     outline: none;
 }
-
-/* 📌 Professors Container */
-#assignedProfessors {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Space between buttons */
-    max-height: 150px; /* Prevents overflowing */
-    overflow-y: auto; /* Adds scrollbar if too many professors */
-    border: 1px solid #ccc;
-    padding: 10px;
-    background: white;
-}
-
-/* 👨‍🏫 Professor Buttons */
-.professor-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    white-space: nowrap; /* Prevents wrapping */
-    max-width: 102px; /* Prevents oversized buttons */
-    text-overflow: ellipsis; /* Adds "..." if name is too long */
-    overflow: hidden;
-}
-.professor-button:hover {
-    background-color: #0056b3;
-}
-
-/* ✅ Save Button */
-#saveSubjectBtn {
+#saveDepartmentBtn {
     background: #28a745;
     color: white;
     padding: 12px;
@@ -121,63 +86,20 @@ a {
     cursor: pointer;
     font-weight: bold;
     font-size: 16px;
-    margin-top: auto; /* Push button to the bottom */
+    margin-top: auto; 
     /*position: sticky;*/
     bottom: 10px;
     text-align: center;
     width: 100%;
 }
 
-/* Hover Effect */
-#saveSubjectBtn:hover {
+#saveDepartmentBtn:hover {
     background: #218838;
 }
 
-/* 📌 Form Layout */
+
 #editFormContainer form {
     display: flex;
     flex-direction: column;
     gap: 12px;
-}
-.professor-tooltip {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.85);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 14px;
-    white-space: nowrap;
-    z-index: 1000;
-    text-align: center;
-    display: none;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-    transform: translateX(-50%);
-}
-
-
-/*.notification {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #28a745;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 6px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    font-size: 16px;
-    z-index: 9999;
-    opacity: 0.9;
-}
-
-.notification.error {
-    background: #dc3545;
-}*/
-
-
-/* 📌 Responsive Design */
-@media (max-width: 400px) {
-    #editFormContainer {
-        width: 100%;
-    }
 }
