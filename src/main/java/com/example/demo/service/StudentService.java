@@ -35,9 +35,10 @@ public class StudentService {
 	public List<Student>getStudentByLogStatus(LogStatus status){
 		return studRepo.findByLogStatus(status);
 	}
-	public void acceptStudent(String regNo) {
+	public void acceptStudent(String regNo,String approvedBy,String role) {
 		Student stud=studRepo.findById(regNo).orElseThrow(()->new RuntimeException("Student not found"));
 		stud.setLogStatus(LogStatus.APPROVED);
+		stud.setApprovedBy(approvedBy+"("+role+")");
 		studRepo.save(stud);
 	}
 	public void rejectedStudent(String regNo) {
@@ -74,4 +75,10 @@ public class StudentService {
 		Student stud=studRepo.findById(regNo).orElseThrow(() -> new RuntimeException("Student not found!"));
 		studRepo.delete(stud);
 	}
-}
+	public List<Student>getPendingMentees(String profId){
+		return studRepo.findByMentorProfIdAndLogStatus(profId,LogStatus.PENDING);
+	}
+	public List<Student>getPendingDepartmentStudents(String deptId){
+		return studRepo.findByDepartmentDeptIdAndLogStatus(deptId, LogStatus.PENDING);
+	}
+}	

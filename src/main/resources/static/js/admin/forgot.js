@@ -6,6 +6,8 @@ const name=document.getElementById("name");
 const email=document.getElementById("email");
 const ename=document.getElementById("ename");
 const eemail=document.getElementById("eemail");
+const emailError=document.getElementById("emailError");
+const nameError=document.getElementById("nameError");
         console.dir(form);
         email.addEventListener("keydown",function(){
             //alert("onkeydown")
@@ -49,6 +51,6 @@ const eemail=document.getElementById("eemail");
 			               name.style.borderColor='red';
 			               name.focus();
 			               return false;
-			           }
+			}
           
         }

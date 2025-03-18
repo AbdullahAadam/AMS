@@ -9,10 +9,10 @@
 		
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>testing</artifactId>
+	<artifactId>AMS</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>testing</name>
-	<description>Demo project for Spring Boot</description>
+	<name>AMS</name>
+	<description>Attendance Management System</description>
 	<url/>
 	<licenses>
 		<license/>

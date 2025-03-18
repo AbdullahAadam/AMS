@@ -7,7 +7,7 @@
 	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Professor Dashboard</title>
   <link rel="stylesheet" href="/css/professor/dashboard.css">
-       <!--<link rel="stylesheet" href="/css/admin/dashboardContent.css"> -->
+   <link rel="stylesheet" href="/css/professor/statusStudent.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -42,7 +42,7 @@
                 <li class="submenu">
                     <div class="sub-menu"><img src="/images/admin/student.png" alt="dashboard" width="20px"> Students <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">
-                    	<li><a  data-href="/professor/mentee"  data-page="Mentee"  class="menu-item"><img src="/images/professor/help.png" alt="Mentee" width="13px"><span th:text="${role=='HOD'?' My Students':' My Mentees'}"></span></a></li>
+                    	<li><a  data-href="/professor/mentee"  data-page="Mentee"  class="menu-item"><img src="/images/professor/help.png" alt="Mentee" width="13px"><span th:text="${role=='HOD'?'My Students':'My Mentees'}"></span> </a></li>
                     	<li><a data-href="/professor/searchStudent" data-page="searchStudent" class="menu-item"><img  src="/images/professor/search.png" alt="Search" width="15px"> Search Student</a></li>
                     	<li><a data-href="/professor/editStudent" data-page="editStudent" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</a></li>
                     	<li><a data-href="/professor/statusStudent" data-page="statusStudent" class="menu-item"><img src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
@@ -71,39 +71,7 @@
 				</form>
             </div>
             <div id="content" >
-                 <!--  <h2>Main Content START</h2>-->
-                <div class="dashboard-cards">
-	                <div class="card">
-	                    <img src="/images/admin/student	.png" alt="Students">
-	                    <div>My Mentee: <span th:text="${mentee}"></span></div>
-	                </div>
-	                <div class="card">
-	                    <img src="/images/professor/class.png" alt="Classes">
-	                    <div>Total Classes:<span th:text="${period}"></span></div>
-	                </div>
-	                <div class="card">
-	                    <img src="/images/admin/dept.png" alt="Departments">
-	                    <div>Departments:<span th:text="${dept}"></span></div>
-	                </div>
-	                <div class="card">
-	                    <img src="/images/professor/session1.png" alt="Sessions">
-	                    <div><span th:text="${text}"></span><span th:text="${period}"></span></div>
-	                </div>
-	                <div class="card">
-	                    <img src="/images/professor/sessions.png" alt="Today's Sessions">
-	                    <div>Today's Sessions: <span th:text="${role=='HOD' ? 'N/A':'0/'+period}"></span></div>
-	                </div>
-	                <div class="card">
-	                    <img src="/images/professor/boardmeeting.png" alt="Meeting">
-	                     <div class="meeting-status">
-					        Meeting: <i class="fas fa-times cross-icon"></i>
-					    </div>
-	                </div>
-	                 <div class="event-box card slide-animate">
-				        <img src="/images/professor/events.png" alt="Event">
-				        <div id="eventText">Upcoming Event: Loading...</div>
-				    </div>
-            	</div>
+                 <!--  <h2>Main Content START</h2>-->            
             	<div class="table-container">
 					<table id="2" th:if="${ not #lists.isEmpty(students)}">
 						<thead>
@@ -140,8 +108,8 @@
 								<td th:text="${student.currentYear}"></td>
 								<td th:text="${#temporals.format(student.createdAt, 'MMMM dd,yyyy,hh:mma')}"></td>
 								<td>
-									<button class="view accept-btn" th:data-regNo="${student.regNo}"><a href="/professor/statusStudent">View</a></button>
-									<button id="stud" class="delete reject-btn" th:data-regNo="${student.regNo}">Reject</button>
+										<button class="view accept-btn" th:data-regNo="${student.regNo}">Accept</button>
+										<button class="delete reject-btn" th:data-regNo="${student.regNo}">Reject</button>
 								</td>
 							</tr>				         			
 						</tbody>
@@ -153,50 +121,7 @@
 		       <!--<h2>Main Content END</h2> -->
 		     </div>
         </div>
-    </div> 
-     <script>
-        $(document).ready(function() {
-            let holidays = [];
-            let currentIndex = 0;
-
-            function fetchEvents() {
-                $.ajax({
-                    url: "/professor/today-onward", // Your API endpoint
-                    method: "GET",
-                    success: function(response) {
-                        if (response.length > 0) {
-                            holidays = response;
-                            currentIndex = 0;
-                            updateEvent();
-                        } else {
-                            $("#eventText").text("No Upcoming Events");
-                        }
-                    },
-                    error: function() {
-                        console.error("Failed to fetch holidays.");
-                    }
-                });
-            }
-
-            function updateEvent() {
-                if (holidays.length > 0) {
-                    let event = holidays[currentIndex];
-                    let eventDate = new Date(event.holidayDate).toLocaleDateString('en-US', { 
-                        month: 'short', 
-                        day: 'numeric', 
-                        year: 'numeric' 
-                    });
-
-                    $("#eventText").text(`Upcoming Event: ${event.holidayName} (${eventDate})`);
-
-                    currentIndex = (currentIndex + 1) % holidays.length;
-                }
-            }
-
-            fetchEvents();
-            setInterval(updateEvent, 5000); 
-        });
-    </script>  
-    <script type="text/javascript" src="/js/professor/dashboard.js"></script>	
+    </div>   
+    <script type="text/javascript" src="/js/professor/statusStudent.js"></script>	
 </body>
 </html>

@@ -86,6 +86,11 @@ public class DepartmentService {
 	    deptRepo.save(dept);
 	    return "Department updated successfully";
 	}
+	public Long getTotalPeriod(String deptId) {
+		Long period=deptRepo.getTotalPeriodByDepartmentId(deptId);
+		Long prof=period-1;
+		return prof;
+	}
 
 
 }

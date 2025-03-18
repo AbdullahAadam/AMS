@@ -16,7 +16,7 @@
         	<span  > Invalid Email or Password</span>
         </div>
         <div>
-        	<strong th:if="${success!=null}" th:text="${success}"></strong>
+        	<strong id="msg" th:if="${success!=null}" th:text="${success}"></strong>
         </div>
         <div class="form-box">
             <form action="/authenticate" method="post" th:onsubmit="return validation()">

@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.example.demo.enums.ApprovalStatus;
 
 public class ProfessorAddDTO {
@@ -9,8 +11,10 @@ public class ProfessorAddDTO {
 	private String role;
 	private ApprovalStatus approvalStatus;
 	private String profId;
+	private String password;
+	private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	public ProfessorAddDTO(String name, String email, String deptId, String role, ApprovalStatus approvalStatus,
-			String profId) {
+			String profId,String password) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -18,6 +22,7 @@ public class ProfessorAddDTO {
 		this.role = role;
 		this.approvalStatus = approvalStatus;
 		this.profId = profId;
+		this.password=password;
 	}
 	public String getName() {
 		return name;
@@ -54,6 +59,12 @@ public class ProfessorAddDTO {
 	}
 	public void setProfId(String profId) {
 		this.profId = profId;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = passwordEncoder.encode(password);
 	}
 	
 	

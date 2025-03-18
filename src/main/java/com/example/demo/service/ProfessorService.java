@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ProfessorAddDTO;
@@ -14,15 +15,23 @@ import com.example.demo.model.Department;
 import com.example.demo.model.Professor;
 import com.example.demo.repo.DepartmentRepository;
 import com.example.demo.repo.ProfessorRepository;
+import com.example.demo.repo.StudentRepository;
 
 @Service
 public class ProfessorService {
 	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	@Autowired
 	private ProfessorRepository profRepo;
 	@Autowired
 	private DepartmentRepository deptRepo;
+	@Autowired
+	private StudentRepository studRepo;
 	public String addProfessor(ProfessorAddDTO profDTO ) {
-		
+		System.out.println("password is: "+profDTO.getPassword());
+		 String encryptedPassword = passwordEncoder.encode(profDTO.getPassword());
+		 profDTO.setPassword(encryptedPassword);
+		 System.out.println("Encrepted passoword is: "+encryptedPassword);
 		if(profDTO.getDeptId()==null) {
 			return "Error: Department ID must required";
 		}
@@ -33,7 +42,7 @@ public class ProfessorService {
 		Department dept=deptOptional.get();
 		Professor existingHod = dept.getHod();
 		if ("HOD".equalsIgnoreCase(profDTO.getRole()) && existingHod != null) {
-			return " This department already has an HOD assigned: " + existingHod.getName();
+			return "Error: This department already has an HOD assigned: " + existingHod.getName();
 		}
 		Optional<Professor>existingCode=profRepo.findByProfId(profDTO.getProfId());
 		Optional<Professor>existingEmail=profRepo.findByEmail(profDTO.getEmail());
@@ -55,7 +64,7 @@ public class ProfessorService {
 		prof.setImg("");
 		prof.setStudents(new ArrayList<>());
 		prof.setSubjects(new ArrayList<>());
-		prof.setPwd("");
+		prof.setPwd(encryptedPassword);
 		profRepo.save(prof);
 		return "Professor Added Successfully";
 		
@@ -157,5 +166,13 @@ public class ProfessorService {
 		Professor prof=profRepo.findByProfId(profId).orElseThrow(() -> new RuntimeException("Professor not found!"));
 		profRepo.delete(prof);
 	}
-
+	public int getMenteeCount(String profId) {
+		return studRepo.countMenteesByProfessorId(profId);
+	}
+	public Long getProfessorDepartmentCount(String profId) {
+        return profRepo.countProfessorDepartments(profId);
+    }
+	 public Long getManagedProfessorsCount(String deptId) {
+	        return profRepo.countByDepartmentDeptId(deptId);
+	}
 }

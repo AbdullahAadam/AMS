@@ -53,6 +53,7 @@ import com.example.demo.dto.SubjectAddDTO;
 import com.example.demo.dto.SubjectUpdateDTO;
 import com.example.demo.enums.ApprovalStatus;
 import com.example.demo.enums.LogStatus;
+import com.example.demo.enums.StudentStatus;
 import com.example.demo.model.Admin;
 import com.example.demo.model.Department;
 import com.example.demo.model.Holiday;
@@ -134,15 +135,17 @@ public class AdminController {
 	    Optional<Admin> adminOpt=adminRepo.findByEmail(email);
 	    List<Professor>pendingProfessors=profService.getApprovalByProfessorStatus(ApprovalStatus.PENDING);
 	    List<Student>pendingStudents=studService.getStudentByLogStatus(LogStatus.PENDING);
+	    //List<Student>aliveStud=studRepo.findByStudentStatus(StudentStatus.ACTIVE);
 	    Admin admin=adminOpt.get();
 	    long deptCount=deptRepo.countByIsActiveTrue();
 	    long profCount=profRepo.count();
-	    long studCount=studRepo.count();
+	    long studCount=studRepo.countByStudentStatus(StudentStatus.ACTIVE);
 	    long subCount=subRepo.countByIsActiveTrue();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
 	    model.addAttribute("deptCount",deptCount);
 	    model.addAttribute("profCount",profCount);
+	    model.addAttribute("subCount",subCount);
 	    model.addAttribute("studCount",studCount);
 	    model.addAttribute("subCount",subCount);
 	    model.addAttribute("pendingProfessors",pendingProfessors);
@@ -186,15 +189,16 @@ public class AdminController {
 										@RequestParam String cpwd,
 										RedirectAttributes redirectAttributes) {
 		
-		if(!cpwd.equals(pwd)) {
-			redirectAttributes.addFlashAttribute("error","Passwords does not match");
-			return "redirect:/admin/reset";
-		}
 		Optional<Admin> optAdmin=adminRepo.findByEmail(email);
 		if(optAdmin.isEmpty()) {
 			redirectAttributes.addFlashAttribute("error","Please follow the correct Order");
 			return "redirect:/admin/forgot";
 		}
+		
+		if(!cpwd.equals(pwd)) {
+			redirectAttributes.addFlashAttribute("error","Passwords does not match");
+			return "redirect:/admin/reset";
+		}		
 		Admin admin=optAdmin.get();
 		admin.setPwd(passwordEncode.encode(pwd));
 		adminRepo.save(admin);
@@ -638,9 +642,17 @@ public class AdminController {
 		return message;
 	}*/
 	@PutMapping("/acceptStudent/{regNo}")
-	public ResponseEntity<?> acceptStudent(@PathVariable String regNo) {
+	public ResponseEntity<?> acceptStudent(@PathVariable String regNo,@AuthenticationPrincipal UserDetails userDetails) {
 	    try {
-	    	studService.acceptStudent(regNo);
+	    	String email=userDetails.getUsername();
+		    Optional<Admin> adminOpt=adminRepo.findByEmail(email);		    
+		    if (adminOpt == null) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Approver not found");
+	        }
+		    Admin admin=adminOpt.get();
+		    String name=admin.getName();
+		    String role="Admin";
+	    	studService.acceptStudent(regNo,name,role);
 	        return ResponseEntity.ok("Student accepted successfully.");
 	    } catch (Exception ex) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
