@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/professor/login.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="login-section">
+            <h1>Login</h1>
+            <p>Enter your account details</p>
+             <div class="error" id="auth" th:if="${param.error}">
+		        <span  > Invalid Email or Password</span>
+		     </div>
+		     <div>
+		     	
+        		<strong id="msg" th:if="${success!=null}" th:text="${success}"></strong>
+        	</div>
+            <form action="/authenticate" method="POST">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Email" >
+                <small class="error-message" id="email-error"></small> <!-- Email error -->
+
+                <label for="password">Password</label>
+                <div class="password-wrapper">  
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" placeholder="Password"  autocomplete="new-password">
+                        <i class="fa-solid fa-eye-slash toggle-password"></i>
+                    </div>
+                    <small class="error-message" id="password-error"></small> <!-- Password error -->
+                </div>
+                    
+                <a th:href="@{/professor/forgot}" class="forgot-password">Forgot Password?</a>
+                <input type="hidden" name="userType" value="PROFESSOR">
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
+
+        <div class="welcome-section">
+            <div class="welcome-card">
+                <h2>Welcome to the <br> <span>Professor Portal</span></h2>
+                <img src="/images/professor/professor.jpg" alt="professor learning illustration" width="450" height="300">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/js/professor/login.js"></script>
+</body>
+</html>

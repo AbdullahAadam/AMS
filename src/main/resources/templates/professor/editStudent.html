@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Professor Dashboard</title>
+  <link rel="stylesheet" href="/css/professor/dashboard.css">
+   <link rel="stylesheet" href="/css/professor/editStudent.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css">
+	
+</head>
+<body>
+	<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile">
+                <img src="/images/admin/human.png" alt="Profile">
+                <div>
+                    <h3>Hi, <span th:text="${username}"></span></h3>
+                    <p style="font-size: 10px;" th:text="${email}"></p>
+                </div>
+            </div>
+            <ul class="menu">             
+                <li ><a data-href="/professor/dashboard" data-page="dashboard" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                <li class="submenu">
+                  <div class="sub-menu"><img src="/images/professor/attend.png" alt="Attendance" width="20px"> Attendance <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">                      
+                        <li><a data-href="/professor/createAttendance" data-page="createAttendance"  class="menu-item" style="font-size:15px;"><img src="/images/professor/create.png" alt="AddIcon" width="15px"> Create Attendance</a></li>
+                        <li><a data-href="/professor/statusAttendance"  data-page="editProfessor" class="menu-item" style="font-size:14px;"><img  src="/images/admin/editicon.png" alt="EditIcon" width="13px">  Marking Attendance</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <div class="sub-menu"><img src="/images/admin/student.png" alt="dashboard" width="20px"> Students <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">
+                    	<li><a  data-href="/professor/mentee"  data-page="Mentee"  class="menu-item"><img src="/images/professor/help.png" alt="Mentee" width="13px"><span th:text="${role=='HOD'?'My Students':'My Mentees'}"></span> </a></li>
+                    	<!--  <li><a data-href="/professor/searchStudent" data-page="searchStudent" class="menu-item"><img  src="/images/professor/search.png" alt="Search" width="15px"> Search Student</a></li>-->
+                    	<li><a data-href="/professor/editStudent" data-page="editStudent" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</a></li>
+                    	<li><a data-href="/professor/statusStudent" data-page="statusStudent" class="menu-item"><img src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
+                       
+                    </ul>
+                </li>
+                   
+                <li><a data-href="/professor/oldStudent"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/oldStudent.png" alt="holiday" width="20px" > Passed Out</span></a></li>               
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="main">
+            <div class="header">
+                <h1>Welcome, <span class="admin-name" th:text="${role}"></span><span th:text="${profId}"></span></h1>
+                <form action="/logout" method="POST">
+				    <button type="submit" class="logout">
+				        <img src="/images/admin/power.png" alt="power" width="30px">
+				    </button>
+				</form>
+            </div>
+            <div id="content" >
+                 <!--  <h2>Main Content START</h2>-->            
+            	<div class="table-container">
+					<table id="myTable">
+						<thead>
+							<tr >
+								<th>
+									RegNo
+								</th>
+								<th>
+									Department
+								</th>
+								<th>
+									Name
+								</th>
+								<th>
+									Batch
+								</th>
+								<th>
+									Year
+								</th>
+								<th>
+									Status
+								</th>
+								<th>
+									Join Date
+								</th>
+								<th>
+									Approved By
+								</th>									
+								<th>
+									Date and Time
+								</th>
+								<th style="margin-left: 34px;">
+									Action
+								</th>
+							 </tr>
+						</thead>
+						<tbody>
+							<tr th:each="student : ${students}" th:id="'student-'+${student.regNo}">
+								<td class="student-regNo" th:text="${student.regNo}"></td>
+								<td class="student-dept" th:text="${student.department.deptName}"></td>
+								<td class="student-name" th:text="${student.name}"></td>
+								<td class="student-batch" th:text="${student.batch}"></td>
+								<td class="student-year" th:text="${student.currentYear}"></td>
+								<td class="student-status" th:text="${student.studentStatus}"></td>
+								<td class="student-joinDate" th:text="${student.joinDate}"></td>
+								<td class="student-approvedBy" th:text="${student.approvedBy}"></td>
+								<td class="student-date" th:text="${#temporals.format(student.createdAt, 'MMMM dd,yyyy,hh:mma')}"></td>
+								<td>
+									    <a href="javascript:void(0);" th:attr="onclick=|openEditForm('${student.regNo}')|">
+									        <img src="/images/admin/editingcon.png" alt="Edit" width="20px">
+									    </a>
+									     <a  href="javascript:void(0);" th:attr="onclick=|deleteStudent('${student.regNo}')|">
+							                <img src="/images/admin/deletingicon.png" alt="Delete" width="20px">
+							            </a>
+									</td>
+							</tr>				         			
+						</tbody>
+				</table>
+				
+		        </div>
+		        <div id="editFormContainer" class="edit-form">
+					    <button class="close-btn" onclick="closeEditForm()">					    	
+					    	<img src="/images/admin/closes.png" alt="close" width="20px">
+					    </button>
+					    <h2>Edit Student</h2>
+					    <div class="form-scrollable"> <!-- Add this -->
+					        <form id="editProfessorForm">
+					            <label for="editRegNo">RegNo:</label>
+					            <input type="text" id="editRegNo" readonly>
+					            
+					            <label for="editDepartment">Department</label>
+					            <input type="text" id="editDepartment"  readonly>
+					
+					            <label for="editName">Name</label>
+					            <input type="text" id="editName">
+											
+					            <label for="editBatch">Batch</label>
+					            <select id="editBatch">
+					             <option value="" disabled selected>No Batch Selected</option>
+					            	 <option value="A">A</option>
+					                <option value="B">B</option>
+					                <option value="C">C</option>
+					                <option value="D">D</option>
+					            </select>
+					
+					             <label for="editYear">Year</label>
+					            <input type="text" id="editYear"  readonly>
+					            
+					            <label for="editDate">Join Date</label>
+					            <input type="date" id="editDate">
+					            
+					            
+					            	 <label for="editStatus" >Status</label>
+							            <select id="editStatus"  th:attr="disabled=${role == 'Professor'}">
+							                <option value="ACTIVE">ACTIVE</option>
+							                <option value="SUSPENDED">SUSPENDED</option>         
+							            </select>
+					            
+					           
+					            
+					            <button type="button" id="saveSubjectBtn" class="submit-btn">Save Changes</button>
+					        </form>
+					    </div>
+					</div>  
+		       <!--<h2>Main Content END</h2> -->
+		     </div>
+        </div>
+    </div>   
+    <script type="text/javascript" src="/js/professor/editStudent.js"></script>	
+</body>
+</html>

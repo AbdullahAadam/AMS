@@ -1,0 +1,97 @@
+/* Center Title */
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Filter Section - Move to Right */
+.filter-section {
+    text-align: right;
+    margin-bottom: 20px;
+    margin-right: 30px; /* Adjust as needed */
+}
+
+.filter-section label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.filter-section select {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Student Cards */
+.students-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+     align-items: stretch;
+}
+
+.card-container {
+    perspective: 1000px;
+}
+
+.card {
+    width: 280px;
+    height: 240px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+/* Front and Back of Card */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 16px;
+    padding: 15px;
+    transition: 0.3s ease-in-out;
+}
+
+.card-front {
+     background: #007bff; 
+     color: white; /* Sunset Gradient */
+   
+    
+}
+
+.card-back {
+    background: #6610f2; 
+    color: white;
+    transform: rotateY(180deg);
+}
+
+/* Flip Animation */
+.card-container:hover .card {
+    transform: rotateY(180deg);
+}
+
+/* Bigger Student Image */
+.student-img {
+    width: 130px !important;  
+    height: 130px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #007bff;
+    margin-bottom: 10px;
+}
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" href="/css/admin/alogin.css">
+
+</head>
+<body>
+	<div class="container">
+        <div class="img-box">
+            <img src="/images/admin/admin.png" width="250px" alt="no admin image">
+        </div>
+        <h1>Login Page</h1>
+        <div class="error" id="auth" th:if="${param.error}">
+        	<span  > Invalid Email or Password</span>
+        </div>
+        <div>
+        	<strong id="msg" th:if="${success!=null}" th:text="${success}"></strong>
+        </div>
+        <div class="form-box">
+            <form action="/authenticate" method="post" th:onsubmit="return validation()">
+                <input type="hidden" name="userType" value="ADMIN">
+                  <!--  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
+                <div class="in-box">
+                    <input type="text" id="email" name="email" placeholder="Enter the Email">
+                    <div class="error" id="eemail">*Email must required</div>
+                </div>
+                <div class="in-box ">
+                    <input type="password" id="pwd" name="password" placeholder="Enter the Password" >
+                    <!-- <i class="far fa-eye" id="toggle" style="margin-left:-30px; cursor: pointer;"></i> -->
+                    <span class="error"   id="epwd">*Password cannot be empty</span>
+                </div>
+                <div class="forgot-box">
+                    <label > <input type="checkbox"  id="tog"></label>
+                    <a style="text-decoration: none;" th:href="@{/admin/forgot}">Forgot Password?</a>
+                </div>
+                <div class="in-box">
+                    <input type="submit" value="Log In" style="background-color: rgb(15, 75, 255,55%); color: white; font-weight: bold;">
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="/js/admin/alogin.js"></script>
+</body>
+</html>

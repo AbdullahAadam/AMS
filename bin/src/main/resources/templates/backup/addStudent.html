@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Student</title>
+<link rel="stylesheet" href="/css/admin/addStudent.css">
+</head>
+<body>
+	<div class="student-form-container">
+        <div class="form-card">
+            <img src="/images/admin/stu.png" alt="student Icon" class="student-icon">
+            <form id="addStudentForm">
+                <label for="studentRegNo">Student RegNo</label>
+                <input type="text" id="studentRegNo" name="studentRegNo" placeholder="Enter the Student RegNo" >
+                <div id="studentRegNoError" class="error-message"></div>
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" name="studentName" placeholder="Enter the Student Name" >
+                <div id="studentNameError" class="error-message"></div>
+                <label for="department">Department</label>
+                <select name="department" id="department">
+                    <option value="MCA">Master Computer Application</option>
+                    <option value="MBA">Master of Business Administration</option>
+                </select>
+                <div id="departmentError" class="error-message"></div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter the Email" >
+                <div id="emailError" class="error-message"></div>
+                <button type="submit" class="submit-btn">ADD</button>
+            </form>
+        </div>
+    </div>
+	<script type="text/javascript" src="/js/admin/addStudent.js"></script>
+</body>
+</html>

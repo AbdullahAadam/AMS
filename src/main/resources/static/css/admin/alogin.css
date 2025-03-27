@@ -1,0 +1,92 @@
+@charset "UTF-8";
+body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;   
+            background-color: rgb(66,125,244,33%);
+        }
+        .container{
+            width: 450px;
+            background-color:rgb(255,255,255,63%);
+            text-align: center;
+            border-radius: 15px;
+            margin: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1{
+            font-family: sans-serif;
+            font-weight: bold;
+            color: rgb(10, 0, 0,55%);
+            margin:2px;
+        }
+        .in-box{
+            width: auto;
+            padding:6px;
+            margin:6px;
+        }
+        .in-box input{
+            width: 90%;
+            height: 35px;
+            border-radius: 5px;
+            border-color: rgb(255, 255, 255);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #fff;
+            outline:none;
+           
+        }
+        .in-box input[type=submit]{
+            cursor: pointer;
+            margin-bottom:5px;
+            font-size: larger;
+            border: none;
+           
+        }
+        .in-box input[type=text]:focus,.in-box input[type=password]:focus{
+            border-color: rgb(76, 128, 238);
+            outline:none;
+        }
+
+        .forgot-box{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 35px;
+            
+            
+        }
+        label{
+            display: flex;
+            align-items: center;
+        }
+       a{
+        padding-right: 25px;
+        font-size: large;
+        color:rgb(76, 128, 238);
+       }
+       #error{
+        font-size: 25px;
+       }
+       .error{
+        all:unset;
+        color:red;
+        margin: 2px;
+        margin-left: 5%;
+        /* text-align: left; */
+         display: grid;
+        justify-content: left;
+        /* display: none;  */
+          
+        }
+        #auth{
+        	justify-content:center;
+        	margin:0px;
+        }
+      
+        #epwd,#eemail{
+           display: none;
+           
+        }
+        strong{
+        	color:green;
+        }

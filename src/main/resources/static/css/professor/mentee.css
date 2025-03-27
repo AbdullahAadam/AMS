@@ -1,0 +1,104 @@
+/* Fix the title */
+/* Center title */
+.title-container {
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px; /* Increased spacing */
+}
+
+/* Ensure filters are in their own row */
+.filter-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Force items to wrap */
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Fix input and dropdown */
+.search-bar, .filter-dropdown {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: 2px solid #007bff;
+    transition: all 0.3s ease;
+}
+
+.search-bar {
+    width: 300px;
+    outline: none;
+}
+
+.search-bar:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 8px rgba(0, 91, 187, 0.5);
+}
+
+.filter-dropdown:hover, .filter-dropdown:focus {
+    background-color: #007bff;
+    color: white;
+    outline: none;
+}
+
+
+        /* Student Grid */
+        .container2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* Student Cards */
+        .student-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Profile Images */
+        .student-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #007bff;
+            margin-bottom: 10px;
+        }
+
+        .student-info p {
+            margin: 5px 0;
+            color: #555;
+            font-size: 15px;
+        }
+
+        /* View Button */
+        .view-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .view-btn:hover {
+            background-color: #0056b3;
+        }

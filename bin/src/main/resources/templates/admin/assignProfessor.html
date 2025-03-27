@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/css/admin/assignProfessor.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	
+</head>
+<body>
+	<!-- <h1>Welcome  <span th:text="${username}"></span>Admin</h1>
+	<h2 th:text="${email}"></h2>
+	  <form action="/logout" method="post">
+		<input	 type="submit" value="logout">
+	</form> -->
+	<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile">
+                <img src="/images/admin/human.png" alt="Profile">
+                <div>
+                    <h3>Hi, <span th:text="${username}"></span></h3>
+                    <p style="font-size: 10px;" th:text="${email}"></p>
+                </div>
+            </div>
+            <ul class="menu">
+                <!--  <li data-page="dashboardContent"  class="menu-item"><div class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</div></li>-->
+                 <!--  <li ><a href="#dashboardContent" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>-->
+                <li ><a data-href="/admin/dashboard" data-page="dashboardContent" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                <li class="submenu">
+                  <div class="sub-menu"><img src="/images/admin/professor.png" alt="Professor" width="20px"> Professor <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">
+                        <!--  <li data-page="addProfessor"  class="menu-item"><img style="margin-right: 3px;" src="/images/admin/adds.png" alt="AddIcon" width="13px">Add Professor</li>-->
+                        <li><a data-href="/admin/addProfessor" data-page="addProfessor"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Professor</a></li>
+                        <li><a data-href="/admin/editProfessor"  data-page="editProfessor" class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px">  Edit Professor</a></li>
+                        <li><a data-href="/admin/statusProfessor"  data-page="statusProfessor" class="menu-item"><img  src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
+                        <!--  <li data-page="editProfessor"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px">  Edit Professor</li>
+                        <li  data-page="statusProfessor"  class="menu-item"><img  src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</li>-->
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <div class="sub-menu"><img src="/images/admin/student.png" alt="dashboard" width="20px"> Students <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">
+                    	<li><a data-href="/admin/addStudent"  data-page="addStudent"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Student</a></li>
+                    	<li><a data-href="/admin/editStudent" data-page="editStudent" class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</a></li>
+                    	<li><a data-href="/admin/statusStudent" data-page="statusStudent" class="menu-item"><img src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
+                        <!--  <li  data-page="addStudent" class="menu-item"><img  src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Student</li>
+                        <li  data-page="editStudent"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</li>
+                        <li  data-page="statusStudent"  class="menu-item"><img  src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</li>-->
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <div class="sub-menu"><img src="/images/admin/dept.png" alt="deptImg" width="20px"> Department <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">
+                        <li><a data-href="/admin/addDepartment" data-page="addDepartment"  class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Department</a></li>
+                        <li><a data-href="/admin/editDepartment" data-page="editDepartment" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Department</a></li>
+                        <!-- <li data-page="addDepartment"  class="menu-item"><img  src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Department</li>
+                        <li data-page="editDepartment"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Department</li> -->
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <div class="sub-menu"><img src="/images/admin/course.png" alt="deptImg" width="20px"> Subject<img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">
+                    	<li><a data-href="/admin/addSubject"  data-page="addSubject" class="menu-item"><img src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Subject</a></li>
+                    	<li><a data-href="/admin/editSubject" data-page="editSubject" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Subject</a></li>
+                    	<li><a data-href="/admin/assignProfessor" data-page="assignProfessor" class="menu-item"><img src="/images/admin/assignProfessor.png" alt="AssignIcon" width="15px"> Assign Professor</a></li>
+                        <!--  <li data-page="addSubject"  class="menu-item"><img  src="/images/admin/adds.png" alt="AddIcon" width="13px"> Add Subject</li>
+                        <li data-page="editSubject"  class="menu-item"><img  src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Subject</li>
+                        <li data-page="assignProfessor"  class="menu-item"><img  src="/images/admin/assignProfessor.png" alt="AssignIcon" width="15px"> Assign Professor</li>-->
+                    </ul>
+                </li>
+                <!-- <li onclick="loadContent('addDept')"><div class="sub-menu"><img src="./img/dept.png" alt="dashboard" width="20px"> Add Department</div></li>
+                <li onclick="loadContent('addCourse')"><div class="sub-menu"><img src="./img/course.png" alt="dashboard" width="20px"> Add Subject</div></li> -->
+                 <li><a data-href="/admin/semester"  data-page="semester" class="menu-item"><span class="sub-menu"><img src="/images/admin/semester.png" alt="semester" width="20px" height="20px"> Semester</span></a></li>
+                <li><a data-href="/admin/holiday"  data-page="holiday" class="menu-item"><span class="sub-menu"><img  src="/images/admin/holiday.png" alt="holiday" width="20px" > Holiday</span></a></li>
+                <!--  <li data-page="semester" class="menu-item"><div class="sub-menu"><img src="/images/admin/semester.png" alt="dashboard" width="20px"> Semester</div></li>
+                <li data-page="holiday"  class="menu-item"><div class="sub-menu"><img src="/images/admin/holiday.png" alt="dashboard" width="20px"> Holiday</div></li>-->
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+            <div class="header">
+                <h1>Welcome, <span class="admin-name">Admin</span></h1>
+                <form action="/logout" method="POST">
+				    <button type="submit" class="logout">
+				        <img src="/images/admin/power.png" alt="power" width="30px">
+				    </button>
+				</form>
+            </div>
+            <div id="content" >
+                 <!--  <h2>Main Content START</h2>--> 
+              		<div class="assignProfessor-form-container">
+        				<div class="form-card">
+            			<img src="/images/admin/books.png" alt="assign Icon" class="assign-icon">
+			            <form id="assignProfessorForm">               
+			                <label for="department">Department:</label>
+			                <select name="department" id="department">
+			                    <option value="">Select the Department for Professor</option>		                    
+			                </select>
+			                <div id="departmentError" class="error-message"></div>
+			                <label for="professor">Professor:</label>
+			                <select name="professor" id="professor">
+			                    <option value="">Select the Professor</option>			                  
+			                </select>
+			                <div id="professorError" class="error-message"></div>
+			                <label for="departmentSubject">Department:</label>
+			                <select name="departmentSubject" id="departmentSubject">
+			                    <option value="">Select the Department for Subject</option>		                    
+			                </select>
+			                <div id="departmentSubjectError" class="error-message"></div>
+			                 <label for="subject">Subject:</label>
+			                 <select name="subject" id="subject">
+			                    <option value="">Select the Subject</option>			                  
+			                </select>
+			                <div id="subjectError" class="error-message"></div>
+			                <button type="submit" class="submit-btn">ASSIGN</button>
+			            </form>
+        			</div>
+    			</div>
+		     </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/js/admin/assignProfessor.js"></script>
+    <script type="text/javascript" src="/js/admin/dashboard.js"></script>
+</body>
+</html>

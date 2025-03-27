@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Professor Dashboard</title>
+  <link rel="stylesheet" href="/css/professor/dashboard.css">
+   <link rel="stylesheet" href="/css/professor/mentee.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css">
+	
+</head>
+<body>
+	<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile">
+                <img src="/images/admin/human.png" alt="Profile">
+                <div>
+                    <h3>Hi, <span th:text="${username}"></span></h3>
+                    <p style="font-size: 10px;" th:text="${email}"></p>
+                </div>
+            </div>
+            <ul class="menu">             
+                <li ><a data-href="/professor/dashboard" data-page="dashboard" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                <li class="submenu">
+                  <div class="sub-menu"><img src="/images/professor/attend.png" alt="Attendance" width="20px"> Attendance <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">                      
+                        <li><a data-href="/professor/createAttendance" data-page="createAttendance"  class="menu-item" style="font-size:15px;"><img src="/images/professor/create.png" alt="AddIcon" width="15px"> Create Attendance</a></li>
+                        <li><a data-href="/professor/statusAttendance"  data-page="editProfessor" class="menu-item" style="font-size:14px;"><img  src="/images/admin/editicon.png" alt="EditIcon" width="13px">  Marking Attendance</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <div class="sub-menu"><img src="/images/admin/student.png" alt="dashboard" width="20px"> Students <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">
+                    	<li><a  data-href="/professor/mentee"  data-page="Mentee"  class="menu-item"><img src="/images/professor/help.png" alt="Mentee" width="13px"><span th:text="${role=='HOD'?'My Students':'My Mentees'}"></span> </a></li>
+                    	<!--  <li><a data-href="/professor/searchStudent" data-page="searchStudent" class="menu-item"><img  src="/images/professor/search.png" alt="Search" width="15px"> Search Student</a></li>-->
+                    	<li><a data-href="/professor/editStudent" data-page="editStudent" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</a></li>
+                    	<li><a data-href="/professor/statusStudent" data-page="statusStudent" class="menu-item"><img src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
+                       
+                    </ul>
+                </li>         
+                <li><a data-href="/professor/oldStudent"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/oldStudent.png" alt="holiday" width="20px"> Passed Out</span></a></li>               
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="main">
+            <div class="header">
+                <h1>Welcome, <span class="admin-name" th:text="${role}"></span><span th:text="${profId}"></span></h1>
+                <form action="/logout" method="POST">
+				    <button type="submit" class="logout">
+				        <img src="/images/admin/power.png" alt="power" width="30px">
+				    </button>
+				</form>
+            </div>
+            <div id="content" >
+                 <!--  <h2>Main Content START</h2>-->            
+			<!-- Separate the title in its own div -->
+				<!-- Title should be in its own container -->
+				<div class="title-container">
+				    <h2>My <span th:text="${stud_ment}"></span></h2>
+				</div>
+				
+				<!-- Search and Dropdown in separate container -->
+				<div class="filter-wrapper">
+				    <input type="text" id="studentSearch" placeholder="Search by name or Reg No..." class="search-bar">
+				    <select id="yearFilter" class="filter-dropdown" th:data-total-years="${totalYears}">
+				        <option value="all">Show All</option>
+				    </select>
+				</div>
+
+
+			    <div class="container2">
+			        <div th:each ="mentee:${students}" class="student-card" th:data-year="${mentee.currentYear}">
+			           <img th:src="${mentee.img != null ? mentee.img : '/images/professor/students.png'}" alt="Profile" class="student-img">
+			            <div class="student-info">
+			                <p class="reg-no">RegNo:<span th:text="${mentee.regNo}"></span></p>
+			                <p class="student-name" th:text="${mentee.name}"></p>
+			                <p>Dept:<span th:text="${mentee.department.code}"></span></p>
+			                <p>Year:<span th:text="${mentee.currentYear}"></span></p>
+			                <a th:href="@{/professor/viewMentee(regNo=${mentee.regNo})}" class="view-btn">View</a>
+			            </div>
+			        </div>			        
+			    </div>
+					
+		       <!--<h2>Main Content END</h2> -->
+		     </div>
+        </div>
+    </div>   
+    <script type="text/javascript" src="/js/professor/mentee.js"></script>	
+</body>
+</html>
