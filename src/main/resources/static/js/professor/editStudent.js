@@ -32,6 +32,7 @@ $(document).ready(function(){
 					$("#editDepartment").val(response.dept);
 					$("#editBatch").val(response.batch);
 					$("#editYear").val(response.year);
+					$("#editGender").val(response.gender);
 					$("#editDate").val(response.joinDate);
 					$("#editStatus").val(response.status);
 					$("#editFormContainer").css("right", "0");
@@ -46,6 +47,7 @@ $(document).ready(function(){
 			    let regNo = $("#editRegNo").val();
 			    let updatedStudent = {
 			        name: $("#editName").val(),
+					gender:$("#editGender").val(),
 			        batch: $("#editBatch").val(),			 
 					joinDate: $("#editDate").val(),
 					status:$("#editStatus").val(),

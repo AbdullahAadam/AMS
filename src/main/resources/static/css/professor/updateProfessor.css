@@ -1,0 +1,100 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /* background: white;  */
+    background: linear-gradient(to right, #ffecd2  , #fcb69f) ;
+       font-family: Arial, sans-serif;
+}
+
+.update-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; 
+    background: rgba( 228, 173, 128, 100%);*/
+    padding: 20px;
+}
+
+
+.form-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 465px;
+}
+
+
+.holiday-icon {
+    width: 130px;
+    margin-bottom: 15px;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    text-align: left;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input,select {
+    width: 100%;
+    padding: 15px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.submit-btn {
+    background: rgb(255, 11,210,59%);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    background: rgba(255, 24, 213, 0.59);
+}
+.error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .error-border {
+            border: 1px solid red !important; 
+        }
+        .error-border:focus {
+            outline: none;
+            box-shadow: 0 0 5px red; 
+        }
+
+        .image-preview-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#imagePreview {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+        

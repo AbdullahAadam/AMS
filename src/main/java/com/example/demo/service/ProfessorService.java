@@ -1,8 +1,13 @@
 package com.example.demo.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -175,4 +180,15 @@ public class ProfessorService {
 	 public Long getManagedProfessorsCount(String deptId) {
 	        return profRepo.countByDepartmentDeptId(deptId);
 	}
+	 public List<Map<String, String>> getDepartmentsByProfessor(String profId) {
+		    List<Object[]> results = profRepo.findDepartmentsByProfessor(profId);
+		    return results.stream()
+		        .map(row -> Map.of(
+		            "id", row[0].toString(),
+		            "name", row[1].toString()
+		        ))
+		        .distinct() 
+		        .collect(Collectors.toList());
+		}
+
 }

@@ -26,4 +26,8 @@ public interface ProfessorRepository extends JpaRepository<Professor,String>{
     Long countProfessorDepartments(@Param("profId") String profId);
 	 
 	 Long countByDepartmentDeptId(String deptId);
+	 
+	 @Query("SELECT DISTINCT s.department.deptId, s.department.deptName FROM Subject s " +
+	           "JOIN s.professors p WHERE p.id = :professorId")
+	 List<Object[]> findDepartmentsByProfessor(@Param("professorId") String professorId);
 }

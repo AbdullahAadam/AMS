@@ -1,5 +1,10 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -10,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 //import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -36,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -144,6 +151,8 @@ public class AdminController {
 	    long profCount=profRepo.count();
 	    long studCount=studRepo.countByStudentStatus(StudentStatus.ACTIVE);
 	    long subCount=subRepo.countByIsActiveTrue();
+	  
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
 	    model.addAttribute("deptCount",deptCount);
@@ -225,6 +234,7 @@ public class AdminController {
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("showToastr","true");
 	    model.addAttribute("toastrType","warning");
 	    model.addAttribute("toastrMessage","The Professor ID create automatically");
@@ -238,6 +248,7 @@ public class AdminController {
 	    List<Professor>professors=profRepo.findByApprovalStatus(ApprovalStatus.ACCEPTED);
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("email",admin.getEmail());
 	    model.addAttribute("professors",professors);
 		System.out.println(" Edit Professor is running");
@@ -251,6 +262,7 @@ public class AdminController {
 	    List<Professor>pendingProfessors=profService.getApprovalByProfessorStatus(ApprovalStatus.PENDING);
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("pendingProfessors",pendingProfessors);
 		System.out.println(" Status Professor is running");
 		return "admin/statusProfessor";
@@ -262,6 +274,7 @@ public class AdminController {
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 		System.out.println(" Add Student is running");
 		return "admin/addStudent";
 	}
@@ -273,6 +286,7 @@ public class AdminController {
 	    List<Student>students=studRepo.findByLogStatus(LogStatus.APPROVED);
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("students",students);
 		System.out.println(" Edit Student is running");
 		return "admin/editStudent";
@@ -285,6 +299,7 @@ public class AdminController {
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("pendingStudents",pendingStudents);
 		System.out.println(" Status Student is running");
 		System.out.println(pendingStudents);
@@ -297,6 +312,7 @@ public class AdminController {
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("toastrMessage","Department Code create automatically");
 		System.out.println(" Add Department is running");
 		return "admin/addDepartment";
@@ -309,6 +325,7 @@ public class AdminController {
 	    List<Department>departments=deptRepo.findActiveDepartments();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("departments",departments);
 		System.out.println(" Edit Department is running");
 		return "admin/editDepartment";
@@ -321,6 +338,7 @@ public class AdminController {
 	    List<Long> semNumber=semRepo.findAll().stream().map(Semester::getSemNo).collect(Collectors.toList());
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("semNumber",semNumber);
 	    model.addAttribute("toastrMessage","Subject ID create automatically you can change if you want");
 		System.out.println(" Add Subject is running");
@@ -335,6 +353,7 @@ public class AdminController {
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("subjects",subjects);
 		System.out.println(" Edit Subject is running");
 		return "admin/editSubject";
@@ -346,6 +365,7 @@ public class AdminController {
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 		System.out.println(" Edit Subject is running");
 		return "admin/assignProfessor";
 	}
@@ -356,6 +376,7 @@ public class AdminController {
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 	    model.addAttribute("toastrMessage","Once Semester Duration is created you cannot change");
 		System.out.println(" Add Semester is running");
 		return "admin/semester";
@@ -367,6 +388,7 @@ public class AdminController {
 	    Admin admin=adminOpt.get();
 	    model.addAttribute("username",admin.getName());
 	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
 		System.out.println(" Add Holiday is running");
 		return "admin/holiday";
 	}
@@ -807,6 +829,69 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Subject not found");
 		}
 	}
+	@GetMapping("/updateAdmin")
+	public String updateAdmin(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		String email=userDetails.getUsername();
+	    Optional<Admin> adminOpt=adminRepo.findByEmail(email);
+	    Admin admin=adminOpt.get();
+	    model.addAttribute("username",admin.getName());
+	    model.addAttribute("email",admin.getEmail());
+	    model.addAttribute("adminImg",admin.getImg());
+	    model.addAttribute("admin",admin);
+		System.out.println(" Add Student is running");
+		return "admin/update";
+	}
+	 @PostMapping("/updateAdmin")
+	 @ResponseBody
+	 public ResponseEntity<Map<String, String>> updateAdmin(
+	         //@RequestParam("email") String email,
+	         @RequestParam("name") String name,        
+	         @RequestParam(value = "image", required = false) MultipartFile image,
+	         @AuthenticationPrincipal UserDetails userDetails
+	 ) {
+	     String currentEmail = userDetails.getUsername();
+	     Optional<Admin> optionalAdmin = adminRepo.findByEmail(currentEmail);
+
+	     if (optionalAdmin.isEmpty()) {
+	         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                              .body(Map.of("error", "Admin not found"));
+	     }
+
+	     Admin admin = optionalAdmin.get();
+
+	     //admin.setEmail(email);	    
+	     admin.setName(name);
+
+	     String imageUrl = admin.getImg(); // Default to current image
+
+	     if (image != null && !image.isEmpty()) {
+	         try {
+	             String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+	             Path uploadPath = Paths.get("uploads/adminimg");
+	             if (!Files.exists(uploadPath)) {
+	                 Files.createDirectories(uploadPath);
+	             }
+	             Path filePath = uploadPath.resolve(fileName);
+	             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+	             // Save the accessible path
+	             imageUrl = "/uploads/adminimg/" + fileName;
+	             admin.setImg(imageUrl);
+	         } catch (IOException e) {
+	             e.printStackTrace();
+	             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                                  .body(Map.of("error", "Failed to upload image"));
+	         }
+	     }
+
+	     adminRepo.save(admin);
+
+	     Map<String, String> response = new HashMap<>();
+	     response.put("message", "Admin updated successfully");
+	     response.put("imageUrl", imageUrl);
+
+	     return ResponseEntity.ok(response);
+	 }
 	
 
 }

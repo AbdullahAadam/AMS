@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Student Dashboard</title>
+  <link rel="stylesheet" href="/css/student/dashboard.css">
+       <link rel="stylesheet" href="/css/student/viewAttendance.css"> 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+	
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile">
+                <img th:src="${studImg != null ? studImg : '/images/admin/human.png'}" alt="Profile">
+                <div>
+                    <h3>Hi, <span th:text="${username}"></span></h3>
+                    <p style="font-size: 10px;" th:text="${email}"></p>
+                </div>
+            </div>
+            <ul class="menu">             
+                <li ><a data-href="/student/dashboard" data-page="dashboard" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                <li class="submenu">
+                  <div class="sub-menu"><img src="/images/student/attend.png" alt="Attendance" width="20px"> Attendance <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">                      
+                        <li><a data-href="/student/subjects" data-page="paper"  class="menu-item" style="font-size:15px;"><img src="/images/professor/create.png" alt="AddIcon" width="15px"> Paper</a></li>
+                        <li><a data-href="/student/viewAttendance"  data-page="viewAttendance" class="menu-item" style="font-size:14px;"><img  src="/images/admin/status.png" alt="EditIcon" width="13px"> View Attendance</a></li>
+                        
+                    </ul>
+                </li>                  
+               <li><a data-href="/student/department"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/student/dept.png" alt="holiday" width="20px" > Department</span></a></li>               
+            	<li><a data-href="/student/updateStudent"  data-page="updateStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/update.png" alt="Update" width="20px"> Update Profile</span></a></li> 
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="main">
+            <div class="header">
+                <h1>Welcome, <span id="regNo" class="admin-name" th:text="${regNo}"></span></h1>
+                <form action="/logout" method="POST">
+				    <button type="submit" class="logout">
+				        <img src="/images/admin/power.png" alt="power" width="30px">
+				    </button>
+				</form>
+            </div>
+            <div id="content" >
+            	
+                 <!--  <h2>Main Content START</h2>-->
+				               
+				<div class="spinner" id="spinner"></div>
+				
+				<div class="library-view" id="library-view">
+				    <div id="semester-books">
+				        <!-- Dynamically append .semester-book here -->
+				    </div>
+				</div>
+				<div class="book-view hidden" id="book-view">
+				    <button class="close-book" id="close-book">✕</button>
+				    
+				    <div class="book-cover" id="book-cover">
+				        <h1 id="student-name"></h1>
+				        <h2 id="department"></h2>
+				        <h2 id="semester-name"></h2>
+				        <p>Click to view attendance</p>
+				    </div>
+				    
+				    <div class="book-pages" id="book-pages"></div>
+				</div>
+				<div class="drag-hint">Swipe or use arrows to turn pages</div>
+			    <div class="book-controls">
+			        <button class="nav-btn" id="prev-page">Previous</button>
+			        <button class="nav-btn" id="next-page">Next</button>
+			    </div>
+			
+			    <div class="legend">
+			        <div class="legend-item"><div class="status present"></div> Present</div>
+			        <div class="legend-item"><div class="status absent"></div> Absent</div>
+			        <div class="legend-item"><div class="status late"></div> Late</div>
+			        <div class="legend-item"><div class="status od"></div> On Duty</div>
+			        <div class="legend-item"><div class="status unmarked"></div> Unmarked</div>
+			    </div>
+					
+
+                
+		        
+		       <!--<h2>Main Content END</h2> -->
+		     </div>
+        </div>
+    </div> 
+    
+    
+
+
+
+    <script type="text/javascript" src="/js/student/viewAttendance.js"></script>	
+</body>
+</html>

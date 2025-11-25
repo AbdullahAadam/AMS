@@ -7,14 +7,16 @@ import com.example.demo.enums.StudentStatus;
 public class ProfStudentUpdateDTO {
 	private String regNo;
 	private String name;
+	private String gender;
 	private String batch;
 	private Date joinDate;
 	private StudentStatus status;
 	private String year;
-	public ProfStudentUpdateDTO(String regNo, String name, String batch, Date joinDate, StudentStatus status,String year) {
+	public ProfStudentUpdateDTO(String regNo, String name,String gender, String batch, Date joinDate, StudentStatus status,String year) {
 		super();
 		this.regNo = regNo;
 		this.name = name;
+		this.gender=gender;
 		this.batch = batch;
 		this.joinDate = joinDate;
 		this.status = status;
@@ -31,6 +33,13 @@ public class ProfStudentUpdateDTO {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public String getBatch() {
 		return batch;

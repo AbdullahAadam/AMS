@@ -16,4 +16,6 @@ public interface HolidayRepository extends JpaRepository<Holiday,LocalDate > {
 	
 	@Query("SELECT h FROM Holiday h WHERE h.holidayDate >= :date ORDER BY h.holidayDate ASC")
     List<Holiday> findUpcomingHolidays(@Param("date") LocalDate date);
+	
+	 List<Holiday> findByHolidayDateBetween(LocalDate startDate, LocalDate endDate);
 }

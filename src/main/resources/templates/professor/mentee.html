@@ -24,7 +24,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="profile">
-                <img src="/images/admin/human.png" alt="Profile">
+                <img th:src="${profImg != null ? profImg : '/images/admin/human.png'}" alt="Profile">
                 <div>
                     <h3>Hi, <span th:text="${username}"></span></h3>
                     <p style="font-size: 10px;" th:text="${email}"></p>
@@ -36,7 +36,7 @@
                   <div class="sub-menu"><img src="/images/professor/attend.png" alt="Attendance" width="20px"> Attendance <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">                      
                         <li><a data-href="/professor/createAttendance" data-page="createAttendance"  class="menu-item" style="font-size:15px;"><img src="/images/professor/create.png" alt="AddIcon" width="15px"> Create Attendance</a></li>
-                        <li><a data-href="/professor/statusAttendance"  data-page="editProfessor" class="menu-item" style="font-size:14px;"><img  src="/images/admin/editicon.png" alt="EditIcon" width="13px">  Marking Attendance</a></li>
+                        <!--  <li><a data-href="/professor/statusAttendance"  data-page="editProfessor" class="menu-item" style="font-size:14px;"><img  src="/images/admin/editicon.png" alt="EditIcon" width="13px">  Marking Attendance</a></li>-->
                         
                     </ul>
                 </li>
@@ -50,7 +50,8 @@
                        
                     </ul>
                 </li>         
-                <li><a data-href="/professor/oldStudent"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/oldStudent.png" alt="holiday" width="20px"> Passed Out</span></a></li>               
+                <li><a data-href="/professor/oldStudent"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/oldStudent.png" alt="holiday" width="20px"> Passed Out</span></a></li> 
+                 <li><a data-href="/professor/updateProfessor"  data-page="updateProfessor" class="menu-item"><span class="sub-menu"><img  src="/images/professor/update.png" alt="Update" width="20px"> Update Profile</span></a></li>               
             </ul>
         </div>
         <!-- Main Content -->
@@ -71,6 +72,26 @@
 				    <h2>My <span th:text="${stud_ment}"></span></h2>
 				</div>
 				
+					<div class="empty-state">
+                    <div class="mentor-animation">
+                        <div class="mentor">
+                 
+                            <img th:src="${profImg != null ? profImg : '/images/admin/human.png'}" alt="Professor Profile">
+                        </div>
+                        <div class="connection-line"></div>
+                        <div class="searching-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <h3>No Mentees Assigned</h3>
+                    <p>You don't currently have any mentees assigned to you.</p>
+                    <!--  <button class="action-btn">Request Mentees</button>-->
+                </div>
+				
+				 
+				
 				<!-- Search and Dropdown in separate container -->
 				<div class="filter-wrapper">
 				    <input type="text" id="studentSearch" placeholder="Search by name or Reg No..." class="search-bar">
@@ -78,10 +99,10 @@
 				        <option value="all">Show All</option>
 				    </select>
 				</div>
-
+				
 
 			    <div class="container2">
-			        <div th:each ="mentee:${students}" class="student-card" th:data-year="${mentee.currentYear}">
+			        <div th:each ="mentee:${students}" class="student-card" th:data-year="${mentee.currentYear}" th:date-regno="${mentee.regNo}">
 			           <img th:src="${mentee.img != null ? mentee.img : '/images/professor/students.png'}" alt="Profile" class="student-img">
 			            <div class="student-info">
 			                <p class="reg-no">RegNo:<span th:text="${mentee.regNo}"></span></p>

@@ -27,7 +27,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="profile">
-                <img src="/images/admin/human.png" alt="Profile">
+                <img id="profileImg" th:src="@{${adminImg != null ? adminImg : '/images/admin/human.png'}}" alt="Profile">
                 <div>
                     <h3>Hi, <span th:text="${username}"></span></h3>
                     <p style="font-size: 10px;" th:text="${email}"></p>
@@ -85,6 +85,7 @@
                 <li><a data-href="/admin/holiday"  data-page="holiday" class="menu-item"><span class="sub-menu"><img  src="/images/admin/holiday.png" alt="holiday" width="20px" > Holiday</span></a></li>
                 <!--  <li data-page="semester" class="menu-item"><div class="sub-menu"><img src="/images/admin/semester.png" alt="dashboard" width="20px"> Semester</div></li>
                 <li data-page="holiday"  class="menu-item"><div class="sub-menu"><img src="/images/admin/holiday.png" alt="dashboard" width="20px"> Holiday</div></li>-->
+            	<li><a data-href="/admin/updateAdmin"  data-page="updateStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/update.png" alt="Update" width="20px"> Update Profile</span></a></li>
             </ul>
         </div>
 

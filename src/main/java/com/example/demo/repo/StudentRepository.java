@@ -31,6 +31,10 @@ public interface StudentRepository extends JpaRepository<Student,String>{
 	 
 	 List<Student>findByDepartmentDeptIdAndLogStatus(String deptId,LogStatus status);
 	 
+	 long countByMentorProfIdAndLogStatus(String profId,LogStatus status);
+	 
+	 long countByDepartmentDeptIdAndLogStatus(String deptId,LogStatus status);
+	 
 	 List<Student>findByMentorProfIdAndLogStatusAndStudentStatus(String profId,LogStatus status,StudentStatus studStatus);
 	 
 	 List<Student>findByDepartmentDeptIdAndLogStatusAndStudentStatus(String deptId,LogStatus status,StudentStatus studStatus);
@@ -39,6 +43,8 @@ public interface StudentRepository extends JpaRepository<Student,String>{
 
 	 
 	 List<Student> findByDepartmentDeptIdAndCurrentYearAndCurrentSemester(String deptId, String currentYear, String currentSemester);
+
+	 List<Student> findByDepartmentDeptIdAndCurrentSemesterAndBatch(String deptId, String currentSemester, String batch);
 
 	 
 }

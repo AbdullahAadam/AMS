@@ -12,7 +12,8 @@ import java.time.ZoneId;
 	
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.scheduling.annotation.Scheduled;
-	import org.springframework.stereotype.Service;
+
+import org.springframework.stereotype.Service;
 	
 	import com.example.demo.dto.AddStudentDTO;
 	import com.example.demo.dto.ProfStudentResponseDTO;
@@ -34,6 +35,7 @@ import java.time.ZoneId;
 	
 	@Service
 	public class StudentService {
+		
 		@Autowired
 		private StudentRepository studRepo;
 		@Autowired
@@ -70,6 +72,10 @@ import java.time.ZoneId;
 		    if (professor == null) {
 		        return "Error: Invalid Professor.";
 		    	}
+		    System.out.println("Password is>>>: "+studentDTO.getPassword());
+		    //String encryptedPassword=passwordEncoder.encode(studentDTO.getPassword());		   
+		    //studentDTO.setPassword(encryptedPassword);
+		    //System.out.println("Encrepted passoword is: "+encryptedPassword);
 			Student student = new Student();
 	        student.setRegNo(studentDTO.getRegNo());
 	        student.setName(studentDTO.getName());
@@ -78,6 +84,7 @@ import java.time.ZoneId;
 	        student.setDepartment(department);
 	        
 	        student.setMentor(professor);
+	        student.setPwd(studentDTO.getPassword());
 	        student.setLogStatus(LogStatus.PENDING);
 	        student.setStudentStatus(StudentStatus.ACTIVE);
 	        prepareStudentBeforeSave(student);
@@ -128,6 +135,7 @@ import java.time.ZoneId;
 		                student.getName(),
 		                student.getBatch(),
 		                student.getCurrentYear(),
+		                student.getGender(),
 		                student.getJoinDate(),
 		                student.getStudentStatus()
 		            );
@@ -157,6 +165,7 @@ import java.time.ZoneId;
 				System.out.println("Old date: "+stud.getJoinDate());
 				System.out.println("New date: "+updateStudent.getJoinDate());
 				stud.setName(updateStudent.getName());
+				stud.setGender(updateStudent.getGender());
 				stud.setBatch(updateStudent.getBatch());
 				if (updateStudent.getJoinDate() != null) {
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -341,5 +350,10 @@ import java.time.ZoneId;
 
 	        return student.getCurrentYear(); // Return the updated year in Roman numerals
 	    }
+	    
+	    public List<Student> findStudentsByDeptSemBatch(String deptId, String semNo, String batch) {
+	        return studRepo.findByDepartmentDeptIdAndCurrentSemesterAndBatch(deptId, semNo, batch);
+	    }
+
 
 	}	

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Student Dashboard</title>
+  <link rel="stylesheet" href="/css/student/department.css">
+       <!--<link rel="stylesheet" href="/css/admin/dashboardContent.css"> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+	
+</head>
+<body>
+	<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile">
+                <img th:src="${studImg != null ? studImg : '/images/admin/human.png'}" alt="Profile">
+                <div>
+                    <h3>Hi, <span th:text="${username}"></span></h3>
+                    <p style="font-size: 10px;" th:text="${email}"></p>
+                </div>
+            </div>
+            <ul class="menu">             
+                <li ><a data-href="/student/dashboard" data-page="dashboard" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                <li class="submenu">
+                  <div class="sub-menu"><img src="/images/student/attend.png" alt="Attendance" width="20px"> Attendance <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">                      
+                        <li><a data-href="/student/subjects" data-page="paper"  class="menu-item" style="font-size:15px;"><img src="/images/professor/create.png" alt="AddIcon" width="15px"> Paper</a></li>
+                        <!-- <li><a data-href="/student/viewAttendance"  data-page="viewAttendance" class="menu-item" style="font-size:14px;"><img  src="/images/admin/status.png" alt="EditIcon" width="13px"> View Attendance</a></li>-->
+                        <li><a data-href="/student/attendance"  data-page="viewingAttendance" class="menu-item" style="font-size:14px;"><img  src="/images/admin/status.png" alt="EditIcon" width="13px">Attendance</a></li>
+                    </ul>
+                </li>                  
+               <li><a data-href="/student/department"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/student/dept.png" alt="holiday" width="20px" > Department</span></a></li>               
+            	<li><a data-href="/student/updateStudent"  data-page="updateStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/update.png" alt="Update" width="20px"> Update Profile</span></a></li> 
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="main">
+            <div class="header">
+                <h1>Welcome, <span id="regNo" class="admin-name" th:text="${regNo}"></span></h1>
+                <form action="/logout" method="POST">
+				    <button type="submit" class="logout">
+				        <img src="/images/admin/power.png" alt="power" width="30px">
+				    </button>
+				</form>
+            </div>
+            <div id="content" >
+                 <!--  <h2>Main Content START</h2>-->
+              	
+              <div class="profile-cards-container">
+                    <!-- HOD Card -->
+                    <div class="profile-card hod" th:if="${hod}">
+                        <div class="card-header">
+                            <span class="department-badge" th:text="${student.department.deptName}"></span>
+                            <h3>Head of Department</h3>
+                            <p>Department Leadership</p>
+                        </div>
+                        
+                        <div class="profile-img-container">
+                            <img th:if="${hod.img}" th:src="@{${hod.img}}" class="profile-img" alt="HOD profile picture"/>
+                            <img th:unless="${hod.img}" th:src="'https://ui-avatars.com/api/?name=' + ${hod.name.replace(' ', '+')} + '&background=random'" class="profile-img" alt="HOD profile picture"/>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Name</h4>
+                                    <p th:text="${hod.name}"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Contact</h4>
+                                    <p th:text="${hod.phone != null and hod.phone != 0 ? hod.phone : 'Not provided'}"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item" th:if="${hod.email}">
+                                <div class="info-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Email</h4>
+                                    <p th:text="${hod.email}"></p>
+                                </div>
+                            </div>
+                            
+                            <button class="contact-btn">
+                                <i class="fas fa-paper-plane"></i> Contact HOD
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor Card -->
+                    <div class="profile-card" th:if="${mentor}">
+                        <div class="card-header">
+                            <span class="department-badge" th:text="${student.department.deptName}"></span>
+                            <h3>Academic Mentor</h3>
+                            <p>Your Personal Guide</p>
+                        </div>
+                        
+                        <div class="profile-img-container">
+                            <img th:if="${mentor.img}" th:src="@{${mentor.img}}" class="profile-img" alt="Mentor profile picture"/>
+                            <img th:unless="${mentor.img}" th:src="'https://ui-avatars.com/api/?name=' + ${mentor.name.replace(' ', '+')} + '&background=random'" class="profile-img" alt="Mentor profile picture"/>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Name</h4>
+                                    <p th:text="${mentor.name}"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Contact</h4>
+                                    <p th:text="${mentor.phone != null and mentor.phone != 0 ? mentor.phone : 'Not provided'}"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item" th:if="${mentor.email}">
+                                <div class="info-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Email</h4>
+                                    <p th:text="${mentor.email}"></p>
+                                </div>
+                            </div>
+                            
+                            <button class="contact-btn">
+                                <i class="fas fa-comment-dots"></i> Message Mentor
+                            </button>
+                        </div>
+                    </div>
+				
+        
+		       <!--<h2>Main Content END</h2> -->
+		     </div>
+        </div>
+    </div> 
+    
+    
+
+
+
+    <script type="text/javascript" src="/js/student/department.js"></script>	
+</body>
+</html>

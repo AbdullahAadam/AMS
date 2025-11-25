@@ -78,7 +78,7 @@ $(document).ready(function () {
 	    
 	    const studentRegNo = $("#studentRegNo").val().trim();
 	    const regNoPattern = /^(\d{4})([A-Za-z]{2,5})(\d{3})$/;
-	    const currentYear = new Date().getFullYear() + 1;
+	    const currentYear = new Date().getFullYear() ;
 
 	    if (!studentRegNo || !regNoPattern.test(studentRegNo)) {
 	        $("#studentRegNoError").text("Invalid RegNo").show();
@@ -194,6 +194,7 @@ $(document).ready(function () {
             deptId: $("#department").val(),
             profId:$("#professor").val(),
             email: $("#email").val().trim(),
+			password:$("#email").val().trim().split("@")[0],
             logStatus: "PENDING",
             studentStatus: "ACTIVE",
         };

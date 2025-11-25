@@ -1,0 +1,364 @@
+@charset "UTF-8";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width:240px; 
+    height: auto;
+    background: #ffffff;
+    padding: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    overflow:hidden;
+}
+
+.profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.menu {
+    list-style: none;
+}
+
+.menu li {
+    padding: 10px;
+    background: #fff;
+    margin: 23px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
+}
+
+.menu li:hover {
+    background: #d1e7ff;
+}
+
+.submenu ul {
+    display: none;
+    list-style: none;
+    padding-left: 15px;
+}
+
+.submenu.active ul {
+    display: block;
+}
+
+/* Main Content */
+.main {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    -ms-overflow-style: none;/* Hide scrollbar for Internet Expoler */
+    scrollbar-width: none;/* Hide scrollbar for FireFox */
+}
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Opera) */
+.main::-webkit-scrollbar{
+    display: none;
+}
+.menu-item {
+    cursor: pointer; 
+    display:block;
+    width:100%; 
+    height:100%;
+}
+
+.header {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top:0;
+    z-index: 1000;
+}
+button a{
+	text-decoration: none;
+	color:white;
+}
+.logout {
+    background: none;
+    color: white;
+    border: none;
+    padding: 10px;
+    /* border-radius: 5px; */
+    cursor: pointer;
+}
+
+.logout:hover {
+    color: #c0392b;
+}
+.sub-menu{
+    display: flex;
+    align-items: self-end;
+    white-space: break-spaces;
+}
+.images{
+    margin-left: auto;
+}
+ a.menu-item{
+	display:block;
+	width:100%;
+	height:100%;
+	
+	text-decoration:none;
+	color:black;
+	
+}
+.submenu .sub-menu{
+	cursor:pointer;
+}
+
+
+
+ .container2 {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .month-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .month {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .month.active {
+		    background-color: #28a745 !important; /* A green shade to indicate active */
+		    color: white;
+		    font-weight: bold;
+		    border: 1px solid #1e7e34;
+		}
+        
+        .month:hover {
+            background: #0056b3;
+        }
+        
+        
+       .attendance-table-container {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 20px;
+}
+       
+        /*.attendance-table-container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}*/
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+
+.attendance-table th,
+.attendance-table td {
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    border: none; /* Removes border 
+    background-color: #f9f9f9;*/
+}
+/*.attendance-table th,
+.attendance-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    white-space: nowrap;
+    font-size: 14px;
+}*/
+
+.header-table {
+    table-layout: fixed;
+}
+
+.attendance-body-scroll {
+    max-height: 350px; /* or whatever height you want */
+    overflow-y: scroll;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE/Edge */
+}
+
+/*.attendance-body-scroll {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}*/
+
+.body-table {
+    table-layout: fixed;
+}
+
+.attendance-body-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+/*.attendance-table tbody tr:nth-child(even) {
+    background-color: #f1f1f1;
+}*/
+
+/* Optional: Better scrollbar styling
+.attendance-body-scroll::-webkit-scrollbar {
+    width: 6px;
+} 
+.attendance-body-scroll::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 4px;
+}*/
+
+        
+        
+       /* .attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; 
+}
+
+.attendance-table th, .attendance-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}*/
+
+/* Optional: sticky header if you want it */
+/*.attendance-table thead th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+}*/
+        .status {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        .present { background: #28a745; }
+        .absent { background: #dc3545; }
+        .late { background: #ffbf0070; }
+        .od { background: #f0ad4e; }
+        .unmarked { background: #d3d3d3; }
+        .legend {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+ .no-months,
+.no-data {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+    
+    
+}
+
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.dialog-box {
+    background: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    text-align: center; /* ✅ Center all content inside */
+    animation: popup 0.3s ease-out;
+}
+
+.dialog-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #444;
+    transition: 0.2s ease;
+}
+.dialog-close:hover {
+    color: #d00;
+}
+
+.dialog-box h3 {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.dialog-box p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+@keyframes popup {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

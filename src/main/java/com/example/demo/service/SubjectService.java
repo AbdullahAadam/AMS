@@ -1,13 +1,17 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.dto.AssignProfessorDTO;
+import com.example.demo.dto.AttendSubjectDTO;
 import com.example.demo.dto.SubjectAddDTO;
 import com.example.demo.model.Department;
 import com.example.demo.model.Professor;
@@ -110,4 +114,32 @@ public class SubjectService {
 		}
 		return"Error: Invalid Professor or Subject Id";		
 	}
+	public List<Subject> getSubjectsForCurrentSemester(String deptId) {
+	    int currentMonth = LocalDate.now().getMonthValue(); // Get current month
+	    List<Semester> currentSemesters = semRepo.findCurrentSemesters(currentMonth); 
+
+	    if (!currentSemesters.isEmpty()) {
+	        // Get the first semester (or process all if needed)
+	        Semester currentSemester = currentSemesters.get(0);
+	        int semNo = currentSemester.getSemNo().intValue(); 
+	        return subRepo.findSubjectsBySemesterAndDepartment(semNo, deptId);
+	    }
+	    return Collections.emptyList(); // Return empty list if no semester found
+	}
+	public List<AttendSubjectDTO> findActiveSubjectsBySemesterNo(Long semNo,String deptId) {
+	    List<Subject> subjects = subRepo.findBySemester_SemNoAndDepartment_DeptIdAndIsActive(semNo, deptId,true);
+	    return subjects.stream()
+	                   .map(subject -> new AttendSubjectDTO(subject.getSubId(), subject.getName(), subject.getSemester().getSemNo()))
+	                   .collect(Collectors.toList());
+	}
+	public List<AttendSubjectDTO> getSubjectsForProfessor(String professorId, Long semId, String deptId) {
+	    List<Subject> subjects = subRepo.findSubjectsByProfessorAndSemesterAndDepartment(professorId, semId, deptId);
+	    return subjects.stream()
+	            .map(subject -> new AttendSubjectDTO(subject.getSubId(), subject.getName(), subject.getSemester().getSemNo()))
+	            .collect(Collectors.toList());
+	}
+
+	
+
+
 }

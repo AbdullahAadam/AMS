@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Student Registration Form</title>
+<link rel="stylesheet" href="/css/student/register.css">
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<form id="registrationForm" class="container" novalidate>
+    <div>
+      <h2>Personal Info</h2>
+      <div class="form-group">
+        <input type="text" name="regNo" placeholder="Reg No">
+        <div class="error-msg" id="regNo-error"></div>
+
+        <input type="text" name="name" placeholder="Name">
+        <div class="error-msg" id="name-error"></div>
+
+        <select name="gender">
+          <option disabled selected value="">Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+        <div class="error-msg" id="gender-error"></div>
+
+        <input type="date" name="dob" id="dob">
+        <div class="error-msg" id="dob-error"></div>
+
+        <input type="text" name="age" id="age" placeholder="Age" readonly>
+
+        <input type="text" name="mobile" placeholder="Mobile Number">
+        <div class="error-msg" id="mobile-error"></div>
+
+        <textarea name="address" placeholder="Address"></textarea>
+        <div class="error-msg" id="address-error"></div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Academic Info</h2>
+      <div class="form-group">
+        <select name="department" id="department">
+          <option value="">Select the Department</option>	
+        </select>
+        <div class="error-msg" id="department-error"></div>
+
+        <select name="batch">
+          <option disabled selected value="">Batch</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+        </select>
+        <div class="error-msg" id="batch-error"></div>
+
+        <select name="mentor" id="mentor">
+          <option value="">Select the Mentor</option>
+        </select>
+        <div class="error-msg" id="mentor-error"></div>
+
+        <input type="date" name="joinDate" placeholder="Join Date (Date of Admission)">
+        <div class="note">Note: If you know the exact date of admission, please provide it. Otherwise, you may leave this field blank.</div>
+
+        <input type="file" name="image" accept="image/*">
+      </div>
+    </div>
+
+    <div>
+      <h2>Account Setup</h2>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Email">
+        <div class="error-msg" id="email-error"></div>
+
+        <input type="password" name="password" id="password" placeholder="Password">
+        <div class="error-msg" id="password-error"></div>
+
+        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+        <div class="error-msg" id="confirmPass-error"></div>
+
+        <button type="submit" class="submit-btn">Submit</button>
+      </div>
+    </div>
+  </form>
+  <script type="text/javascript" src="/js/student/register.js"></script>
+</body>
+</html>

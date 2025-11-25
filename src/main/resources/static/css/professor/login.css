@@ -60,6 +60,8 @@ input {
     font-family: sans-serif;
 }
 
+
+
 /* Override autofill styles */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
@@ -146,6 +148,14 @@ strong{
     cursor: pointer;
     color: #555;
 }*/
+.login-links {
+    display: flex;             /* Enables horizontal layout */
+    justify-content: space-between;  /* Space between the links */
+    margin-top: 15px;          /* Space above the links */
+    width: 100%;               /* Full width of the form */
+    gap: 20px;                 /* Space between links */
+}
+
 
 .forgot-password {
     text-decoration: none;

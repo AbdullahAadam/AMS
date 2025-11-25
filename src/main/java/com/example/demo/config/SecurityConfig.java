@@ -78,7 +78,7 @@ public class SecurityConfig {
     	
     	//.csrf(csrf->csrf.disable())
     	.csrf(csrf -> csrf
-    		    .ignoringRequestMatchers("/admin/login", "/professor/login", "/student/login","/authenticate","/logout","/forgot","/reset","/admin/reset","/professor/reset")
+    		    .ignoringRequestMatchers("/admin/login", "/professor/login", "/student/login","/authenticate","/logout","/forgot","/reset","/register","/listDepartments","/professors/{deptId}","/admin/reset","/professor/reset","/student/reset")
     		    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())	
     		)
 
@@ -87,7 +87,7 @@ public class SecurityConfig {
 //    	        )
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                .requestMatchers( "/admin/login", "/professor/login", "/student/login","/css/**","/js/**","/images/**","/admin/forgot","/admin/reset","/professor/forgot","/professor/reset").permitAll()
+                .requestMatchers( "/admin/login", "/professor/login", "/student/login","/student/register","/css/**","/js/**","/images/**","/admin/forgot","/admin/reset","/professor/forgot","/professor/reset","/student/forgot","/student/reset","/listDepartments","/professors/{deptId}").permitAll()
                 	.requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/professor/**").hasRole("PROFESSOR")
                     .requestMatchers("/student/**").hasRole("STUDENT")

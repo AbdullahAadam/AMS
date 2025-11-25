@@ -1,20 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/student/login.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-	<h1>Student Login</h1>
-	  <div class="error" id="auth" th:if="${param.error}">
-        	<span  > Invalid Email and Password</span>
+    <div class="container">
+        <div class="login-section">
+            <h1>Login</h1>
+            <p>Enter your account details</p>
+             <div class="error" id="auth" th:if="${param.error}">
+		        <span  > Invalid Email or Password</span>
+		     </div>
+		     <div>
+		     	
+        		<strong id="msg" th:if="${success!=null}" th:text="${success}"></strong>
+        	</div>
+            <form action="/authenticate" method="POST">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Email" >
+                <small class="error-message" id="email-error"></small> <!-- Email error -->
+
+                <label for="password">Password</label>
+                <div class="password-wrapper">  
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" placeholder="Password"  autocomplete="new-password">
+                        <i class="fa-solid fa-eye-slash toggle-password"></i>
+                    </div>
+                    <small class="error-message" id="password-error"></small> <!-- Password error -->
+                </div>
+                    
+                <div class="login-links">
+			        <a th:href="@{/student/forgot}" class="forgot-password">Forgot Password?</a>
+			        <!-- <a th:href="@{/professor/login}" id="profLogin" class="forgot-password">Professor Login</a> -->
+			    </div>
+                <input type="hidden" name="userType" value="STUDENT">
+                <button type="submit" class="login-btn">Login</button> 
+                        
+            </form>
+             <!-- <span class="create-account">No account? <a href="/student/register">Create one</a></span> -->
+             <span class="create-account"> <a th:href="@{/professor/login}" >Professor Login</a></span>     
         </div>
-	<form action="/authenticate" method="post">
-    	<input type="hidden" name="userType" value="STUDENT">
-    	<input type="email" name="email" required placeholder="Email">
-    	<input type="password" name="password" required placeholder="Password">
-    	<button type="submit">Login</button>
-	</form>
-	
+
+        <div class="welcome-section">
+            <div class="welcome-card">
+                <h2>Welcome to the <br> <span>Student Portal</span></h2>
+                <img src="/images/student/student.png" alt="student learning illustration" width="450" height="300">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/js/student/login.js"></script>
 </body>
 </html>

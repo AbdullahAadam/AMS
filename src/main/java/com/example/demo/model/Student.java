@@ -1,9 +1,10 @@
 package com.example.demo.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.demo.enums.LogStatus;
 import com.example.demo.enums.StudentStatus;
@@ -48,7 +49,8 @@ public class Student {
 	private int age;
 	
 	@Column(nullable=true)
-	private Date dob;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private  LocalDate dob;
 	
 	@Column(nullable=true,length=10)
 	private String phone;
@@ -183,12 +185,15 @@ public class Student {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	public Date getDob() {
+	
+	public LocalDate getDob() {
 		return dob;
 	}
-	public void setDob(Date dob) {
+
+	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
+
 	public String getPhone() {
 		return phone;
 	}
@@ -299,6 +304,7 @@ public class Student {
 	}
 
 	
+
 	
 	
 }

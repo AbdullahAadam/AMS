@@ -17,6 +17,10 @@ $(document).ready(function () {
 		});
            // Filter students by year
 		   let years = new Set();
+		   if ($(".card-container").length === 0) {
+		       $(".empty-state").fadeIn(800);
+			   $(".filter-section").hide();
+		   }
 		       $('.card-container').each(function () {
 		           let year = $(this).attr('data-year');
 		           if (year !== 'Unknown') {
@@ -28,7 +32,7 @@ $(document).ready(function () {
 		       years.forEach(year => {
 		           $('#yearFilter').append(`<option value="${year}">${year}</option>`);
 		       });
-
+			
 		       // Filter students by year
 		       $('#yearFilter').on('change', function () {
 		           var selectedYear = $(this).val();

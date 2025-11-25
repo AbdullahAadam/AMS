@@ -1,11 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Student Dashboard</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Student Dashboard</title>
+  <link rel="stylesheet" href="/css/student/dashboard.css">
+       <!--<link rel="stylesheet" href="/css/admin/dashboardContent.css"> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+	
 </head>
 <body>
-	<h1>Welcome Student</h1>
-	<a href="/logout">Logout</a>
+	<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile">
+                <img th:src="${studImg != null ? studImg : '/images/admin/human.png'}" alt="Profile">
+                <div>
+                    <h3>Hi, <span th:text="${username}"></span></h3>
+                    <p style="font-size: 10px;" th:text="${email}"></p>
+                </div>
+            </div>
+            <ul class="menu">             
+                <li ><a data-href="/student/dashboard" data-page="dashboard" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                <li class="submenu">
+                  <div class="sub-menu"><img src="/images/student/attend.png" alt="Attendance" width="20px"> Attendance <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">                      
+                        <li><a data-href="/student/subjects" data-page="paper"  class="menu-item" style="font-size:15px;"><img src="/images/professor/create.png" alt="AddIcon" width="15px"> Paper</a></li>
+                        <!-- <li><a data-href="/student/viewAttendance"  data-page="viewAttendance" class="menu-item" style="font-size:14px;"><img  src="/images/admin/status.png" alt="EditIcon" width="13px"> View Attendance</a></li>-->
+                        <li><a data-href="/student/attendance"  data-page="viewingAttendance" class="menu-item" style="font-size:14px;"><img  src="/images/admin/status.png" alt="EditIcon" width="13px">  Attendance</a></li>
+                    </ul>
+                </li>                  
+               <li><a data-href="/student/department"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/student/dept.png" alt="holiday" width="20px" > Department</span></a></li>               
+            	<li><a data-href="/student/updateStudent"  data-page="updateStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/update.png" alt="Update" width="20px"> Update Profile</span></a></li> 
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="main">
+            <div class="header">
+                <h1>Welcome, <span id="regNo" class="admin-name" th:text="${regNo}"></span></h1>
+                <form action="/logout" method="POST">
+				    <button type="submit" class="logout">
+				        <img src="/images/admin/power.png" alt="power" width="30px">
+				    </button>
+				</form>
+            </div>
+            <div id="content" >
+                 <!--  <h2>Main Content START</h2>-->
+                <div class="attendance-card">
+				  <div class="attendance-header">Today's Attendance</div>
+				  <div class="attendance-count" id="attendance-count">
+				    <span id="markedCount">0</span>/<span id="totalPeriods" th:text="${totalPeriods}">0</span>
+				  </div>
+				  <div class="hours-container" id="hoursContainer">
+				    <!-- Filled dynamically -->
+				  </div>
+				</div>
+				<div class="attendance-card">
+					<div class="attendance-card2">
+						  <div class="card-header">
+						    <span style="color:#333;">Semester Wise Attendance</span>
+						    <button class="view-all-btn">View All</button>
+						  </div>
+						
+						  <div class="card-body">
+						    <div class="attendance-info">
+						      <div class="semester">
+						        <span  style="color:#333;" class="sem-title" id="sem" th:text="${currentSem}"></span>
+						        <span class="sem-badge">Current</span>
+						        <div style="color:#333;" class="sem-dates" id="sem-dates"><span th:text="${startDate}"></span> - <span th:text="${endDate}"></span></div>
+						      </div>
+						
+						      <div class="hours">
+						        <div class="hour-block">
+						          <div>Total Hours</div>
+						          <div class="total" id="total-hours">0</div>
+						        </div>
+						        <div class="hour-block">
+						          <div>Present</div>
+						          <div class="present" id="present-hours">0</div>
+						        </div>
+						      </div>
+						    </div>
+						
+						    <div class="circle-chart">
+						      <div class="progress" id="attendance-circle" style="--p: 0;">0%</div>
+						    </div>
+						  </div>
+						</div>
+					</div>
+					 <div class="attendance-card">
+				        <div class="card-header2">
+				            <i class="fas fa-calendar-alt"></i> Upcoming Holidays
+				        </div>
+				        <div class="card-body" id="cardBody">
+				            <!--  <div class="loading">
+				                <i class="fas fa-spinner fa-spin"></i> Loading...
+				            </div>-->
+				        </div>
+				        <div class="card-body-right">
+						    
+						</div>
+				    </div>
+				
+				
+				
+
+                
+		        
+		       <!--<h2>Main Content END</h2> -->
+		     </div>
+        </div>
+    </div> 
+    
+    
+
+
+
+    <script type="text/javascript" src="/js/student/dashboard.js"></script>	
 </body>
 </html>

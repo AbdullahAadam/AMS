@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Professor Dashboard</title> 
+   <link rel="stylesheet" href="/css/professor/marking.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css">
+	
+</head>
+<body>
+	<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile">
+                <img th:src="${profImg != null ? profImg : '/images/admin/human.png'}" alt="Profile">
+                <div>
+                    <h3>Hi, <span th:text="${username}"></span></h3>
+                    <p style="font-size: 10px;" th:text="${email}"></p>
+                </div>
+            </div>
+            <ul class="menu">             
+                <li ><a data-href="/professor/dashboard" data-page="dashboard" class="menu-item"><span class="sub-menu"><img src="/images/admin/dash.png" alt="dashboard" width="20px"> Dashboard</span></a></li>
+                <li class="submenu">
+                  <div class="sub-menu"><img src="/images/professor/attend.png" alt="Attendance" width="20px"> Attendance <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">                      
+                        <li><a data-href="/professor/createAttendance" data-page="createAttendance"  class="menu-item" style="font-size:15px;"><img src="/images/professor/create.png" alt="AddIcon" width="15px"> Create Attendance</a></li>
+                        <!-- <li><a data-href="/professor/statusAttendance"  data-page="editProfessor" class="menu-item" style="font-size:14px;"><img  src="/images/admin/editicon.png" alt="EditIcon" width="13px">  Marking Attendance</a></li> -->
+                        
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <div class="sub-menu"><img src="/images/admin/student.png" alt="dashboard" width="20px"> Students <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
+                    <ul class="submenu-items">
+                    	<li><a  data-href="/professor/mentee"  data-page="Mentee"  class="menu-item"><img src="/images/professor/help.png" alt="Mentee" width="13px"><span th:text="${role=='HOD'?'My Students':'My Mentees'}"></span> </a></li>
+                    	<!--  <li><a data-href="/professor/searchStudent" data-page="searchStudent" class="menu-item"><img  src="/images/professor/search.png" alt="Search" width="15px"> Search Student</a></li>-->
+                    	<li><a data-href="/professor/editStudent" data-page="editStudent" class="menu-item"><img src="/images/admin/editicon.png" alt="EditIcon" width="15px"> Edit Student</a></li>
+                    	<li><a data-href="/professor/statusStudent" data-page="statusStudent" class="menu-item"><img src="/images/admin/status.png" alt="StatusIcon" width="13px"> Status</a></li>
+                       
+                    </ul>
+                </li>         
+                <li><a data-href="/professor/oldStudent"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/oldStudent.png" alt="holiday" width="20px"> Passed Out</span></a></li>
+                 <li><a data-href="/professor/updateProfessor"  data-page="updateProfessor" class="menu-item"><span class="sub-menu"><img  src="/images/professor/update.png" alt="Update" width="20px"> Update Profile</span></a></li>                
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="main">
+            <div class="header">
+                <h1>Welcome, <span id="role" class="admin-name" th:text="${role}"></span><span id="profId" th:text="${profId}"></span></h1>
+                <form action="/logout" method="POST">
+				    <button type="submit" class="logout">
+				        <img src="/images/admin/power.png" alt="power" width="30px">
+				    </button>
+				</form>
+            </div>
+            <div id="content" >
+                 <!--  <h2>Main Content START</h2>-->            
+				<div class="container2">
+				    <div class="header2">
+				        <span>Taking attendance for: <i class="fa fa-calendar"></i> 
+				            <span style="color:rgb(93,134,255,100%);" th:text="${markingDate}"></span>
+				        </span>
+				        <span class="subCode">SubjectID: <strong style="color:red;" th:text="${subjectId}"></strong></span>
+				        <span>Batch: <strong id="batch" style="color:red;" th:text="${batch}"></strong></span>
+				        <span>Period: <strong style="color:red;" th:text="${period}"></strong></span>
+				        
+				        <!-- Show error if no students found -->
+				        <p th:if="${#lists.isEmpty(students)}" style="color: red;">
+				            No students found for the selected criteria.
+				        </p>
+				        
+				        <!-- Show success message if students exist -->
+				        <p th:if="${not #lists.isEmpty(students)}" style="color: green;">
+				            Found <span th:text="${#lists.size(students)}"></span> students.
+				        </p>
+				             
+				    </div>
+				
+				    <!-- Show "Selected date is today" only when applicable -->
+				  <div style="display: flex; justify-content: space-between; align-items: center;">
+				    <div>
+				        <p th:if="${markingDate == #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" 
+				           style="color: green; display: inline-block; margin: 0 10px 0 0;">
+				            <i class="fa fa-check-circle"></i> Selected date is today
+				        </p>
+				        <p th:if="${markingDate != #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" 
+				           style="color: red; display: inline-block; margin: 0;">
+				            <i class="fa fa-exclamation-triangle"></i> Warning: Selected date is NOT today!
+				        </p>
+				    </div>
+				    <span id="sem" class="semNo" >Sem: <strong style="color:red;" th:text="${semNo}"></strong></span>
+				</div>
+				    <table>
+				        <thead>
+				            <tr>
+				                <th>Students</th>
+				                <th>Attendance Status</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				            <tr th:each="student, iter : ${students}" class="student-row">
+				                <td>
+				                    <i class="fa fa-user-circle"></i> 
+				                    <span th:text="${student.name}"></span><br>
+				                    <span class="regNo" th:text="${student.regNo}"></span> ● 
+				                    <span th:text="${department}"></span>
+				                </td>
+				                <td>
+				                    <button type="button" class="status-btn present" 
+				                        th:attr="data-index=${iter.index}, data-regNo=${student.regNo}" data-status="PRESENT" th:disabled="${student.locked}">
+				                        <i class="fas fa-check"></i> Present
+				                    </button>
+				                    <button type="button" class="status-btn absent" 
+				                        th:attr="data-index=${iter.index}, data-regNo=${student.regNo}" data-status="ABSENT" th:disabled="${student.locked}">
+				                        <i class="fas fa-times"></i> Absent
+				                    </button>
+				                    <button type="button" class="status-btn late" 
+				                        th:attr="data-index=${iter.index}, data-regNo=${student.regNo}" data-status="LATE" th:disabled="${student.locked}">
+				                        <i class="fas fa-clock"></i> Late
+				                    </button>
+				                    <button type="button" class="status-btn od" 
+				                        th:attr="data-index=${iter.index}, data-regNo=${student.regNo}" data-status="OD" th:disabled="${student.locked}">
+				                        <i class="fas fa-school"></i> OD
+				                    </button>
+				                </td>
+				            </tr>                
+				        </tbody>
+				    </table>
+				</div>
+				
+						    
+									
+		       <!--<h2>Main Content END</h2> -->
+		     </div>
+        </div>
+    </div>   
+    <script type="text/javascript" src="/js/professor/marking.js"></script>	
+</body>
+</html>

@@ -10,9 +10,10 @@ public class ProfStudentResponseDTO {
 	private String name;
 	private String batch;
 	private String year;
+	private String gender;
 	private Date joinDate;
 	private StudentStatus status;
-	public ProfStudentResponseDTO(String regNo, String dept, String name, String batch, String year, Date joinDate,
+	public ProfStudentResponseDTO(String regNo, String dept, String name, String batch, String year,String gender, Date joinDate,
 			StudentStatus status) {
 		super();
 		this.regNo = regNo;
@@ -20,6 +21,7 @@ public class ProfStudentResponseDTO {
 		this.name = name;
 		this.batch = batch;
 		this.year = year;
+		this.gender = gender;
 		this.joinDate = joinDate;
 		this.status = status;
 	}
@@ -52,6 +54,13 @@ public class ProfStudentResponseDTO {
 	}
 	public void setYear(String year) {
 		this.year = year;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public Date getJoinDate() {
 		return joinDate;

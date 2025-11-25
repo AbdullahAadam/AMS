@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Dashboard</title>
+    <link rel="stylesheet" href="/css/professor/viewMentee.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+<body>
+
+	<div class="mentee-container">
+        <div class="header-section">
+        	<button id="backButton" class="floating-back-button" title="Go back">
+		        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+		            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+		        </svg>
+		    </button>
+            <h2>Attendance Progress for <span th:text="${name}"></span></h2>
+            <div class="student-info">
+                <p>Reg No: <span id="regNo" th:text="${regNo}"></span></p>
+                <p>Department: <span th:text="${dept}"></span></p>
+                <p>Year: <span th:text="${year}"></span></p>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <label for="semesterSelect">Select Semester:</label>
+            <select id="semesterSelect">
+                <option th:each="semester : ${semesters}" 
+                    th:value="'Semester ' + ${semester.semNo}" 
+                    th:text="'Semester ' + ${semester.semNo}"
+                    th:selected="${'Semester ' + semester.semNo == student.currentSemester}">
+                </option>
+            </select>
+        </div>
+        <div id="noDataAnimation" class="empty-attendance-state">
+            <div class="floating-documents">
+                <div class="document-sheet">
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                </div>
+                <div class="document-sheet">
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                </div>
+                <div class="document-sheet">
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                    <div class="document-line"></div>
+                </div>
+            </div>
+            <svg class="empty-icon" viewBox="0 0 24 24">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                <path d="M12 7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+            </svg>
+            <h3 class="empty-title">No Attendance Records Found</h3>
+            <p class="empty-description">No data available for the selected period</p>
+        </div>
+        
+
+        <div id="loadingSpinner" class="spinner"></div>
+        <div id="totalAttendanceContainer" class="total-attendance-card">
+		    <div class="total-attendance-header">
+		        <h3>Overall Attendance</h3>
+		        <div class="total-attendance-stats">
+		            <span class="stat-present"></span>
+		            <span class="stat-od"></span>
+		            <span class="stat-late"></span>
+		            <span class="stat-absent"></span>
+		            <span class="stat-total"></span>
+		        </div>
+		    </div>
+		    <div class="total-attendance-progress">
+		    
+		    	
+		          <div class="progress-circle">
+				    <div class="progress-circle-fill"></div>
+				    <div class="progress-circle-fill-over50"></div>
+				    <div class="progress-circle-text">0%</div>
+				</div>
+		        <div class="progress-details">
+		            <div class="progress-bar">
+		                <div class="progress-fill"></div>
+		            </div>
+		            <div class="progress-labels">
+		                <span>Attendance Progress</span>
+		                <span class="progress-percentage">0%</span>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+        <div id="attendanceChartContainer"></div>
+    </div>
+	<script type="text/javascript" src="/js/student/paper.js"></script>
+</body>
+</html>

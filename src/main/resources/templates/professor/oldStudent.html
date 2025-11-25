@@ -24,7 +24,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="profile">
-                <img src="/images/admin/human.png" alt="Profile">
+                <img th:src="${profImg != null ? profImg : '/images/admin/human.png'}" alt="Profile">
                 <div>
                     <h3>Hi, <span th:text="${username}"></span></h3>
                     <p style="font-size: 10px;" th:text="${email}"></p>
@@ -36,7 +36,7 @@
                   <div class="sub-menu"><img src="/images/professor/attend.png" alt="Attendance" width="20px"> Attendance <img src="/images/admin/arrow2.png" alt="arrow" id="i" class="images" width="20px"></div>
                     <ul class="submenu-items">                      
                         <li><a data-href="/professor/createAttendance" data-page="createAttendance"  class="menu-item" style="font-size:15px;"><img src="/images/professor/create.png" alt="AddIcon" width="15px"> Create Attendance</a></li>
-                        <li><a data-href="/professor/statusAttendance"  data-page="editProfessor" class="menu-item" style="font-size:14px;"><img  src="/images/admin/editicon.png" alt="EditIcon" width="13px">  Marking Attendance</a></li>
+                        <!--  <li><a data-href="/professor/statusAttendance"  data-page="editProfessor" class="menu-item" style="font-size:14px;"><img  src="/images/admin/editicon.png" alt="EditIcon" width="13px">  Marking Attendance</a></li>-->
                         
                     </ul>
                 </li>
@@ -50,7 +50,8 @@
                        
                     </ul>
                 </li>         
-                <li><a data-href="/professor/oldStudent"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/oldStudent.png" alt="holiday" width="20px"> Passed Out</span></a></li>               
+                <li><a data-href="/professor/oldStudent"  data-page="oldStudent" class="menu-item"><span class="sub-menu"><img  src="/images/professor/oldStudent.png" alt="holiday" width="20px"> Passed Out</span></a></li>
+                 <li><a data-href="/professor/updateProfessor"  data-page="updateProfessor" class="menu-item"><span class="sub-menu"><img  src="/images/professor/update.png" alt="Update" width="20px"> Update Profile</span></a></li>                
             </ul>
         </div>
         <!-- Main Content -->
@@ -74,7 +75,15 @@
 			            <option value="all">All</option>
 			        </select>
 			    </div>
-			
+				<div class="empty-state">
+                    <div class="book-animation">
+                        <div class="book-page"></div>
+                        <div class="book-page"></div>
+                        <div class="book-page"></div>
+                    </div>
+                    <h3>No Passed Out Students Found</h3>
+                    <p>The alumni records book is empty</p>
+                </div>
 			    <!-- Student Cards (Centered) -->
 			    <div class="students-container">
 			        <div th:each="student : ${passoutStudents}" class="card-container" th:data-year="${student.joinDate != null ? #dates.format(student.joinDate, 'yyyy') : 'Unknown'}">
